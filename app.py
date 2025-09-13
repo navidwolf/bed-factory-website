@@ -17,18 +17,18 @@ SITE_META = {
 
 @app.route('/')
 def index():
-products = [
-{ 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'excerpt': 'کلاف چوبی، راحتی بالا' },
-{ 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'excerpt': 'مدرن و شیک' },
+    products = [
+        { 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'excerpt': 'کلاف چوبی، راحتی بالا' },
+        { 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'excerpt': 'مدرن و شیک' },
 ]
 return render_template('index.html', meta=SITE_META, products=products)
 
 
 @app.route('/products')
 def products():
-products = [
-{ 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'desc': 'کلاف چوبی استاندارد، ابعاد مختلف' },
-{ 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'desc': 'مناسب فضاهای مدرن، قابل سفارش' },
+    products = [
+        { 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'desc': 'کلاف چوبی استاندارد، ابعاد مختلف' },
+        { 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'desc': 'مناسب فضاهای مدرن، قابل سفارش' },
 ]
 return render_template('products.html', meta=SITE_META, products=products)
 
