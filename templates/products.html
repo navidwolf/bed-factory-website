@@ -1,12 +1,17 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}محصولات — {{ meta.site_name }}{% endblock %}
+
 {% block content %}
-<h1>محصولات ما</h1>
-<div class="products">
+<h1 style="text-align:center; margin-bottom:20px;">محصولات ما</h1>
+
+<div class="products-grid">
     {% for product in products %}
     <div class="product-card">
-        <img src="{{ product.image }}" alt="{{ product.name }}">
-        <h2>{{ product.name }}</h2>
-        <a href="{{ url_for('product_detail', product_id=product.id) }}">مشاهده جزئیات</a>
+        <img src="{{ product.image }}" alt="{{ product.title }}">
+        <h2>{{ product.title }}</h2>
+        <p>{{ product.desc }}</p>
+        <p>{{ product.full_desc }}</p>
     </div>
     {% endfor %}
 </div>
