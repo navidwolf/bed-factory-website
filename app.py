@@ -5,14 +5,14 @@ app = Flask(__name__)
 
 # Basic site data
 SITE_META = {
-    'site_name': 'Bed Factory Co.',
+    'site_name': 'کارخانه تخت خواب سازی ایرانیان',
     'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
     'phone': '+98-21-12345678',
     'address': 'تهران، خیابان نمونه، نبش کارخانه',
     'email': 'info@bedfactory.example'
 }
 
-# Product data
+# نمونه محصولات
 PRODUCTS = [
     {
         'id': 1,
@@ -20,7 +20,7 @@ PRODUCTS = [
         'image': url_for('static', filename='images/product1.webp'),
         'excerpt': 'کلاف چوبی، راحتی بالا',
         'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
-        'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'
+        'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و استفاده از متریال با کیفیت، مناسب برای اتاق خواب‌های سنتی و مدرن. این تخت خواب راحتی و دوام را همزمان به شما هدیه می‌دهد.'
     },
     {
         'id': 2,
@@ -28,7 +28,7 @@ PRODUCTS = [
         'image': url_for('static', filename='images/product2.webp'),
         'excerpt': 'مدرن و شیک',
         'desc': 'مناسب فضاهای مدرن، قابل سفارش',
-        'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'
+        'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و مینیمال، برای خانه‌های امروزی ساخته شده است. با کیفیت بالا و قابل سفارش در رنگ‌های مختلف.'
     }
 ]
 
@@ -38,7 +38,7 @@ def inject_now():
 
 @app.route('/')
 def index():
-    return render_template('index.html', meta=SITE_META, products=PRODUCTS)
+    return render_template('index.html', meta=SITE_META)
 
 @app.route('/products')
 def products():
@@ -57,14 +57,13 @@ def contact():
 
 @app.route('/sitemap.xml')
 def sitemap():
+    pages = []
     today = datetime.now().date().isoformat()
-    pages = [
-        {'loc': url_for('index', _external=True), 'lastmod': today},
-        {'loc': url_for('products', _external=True), 'lastmod': today},
-        {'loc': url_for('contact', _external=True), 'lastmod': today},
-    ]
-    for p in PRODUCTS:
-        pages.append({'loc': url_for('product_detail', product_id=p['id'], _external=True), 'lastmod': today})
+    pages.append({'loc': url_for('index', _external=True), 'lastmod': today})
+    pages.append({'loc': url_for('products', _external=True), 'lastmod': today})
+    pages.append({'loc': url_for('contact', _external=True), 'lastmod': today})
+    for product in PRODUCTS:
+        pages.append({'loc': url_for('product_detail', product_id=product["id"], _external=True), 'lastmod': today})
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']

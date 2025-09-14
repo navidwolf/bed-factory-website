@@ -6,12 +6,18 @@
     <style>
         body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; }
         a { text-decoration:none; }
-        header { background:#007bff; color:white; padding:10px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+        header { 
+            background:#007bff; color:white; padding:10px 20px; 
+            display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; 
+        }
         header a { color:white; margin:0 10px; }
         header a:hover { text-decoration:underline; }
         nav { display:flex; flex-wrap:wrap; }
         main { padding:20px; max-width:1200px; margin:0 auto; }
-        footer { background:#f2f2f2; padding:20px; text-align:center; margin-top:20px; font-size:0.9rem; color:#333; }
+        footer { 
+            background:#f2f2f2; padding:20px; text-align:center; 
+            margin-top:20px; font-size:0.9rem; color:#333; 
+        }
         @media(max-width:600px){
             header { flex-direction:column; align-items:flex-start; }
             nav { margin-top:10px; }
@@ -19,6 +25,7 @@
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="logo"><a href="/">{{ meta.site_name }}</a></div>
         <nav>
@@ -28,10 +35,12 @@
         </nav>
     </header>
 
+    <!-- Main Content -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Footer -->
     <footer>
         <p>آدرس: {{ meta.address }} | تلفن: {{ meta.phone }} | ایمیل: {{ meta.email }}</p>
         <p>&copy; {{ meta.site_name }} {{ now.year }}</p>
