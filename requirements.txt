@@ -2,5 +2,3 @@ Flask
 gunicorn
 requests
 Jinja2
-Flask-Admin
-Flask-SQLAlchemy
