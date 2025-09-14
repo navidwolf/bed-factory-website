@@ -2,24 +2,12 @@
 {% block title %}تماس با ما — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 style="text-align:center; margin-bottom:20px;">تماس با ما</h1>
-
-<div class="info" style="margin-bottom:20px;">
+<h1 style="text-align:center;">تماس با ما</h1>
+<img src="{{ url_for('static', filename='images/team.webp') }}" style="width:100%; max-width:600px; height:auto; display:block; margin:0 auto 20px auto; border-radius:8px;">
+<div class="info">
     <p><strong>آدرس کارخانه:</strong> {{ meta.address }}</p>
     <p><strong>تلفن:</strong> {{ meta.phone }}</p>
     <p><strong>ایمیل:</strong> {{ meta.email }}</p>
 </div>
-
-<!-- عکس تیم و نقشه گوگل -->
-<div style="width:100%; max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:15px;">
-    <!-- عکس تیم -->
-    <img src="{{ url_for('static', filename='images/team.webp') }}" 
-         alt="تیم کارخانه" 
-         style="width:100%; height:400px; object-fit:cover; border-radius:8px;">
-
-    <!-- نقشه گوگل -->
-    <iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed" 
-            style="width:100%; height:400px; border:0; border-radius:8px;" allowfullscreen>
-    </iframe>
-</div>
+<iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed" style="width:100%; height:400px; border:0; border-radius:8px;" allowfullscreen></iframe>
 {% endblock %}

@@ -1,10 +1,8 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block title %}محصولات — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 style="text-align:center; margin-bottom:20px;">محصولات ما</h1>
-
+<h1>محصولات ما</h1>
 <div class="products-grid">
     {% for product in products %}
     <div class="product-card">
@@ -12,6 +10,7 @@
         <h2>{{ product.title }}</h2>
         <p>{{ product.desc }}</p>
         <p>{{ product.full_desc }}</p>
+        <a href="/product/{{ product.id }}" class="btn">مشاهده جزئیات</a>
     </div>
     {% endfor %}
 </div>
