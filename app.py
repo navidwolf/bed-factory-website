@@ -23,35 +23,37 @@ def index():
 @app.route('/products')
 def products():
     products_list = [
-        { 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'desc': 'کلاف چوبی استاندارد، ابعاد مختلف' },
-        { 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'desc': 'مناسب فضاهای مدرن، قابل سفارش' },
+        { 
+            'id': 1, 
+            'title': 'تخت خواب مدل آریا', 
+            'image': url_for('static', filename='images/product1.webp'), 
+            'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
+            'full_desc': 'تخت خواب مدل آریا با استفاده از چوب با کیفیت ساخته شده است. مناسب برای اتاق‌های مدرن و راحت.'
+        },
+        { 
+            'id': 2, 
+            'title': 'تخت خواب مدل نیلا', 
+            'image': url_for('static', filename='images/product2.webp'), 
+            'desc': 'مناسب فضاهای مدرن، قابل سفارش',
+            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک، مناسب فضاهای کوچک و بزرگ و قابل سفارش در ابعاد مختلف.'
+        },
     ]
     return render_template('products.html', meta=SITE_META, products=products_list)
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html', meta=SITE_META)
-
-@app.route('/sitemap.xml')
-def sitemap():
-    # Simple dynamic sitemap
-    pages = []
-    ten_days_ago = (datetime.now()).date().isoformat()
-    pages.append({'loc': url_for('index', _external=True), 'lastmod': ten_days_ago})
-    pages.append({'loc': url_for('products', _external=True), 'lastmod': ten_days_ago})
-    pages.append({'loc': url_for('contact', _external=True), 'lastmod': ten_days_ago})
-
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
-           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for p in pages:
-        xml.append('<url>')
-        xml.append(f"<loc>{p['loc']}</loc>")
-        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
-        xml.append('</url>')
-    xml.append('</urlset>')
-
-    response = Response('\n'.join(xml), mimetype='application/xml')
-    return response
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# مسیر جزئیات محصول
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    products_list = [
+        { 
+            'id': 1, 
+            'title': 'تخت خواب مدل آریا', 
+            'image': url_for('static', filename='images/product1.webp'), 
+            'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
+            'full_desc': 'تخت خواب مدل آریا با استفاده از چوب با کیفیت ساخته شده است. مناسب برای اتاق‌های مدرن و راحت.'
+        },
+        { 
+            'id': 2, 
+            'title': 'تخت خواب مدل نیلا', 
+            'image': url_for('static', filename='images/product2.webp'), 
+            'desc': 'مناسب فضاهای مدرن، قابل سفارش',
+            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک_
