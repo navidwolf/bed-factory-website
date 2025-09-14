@@ -3,43 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ meta.site_name }}{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-    <style>
-        body { font-family: Vazir, sans-serif; direction: rtl; }
-        .navbar-brand { font-weight: bold; }
-        footer { background:#007bff; color:white; padding:15px 0; text-align:center; margin-top:50px; }
-        .product-card img { border-radius:8px; width:100%; height:auto; }
-        .btn-blue { background:#007bff; color:white; border:none; padding:8px 16px; border-radius:4px; text-decoration:none; }
-        .btn-blue:hover { background:#0056b3; color:white; text-decoration:none; }
-    </style>
+    <title>{{ meta.site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-  <div class="container">
-    <a class="navbar-brand" href="/">{{ meta.site_name }}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/">خانه</a></li>
-        <li class="nav-item"><a class="nav-link" href="/products">محصولات</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact">تماس با ما</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-    {% block content %}{% endblock %}
-</div>
-
-<footer>
-    &copy; {{ now.year }} {{ meta.site_name }} | تلفن: {{ meta.phone }} | ایمیل: {{ meta.email }}
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <header>
+        <nav>
+            <a href="{{ url_for('index') }}">خانه</a>
+            <a href="{{ url_for('products') }}">محصولات</a>
+            <a href="{{ url_for('contact') }}">تماس با ما</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; {{ meta.site_name }} {{ now.year }}</p>
+    </footer>
 </body>
 </html>
