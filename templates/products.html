@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% block title %}محصولات — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
 <h1>محصولات ما</h1>
-<div class="products-grid">
+<div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;">
     {% for product in products %}
-    <div class="product-card">
-        <img src="{{ product.image }}" alt="{{ product.title }}">
+    <div class="product-card" style="border:1px solid #ddd; border-radius:8px; padding:10px; background:#fff;">
+        <img src="{{ product.image }}" alt="{{ product.title }}" style="width:100%; height:200px; object-fit:cover; border-radius:4px;">
         <h2>{{ product.title }}</h2>
         <p>{{ product.desc }}</p>
         <p>{{ product.full_desc }}</p>
+        <a href="/product/{{ product.id }}" style="display:inline-block; margin-top:10px; padding:6px 10px; background:#007bff; color:white; border-radius:4px;">جزئیات بیشتر</a>
     </div>
     {% endfor %}
 </div>
