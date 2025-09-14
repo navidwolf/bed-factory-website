@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>محصولات ما</h2>
+<h1>محصولات ما</h1>
 <ul>
     {% for product in products %}
-        <li>{{ product.name }} - {{ product.price }}$</li>
-    {% else %}
-        <li>هیچ محصولی موجود نیست.</li>
+    <li>{{ product.name }} - ${{ product.price }}</li>
     {% endfor %}
 </ul>
 {% endblock %}
