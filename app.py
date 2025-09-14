@@ -12,33 +12,27 @@ SITE_META = {
     'email': 'info@bedfactory.example'
 }
 
-# نمونه محصولات
+# محصولات
 PRODUCTS = [
-    {
-        'id': 1,
-        'title': 'تخت خواب مدل آریا',
-        'image': url_for('static', filename='images/product1.webp'),
+    { 
+        'id': 1, 
+        'title': 'تخت خواب مدل آریا', 
+        'image': 'product1.webp', 
         'excerpt': 'کلاف چوبی، راحتی بالا',
-        'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
-        'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و استفاده از متریال با کیفیت، مناسب برای اتاق خواب‌های سنتی و مدرن. این تخت خواب راحتی و دوام را همزمان به شما هدیه می‌دهد.'
+        'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا. مناسب خانواده‌های ایرانی که به کیفیت اهمیت می‌دهند.'
     },
-    {
-        'id': 2,
-        'title': 'تخت خواب مدل نیلا',
-        'image': url_for('static', filename='images/product2.webp'),
+    { 
+        'id': 2, 
+        'title': 'تخت خواب مدل نیلا', 
+        'image': 'product2.webp', 
         'excerpt': 'مدرن و شیک',
-        'desc': 'مناسب فضاهای مدرن، قابل سفارش',
-        'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و مینیمال، برای خانه‌های امروزی ساخته شده است. با کیفیت بالا و قابل سفارش در رنگ‌های مختلف.'
+        'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک، قابل سفارش در ابعاد مختلف و رنگ‌های متفاوت.'
     }
 ]
 
-@app.context_processor
-def inject_now():
-    return {'now': datetime.now()}
-
 @app.route('/')
 def index():
-    return render_template('index.html', meta=SITE_META)
+    return render_template('index.html', meta=SITE_META, products=PRODUCTS)
 
 @app.route('/products')
 def products():
@@ -62,8 +56,6 @@ def sitemap():
     pages.append({'loc': url_for('index', _external=True), 'lastmod': today})
     pages.append({'loc': url_for('products', _external=True), 'lastmod': today})
     pages.append({'loc': url_for('contact', _external=True), 'lastmod': today})
-    for product in PRODUCTS:
-        pages.append({'loc': url_for('product_detail', product_id=product["id"], _external=True), 'lastmod': today})
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
