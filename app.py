@@ -28,32 +28,40 @@ def products():
             'title': 'تخت خواب مدل آریا', 
             'image': url_for('static', filename='images/product1.webp'), 
             'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
-            'full_desc': 'تخت خواب مدل آریا با استفاده از چوب با کیفیت ساخته شده است. مناسب برای اتاق‌های مدرن و راحت.'
+            'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'
         },
         { 
             'id': 2, 
             'title': 'تخت خواب مدل نیلا', 
             'image': url_for('static', filename='images/product2.webp'), 
             'desc': 'مناسب فضاهای مدرن، قابل سفارش',
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک، مناسب فضاهای کوچک و بزرگ و قابل سفارش در ابعاد مختلف.'
+            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'
         },
     ]
     return render_template('products.html', meta=SITE_META, products=products_list)
 
-# مسیر جزئیات محصول
-@app.route('/product/<int:product_id>')
-def product_detail(product_id):
-    products_list = [
-        { 
-            'id': 1, 
-            'title': 'تخت خواب مدل آریا', 
-            'image': url_for('static', filename='images/product1.webp'), 
-            'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
-            'full_desc': 'تخت خواب مدل آریا با استفاده از چوب با کیفیت ساخته شده است. مناسب برای اتاق‌های مدرن و راحت.'
-        },
-        { 
-            'id': 2, 
-            'title': 'تخت خواب مدل نیلا', 
-            'image': url_for('static', filename='images/product2.webp'), 
-            'desc': 'مناسب فضاهای مدرن، قابل سفارش',
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک_
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', meta=SITE_META)
+
+@app.route('/sitemap.xml')
+def sitemap():
+    pages = []
+    today = datetime.now().date().isoformat()
+    pages.append({'loc': url_for('index', _external=True), 'lastmod': today})
+    pages.append({'loc': url_for('products', _external=True), 'lastmod': today})
+    pages.append({'loc': url_for('contact', _external=True), 'lastmod': today})
+
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for p in pages:
+        xml.append('<url>')
+        xml.append(f"<loc>{p['loc']}</loc>")
+        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
+        xml.append('</url>')
+    xml.append('</urlset>')
+
+    return Response('\n'.join(xml), mimetype='application/xml')
+
+if __name__ == '__main__':
+    app.run(debug=True)
