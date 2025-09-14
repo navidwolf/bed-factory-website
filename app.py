@@ -3,7 +3,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# اطلاعات سایت
+# Basic site data — customize
 SITE_META = {
     'site_name': 'Bed Factory Co.',
     'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
@@ -12,34 +12,54 @@ SITE_META = {
     'email': 'info@bedfactory.example'
 }
 
-# برای استفاده از now.year در قالب
+# Context processor برای متغیر current_year در همه قالب‌ها
 @app.context_processor
 def inject_now():
-    return {'now': datetime.now()}
+    return {'current_year': datetime.now().year}
 
 @app.route('/')
 def index():
     products = [
-        {'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'excerpt': 'کلاف چوبی، راحتی بالا'},
-        {'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'excerpt': 'مدرن و شیک'},
+        { 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'excerpt': 'کلاف چوبی، راحتی بالا' },
+        { 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'excerpt': 'مدرن و شیک' },
     ]
     return render_template('index.html', meta=SITE_META, products=products)
 
 @app.route('/products')
 def products():
     products_list = [
-        {'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'desc': 'کلاف چوبی استاندارد، ابعاد مختلف', 'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'},
-        {'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'desc': 'مناسب فضاهای مدرن، قابل سفارش', 'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'},
+        { 
+            'id': 1, 
+            'title': 'تخت خواب مدل آریا', 
+            'image': url_for('static', filename='images/product1.webp'), 
+            'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
+            'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'
+        },
+        { 
+            'id': 2, 
+            'title': 'تخت خواب مدل نیلا', 
+            'image': url_for('static', filename='images/product2.webp'), 
+            'desc': 'مناسب فضاهای مدرن، قابل سفارش',
+            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'
+        },
     ]
     return render_template('products.html', meta=SITE_META, products=products_list)
 
-@app.route('/product/<int:id>')
-def product_detail(id):
-    products_list = [
-        {'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'desc': 'کلاف چوبی استاندارد، ابعاد مختلف', 'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'},
-        {'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'desc': 'مناسب فضاهای مدرن، قابل سفارش', 'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'},
-    ]
-    product = next((p for p in products_list if p['id'] == id), None)
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    details = {
+        1: {
+            'title': 'تخت خواب مدل آریا',
+            'image': url_for('static', filename='images/product1.webp'),
+            'full_desc': 'تخت خواب مدل آریا با کلاف چوبی مقاوم، طراحی کلاسیک و راحتی بالا. مناسب اتاق خواب‌های بزرگ و دکوراسیون سنتی.'
+        },
+        2: {
+            'title': 'تخت خواب مدل نیلا',
+            'image': url_for('static', filename='images/product2.webp'),
+            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن، ابعاد متنوع و راحتی عالی. مناسب اتاق‌های مدرن و فضاهای کوچک تا متوسط.'
+        }
+    }
+    product = details.get(product_id)
     if not product:
         return "محصول یافت نشد", 404
     return render_template('product_detail.html', meta=SITE_META, product=product)
