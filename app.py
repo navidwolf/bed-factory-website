@@ -3,7 +3,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# Basic site data — customize
 SITE_META = {
     'site_name': 'Bed Factory Co.',
     'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
@@ -12,10 +11,10 @@ SITE_META = {
     'email': 'info@bedfactory.example'
 }
 
-# Context processor برای متغیر current_year در همه قالب‌ها
+# Context processor برای ارسال متغیر now به همه قالب‌ها
 @app.context_processor
 def inject_now():
-    return {'current_year': datetime.now().year}
+    return {'now': datetime.now()}
 
 @app.route('/')
 def index():
@@ -45,28 +44,28 @@ def products():
     ]
     return render_template('products.html', meta=SITE_META, products=products_list)
 
-@app.route('/product/<int:product_id>')
-def product_detail(product_id):
-    details = {
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', meta=SITE_META)
+
+@app.route('/product/<int:id>')
+def product_detail(id):
+    products_dict = {
         1: {
             'title': 'تخت خواب مدل آریا',
             'image': url_for('static', filename='images/product1.webp'),
-            'full_desc': 'تخت خواب مدل آریا با کلاف چوبی مقاوم، طراحی کلاسیک و راحتی بالا. مناسب اتاق خواب‌های بزرگ و دکوراسیون سنتی.'
+            'full_desc': 'تخت خواب مدل آریا با کلاف چوبی استاندارد، راحتی عالی و طراحی کلاسیک.'
         },
         2: {
             'title': 'تخت خواب مدل نیلا',
             'image': url_for('static', filename='images/product2.webp'),
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن، ابعاد متنوع و راحتی عالی. مناسب اتاق‌های مدرن و فضاهای کوچک تا متوسط.'
+            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن، رنگ‌بندی شیک و قابلیت سفارش سفارشی.'
         }
     }
-    product = details.get(product_id)
+    product = products_dict.get(id)
     if not product:
         return "محصول یافت نشد", 404
     return render_template('product_detail.html', meta=SITE_META, product=product)
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html', meta=SITE_META)
 
 @app.route('/sitemap.xml')
 def sitemap():
