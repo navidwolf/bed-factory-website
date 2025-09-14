@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}خانه — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 style="text-align:center; margin-bottom:30px;">کارخانه تولید تخت خواب ایرانیان</h1>
-
-<div class="products-grid">
-    {% for p in products %}
-    <div class="product-card">
-        <img src="{{ p.image }}" alt="{{ p.title }}">
-        <h3>{{ p.title }}</h3>
-        <p>{{ p.excerpt }}</p>
-        <a href="/product/{{ p.id }}" class="btn">مشاهده جزئیات</a>
-    </div>
+<h2>محصولات ما</h2>
+<ul>
+    {% for product in products %}
+        <li>{{ product.name }} - {{ product.price }}$</li>
+    {% else %}
+        <li>هیچ محصولی موجود نیست.</li>
     {% endfor %}
-</div>
+</ul>
 {% endblock %}
