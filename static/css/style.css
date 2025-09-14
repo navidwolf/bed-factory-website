@@ -12,6 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
 }
 
 /* Header */
@@ -28,12 +29,6 @@ main {
     flex: 1;
 }
 
-.page-title {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-}
-
 /* Products Grid */
 .products {
     display: grid;
@@ -42,10 +37,11 @@ main {
 }
 
 .product-card {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    background: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -53,8 +49,8 @@ main {
 }
 
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
 .product-image {
@@ -74,6 +70,7 @@ main {
     color: #555;
 }
 
+/* Button */
 .btn {
     display: inline-block;
     margin-top: 10px;
@@ -95,5 +92,6 @@ footer {
     background-color: #2c3e50;
     color: white;
     text-align: center;
-    padding: 15px;
+    padding: 10px;
+    position: relative; /* fixed حذف شد تا روی محتوا پوشانده نشه */
 }
