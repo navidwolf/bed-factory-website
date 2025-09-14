@@ -1,90 +1,34 @@
-from flask import Flask, render_template, url_for, Response
-from datetime import datetime
+# app.py
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
+# ---------- تنظیمات اصلی Flask ----------
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///products.db'
+app.config['SECRET_KEY'] = 'your_secret_key_here'  # تغییر بده به یک کلید امن
+db = SQLAlchemy(app)
 
-SITE_META = {
-    'site_name': 'Bed Factory Co.',
-    'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
-    'phone': '+98-21-12345678',
-    'address': 'تهران، خیابان نمونه، نبش کارخانه',
-    'email': 'info@bedfactory.example'
-}
+# ---------- مدل محصول ----------
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    excerpt = db.Column(db.String(200))
+    image = db.Column(db.String(200))
 
-# Context processor برای ارسال متغیر now به همه قالب‌ها
-@app.context_processor
-def inject_now():
-    return {'now': datetime.now()}
+# ---------- پنل مدیریتی ----------
+admin = Admin(app, name='پنل مدیریت', template_mode='bootstrap3')
+admin.add_view(ModelView(Product, db.session))
 
+# ---------- مسیر صفحه اصلی ----------
 @app.route('/')
-def index():
-    products = [
-        { 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'excerpt': 'کلاف چوبی، راحتی بالا' },
-        { 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'excerpt': 'مدرن و شیک' },
-    ]
-    return render_template('index.html', meta=SITE_META, products=products)
+def home():
+    products = Product.query.all()  # خواندن تمام محصولات از دیتابیس
+    meta = {'site_name': 'کارخانه تخت خواب ایرانیان'}
+    return render_template('index.html', products=products, meta=meta)
 
-@app.route('/products')
-def products():
-    products_list = [
-        { 
-            'id': 1, 
-            'title': 'تخت خواب مدل آریا', 
-            'image': url_for('static', filename='images/product1.webp'), 
-            'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
-            'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'
-        },
-        { 
-            'id': 2, 
-            'title': 'تخت خواب مدل نیلا', 
-            'image': url_for('static', filename='images/product2.webp'), 
-            'desc': 'مناسب فضاهای مدرن، قابل سفارش',
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'
-        },
-    ]
-    return render_template('products.html', meta=SITE_META, products=products_list)
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html', meta=SITE_META)
-
-@app.route('/product/<int:id>')
-def product_detail(id):
-    products_dict = {
-        1: {
-            'title': 'تخت خواب مدل آریا',
-            'image': url_for('static', filename='images/product1.webp'),
-            'full_desc': 'تخت خواب مدل آریا با کلاف چوبی استاندارد، راحتی عالی و طراحی کلاسیک.'
-        },
-        2: {
-            'title': 'تخت خواب مدل نیلا',
-            'image': url_for('static', filename='images/product2.webp'),
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن، رنگ‌بندی شیک و قابلیت سفارش سفارشی.'
-        }
-    }
-    product = products_dict.get(id)
-    if not product:
-        return "محصول یافت نشد", 404
-    return render_template('product_detail.html', meta=SITE_META, product=product)
-
-@app.route('/sitemap.xml')
-def sitemap():
-    pages = []
-    today = datetime.now().date().isoformat()
-    pages.append({'loc': url_for('index', _external=True), 'lastmod': today})
-    pages.append({'loc': url_for('products', _external=True), 'lastmod': today})
-    pages.append({'loc': url_for('contact', _external=True), 'lastmod': today})
-
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
-           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for p in pages:
-        xml.append('<url>')
-        xml.append(f"<loc>{p['loc']}</loc>")
-        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
-        xml.append('</url>')
-    xml.append('</urlset>')
-
-    return Response('\n'.join(xml), mimetype='application/xml')
-
+# ---------- اجرای برنامه ----------
 if __name__ == '__main__':
+    db.create_all()  # ایجاد دیتابیس SQLite و جدول‌ها
     app.run(debug=True)
