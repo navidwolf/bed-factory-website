@@ -2,28 +2,25 @@ from flask import Flask, render_template
 from flask_admin import Admin
 from datetime import datetime
 
-# ایجاد اپلیکیشن
 app = Flask(__name__)
+admin = Admin(app, name="Admin", template_mode="bootstrap3")
 
-# تنظیمات Flask-Admin
-admin = Admin(app, name='Admin Panel', template_mode='bootstrap4')
-
-# نمونه داده‌ها
+# Example meta and products
+meta = {"site_name": "Bed Factory"}
 products = [
-    {"name": "Bed Model A", "price": 250},
-    {"name": "Bed Model B", "price": 300},
+    {"name": "Bed A", "price": 100},
+    {"name": "Bed B", "price": 150},
 ]
 
-meta = {
-    "site_name": "Bed Factory"
-}
+@app.context_processor
+def inject_current_year():
+    return {'current_year': datetime.now().year}
 
-# Route اصلی
-@app.route('/')
+@app.route("/")
 def index():
-    current_year = datetime.now().year  # سال جاری
-    return render_template('index.html', meta=meta, products=products, current_year=current_year)
+    return render_template("index.html", meta=meta, products=products)
 
-# اگر بخواهیم مستقیم با Python اجرا شود
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1>محصولات ما</h1>
+<h2>Products</h2>
 <ul>
     {% for product in products %}
     <li>{{ product.name }} - ${{ product.price }}</li>
