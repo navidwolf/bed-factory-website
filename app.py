@@ -1,9 +1,9 @@
-from flask import Flask, render_template, url_for, Response
+from flask import Flask, render_template, url_for, Response, abort
 from datetime import datetime
 
 app = Flask(__name__)
 
-# Basic site data — customize
+# Basic site data
 SITE_META = {
     'site_name': 'Bed Factory Co.',
     'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
@@ -12,56 +12,43 @@ SITE_META = {
     'email': 'info@bedfactory.example'
 }
 
-# Context processor برای متغیر current_year در همه قالب‌ها
+# Product data
+PRODUCTS = [
+    {
+        'id': 1,
+        'title': 'تخت خواب مدل آریا',
+        'image': url_for('static', filename='images/product1.webp'),
+        'excerpt': 'کلاف چوبی، راحتی بالا',
+        'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
+        'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'
+    },
+    {
+        'id': 2,
+        'title': 'تخت خواب مدل نیلا',
+        'image': url_for('static', filename='images/product2.webp'),
+        'excerpt': 'مدرن و شیک',
+        'desc': 'مناسب فضاهای مدرن، قابل سفارش',
+        'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'
+    }
+]
+
 @app.context_processor
 def inject_now():
-    return {'current_year': datetime.now().year}
+    return {'now': datetime.now()}
 
 @app.route('/')
 def index():
-    products = [
-        { 'id': 1, 'title': 'تخت خواب مدل آریا', 'image': url_for('static', filename='images/product1.webp'), 'excerpt': 'کلاف چوبی، راحتی بالا' },
-        { 'id': 2, 'title': 'تخت خواب مدل نیلا', 'image': url_for('static', filename='images/product2.webp'), 'excerpt': 'مدرن و شیک' },
-    ]
-    return render_template('index.html', meta=SITE_META, products=products)
+    return render_template('index.html', meta=SITE_META, products=PRODUCTS)
 
 @app.route('/products')
 def products():
-    products_list = [
-        { 
-            'id': 1, 
-            'title': 'تخت خواب مدل آریا', 
-            'image': url_for('static', filename='images/product1.webp'), 
-            'desc': 'کلاف چوبی استاندارد، ابعاد مختلف',
-            'full_desc': 'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا'
-        },
-        { 
-            'id': 2, 
-            'title': 'تخت خواب مدل نیلا', 
-            'image': url_for('static', filename='images/product2.webp'), 
-            'desc': 'مناسب فضاهای مدرن، قابل سفارش',
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن و شیک'
-        },
-    ]
-    return render_template('products.html', meta=SITE_META, products=products_list)
+    return render_template('products.html', meta=SITE_META, products=PRODUCTS)
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
-    details = {
-        1: {
-            'title': 'تخت خواب مدل آریا',
-            'image': url_for('static', filename='images/product1.webp'),
-            'full_desc': 'تخت خواب مدل آریا با کلاف چوبی مقاوم، طراحی کلاسیک و راحتی بالا. مناسب اتاق خواب‌های بزرگ و دکوراسیون سنتی.'
-        },
-        2: {
-            'title': 'تخت خواب مدل نیلا',
-            'image': url_for('static', filename='images/product2.webp'),
-            'full_desc': 'تخت خواب مدل نیلا با طراحی مدرن، ابعاد متنوع و راحتی عالی. مناسب اتاق‌های مدرن و فضاهای کوچک تا متوسط.'
-        }
-    }
-    product = details.get(product_id)
+    product = next((p for p in PRODUCTS if p['id'] == product_id), None)
     if not product:
-        return "محصول یافت نشد", 404
+        abort(404)
     return render_template('product_detail.html', meta=SITE_META, product=product)
 
 @app.route('/contact')
@@ -70,11 +57,14 @@ def contact():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    pages = []
     today = datetime.now().date().isoformat()
-    pages.append({'loc': url_for('index', _external=True), 'lastmod': today})
-    pages.append({'loc': url_for('products', _external=True), 'lastmod': today})
-    pages.append({'loc': url_for('contact', _external=True), 'lastmod': today})
+    pages = [
+        {'loc': url_for('index', _external=True), 'lastmod': today},
+        {'loc': url_for('products', _external=True), 'lastmod': today},
+        {'loc': url_for('contact', _external=True), 'lastmod': today},
+    ]
+    for p in PRODUCTS:
+        pages.append({'loc': url_for('product_detail', product_id=p['id'], _external=True), 'lastmod': today})
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
