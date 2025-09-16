@@ -7,6 +7,6 @@
 <img src="{{ product.image }}" alt="{{ product.title }}" class="product-detail-img">
 
 <p class="product-desc">{{ product.full_desc }}</p>
-
-<a href="/products" class="btn">بازگشت به محصولات</a>
+<p>قیمت: {{ product.price }} تومان</p>
+<a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
 {% endblock %}
