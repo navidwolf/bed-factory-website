@@ -4,14 +4,24 @@
 {% block content %}
 <h1 class="page-title">تماس با ما</h1>
 
-<div class="info">
+<div class="contact-info" style="text-align:center; margin-bottom:30px;">
     <p><strong>آدرس کارخانه:</strong> {{ meta.address }}</p>
     <p><strong>تلفن:</strong> {{ meta.phone }}</p>
     <p><strong>ایمیل:</strong> {{ meta.email }}</p>
 </div>
 
-<div class="media-container">
-    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه">
-    <iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed"></iframe>
+<!-- عکس تیم -->
+<div class="contact-images">
+    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه" class="team-img">
 </div>
+
+<!-- نقشه گوگل -->
+<div class="contact-images">
+    <iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed"
+            class="map-frame"
+            allowfullscreen
+            loading="lazy">
+    </iframe>
+</div>
+
 {% endblock %}
