@@ -3,6 +3,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+# اطلاعات متا سایت
 SITE_META = {
     'site_name': 'Bed Factory Co.',
     'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
@@ -16,6 +17,7 @@ SITE_META = {
 def inject_now():
     return {'now': datetime.now()}
 
+# صفحه اصلی
 @app.route('/')
 def index():
     products = [
@@ -24,6 +26,7 @@ def index():
     ]
     return render_template('index.html', meta=SITE_META, products=products)
 
+# صفحه محصولات
 @app.route('/products')
 def products():
     products_list = [
@@ -44,10 +47,12 @@ def products():
     ]
     return render_template('products.html', meta=SITE_META, products=products_list)
 
+# صفحه تماس با ما
 @app.route('/contact')
 def contact():
     return render_template('contact.html', meta=SITE_META)
 
+# جزئیات محصول
 @app.route('/product/<int:id>')
 def product_detail(id):
     products_dict = {
@@ -67,14 +72,32 @@ def product_detail(id):
         return "محصول یافت نشد", 404
     return render_template('product_detail.html', meta=SITE_META, product=product)
 
+# Route کامل و داینامیک برای sitemap.xml
 @app.route('/sitemap.xml')
 def sitemap():
     pages = []
     today = datetime.now().date().isoformat()
-    pages.append({'loc': url_for('index', _external=True), 'lastmod': today})
-    pages.append({'loc': url_for('products', _external=True), 'lastmod': today})
-    pages.append({'loc': url_for('contact', _external=True), 'lastmod': today})
 
+    # صفحات اصلی
+    static_pages = ['index', 'products', 'contact']
+    for page in static_pages:
+        pages.append({
+            'loc': url_for(page, _external=True),
+            'lastmod': today
+        })
+
+    # محصولات داینامیک از همان dictionary
+    products_dict = {
+        1: 'تخت خواب مدل آریا',
+        2: 'تخت خواب مدل نیلا'
+    }
+    for pid in products_dict.keys():
+        pages.append({
+            'loc': url_for('product_detail', id=pid, _external=True),
+            'lastmod': today
+        })
+
+    # ساخت XML
     xml = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for p in pages:
@@ -86,5 +109,6 @@ def sitemap():
 
     return Response('\n'.join(xml), mimetype='application/xml')
 
+# اجرای برنامه
 if __name__ == '__main__':
     app.run(debug=True)

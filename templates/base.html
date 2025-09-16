@@ -2,42 +2,37 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta -->
     <title>{% block title %}{{ meta.site_name }}{% endblock %}</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; }
-        a { text-decoration:none; }
-        header { 
-            background:#007bff; color:white; padding:10px 20px; 
-            display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; 
-        }
-        header a { color:white; margin:0 10px; }
-        header a:hover { text-decoration:underline; }
-        nav { display:flex; flex-wrap:wrap; }
-        main { padding:20px; max-width:1200px; margin:0 auto; }
-        footer { 
-            background:#f2f2f2; padding:20px; text-align:center; 
-            margin-top:20px; font-size:0.9rem; color:#333; 
-        }
-        .products-grid, .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-        .product-card { border:1px solid #ddd; border-radius:8px; padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-between; }
-        .product-card img { width:100%; height:200px; object-fit:cover; border-radius:4px; }
-        .product-card h3, .product-card h2 { margin:10px 0 5px 0; }
-        .product-card p { font-size:0.9rem; color:#555; }
-        .btn { display:inline-block; margin-top:10px; padding:8px 12px; background:#007bff; color:white; text-align:center; border-radius:4px; }
-        @media(max-width:600px){
-            header { flex-direction:column; align-items:flex-start; }
-            nav { margin-top:10px; }
-        }
-    </style>
+    <meta name="description" content="{{ meta.description }}">
+    <meta name="keywords" content="تخت خواب, کارخانه, مبلمان, سرویس خواب, محصولات چوبی">
+    <meta name="author" content="{{ meta.site_name }}">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="{{ meta.site_name }}">
+    <meta property="og:description" content="{{ meta.description }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/cover.jpg') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="logo"><a href="/">{{ meta.site_name }}</a></div>
         <nav>
-            <a href="/">خانه</a>
-            <a href="/products">محصولات</a>
-            <a href="/contact">تماس با ما</a>
+            <ul>
+                <li><a href="{{ url_for('index') }}">خانه</a></li>
+                <li><a href="{{ url_for('products') }}">محصولات</a></li>
+                <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -48,8 +43,9 @@
 
     <!-- Footer -->
     <footer>
-        <p>آدرس: {{ meta.address }} | تلفن: {{ meta.phone }} | ایمیل: {{ meta.email }}</p>
-        <p>&copy; {{ meta.site_name }} {{ current_year }}</p>
+        <p>© {{ now.year }} کلیه حقوق محفوظ است - {{ meta.site_name }}</p>
+        <p>📍 {{ meta.address }} | 📞 {{ meta.phone }} | ✉️ {{ meta.email }}</p>
     </footer>
-</body>
-</html>
+
+    <!-- Scripts -->
+    <script src=
