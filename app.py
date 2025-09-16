@@ -106,4 +106,17 @@ def sitemap():
         pages.append({'loc': url_for(page, _external=True), 'lastmod': today})
     for pid in products_dict.keys():
         pages.append({'loc': url_for('product_detail', id=pid, _external=True), 'lastmod': today})
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http]()
+
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for p in pages:
+        xml.append('<url>')
+        xml.append(f"<loc>{p['loc']}</loc>")
+        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
+        xml.append('</url>')
+    xml.append('</urlset>')
+
+    return Response('\n'.join(xml), mimetype='application/xml')
+
+if __name__ == '__main__':
+    app.run(debug=True)
