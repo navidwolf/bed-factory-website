@@ -16,9 +16,8 @@ SITE_META = {
 def inject_now():
     return {'now': datetime.now()}
 
-# محصولات با قیمت و تصویر
 products_dict = {
-    1: {'title': 'تخت خواب مدل نوید', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
+    1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
     2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
     3: {'title': 'تخت خواب مدل پارمیس', 'image': 'product3.webp','excerpt':'چوب با کیفیت، راحت','desc':'ابعاد مختلف و طراحی زیبا','full_desc':'تخت خواب مدل پارمیس با طراحی مدرن و راحتی عالی','price': 2800000},
     4: {'title': 'تخت خواب مدل نیوشا', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
@@ -26,7 +25,6 @@ products_dict = {
     6: {'title': 'تخت خواب مدل یکتا', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000}
 }
 
-# صفحات اصلی
 @app.route('/')
 def index():
     products = []
@@ -85,7 +83,7 @@ def cart():
 def checkout():
     if session.get('cart'):
         if request.method == 'POST':
-            session.pop('cart')  # پاک کردن سبد بعد از خرید
+            session.pop('cart')
             return "<h2>سفارش شما ثبت شد. ممنون!</h2>"
         return render_template('checkout.html', meta=SITE_META)
     else:
