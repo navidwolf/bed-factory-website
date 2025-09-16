@@ -16,18 +16,18 @@ SITE_META = {
 def inject_now():
     return {'now': datetime.now()}
 
-# محصولات با 8 محصول
 products_dict = {
-    1: {'title': 'تخت خواب مدل نوید', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
-    2: {'title': 'تخت خواب مدل سینا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
-    3: {'title': 'تخت خواب مدل حمید', 'image': 'product3.webp','excerpt':'چوب با کیفیت، راحت','desc':'ابعاد مختلف و طراحی زیبا','full_desc':'تخت خواب مدل پارمیس با طراحی مدرن و راحتی عالی','price': 2800000},
-    4: {'title': 'تخت خواب مدل محبوبه', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
-    5: {'title': 'تخت خواب مدل ملیحه', 'image': 'product5.webp','excerpt':'راحت و مدرن','desc':'ابعاد استاندارد و قابل تنظیم','full_desc':'تخت خواب مدل ماهور با طراحی مدرن و راحتی بالا','price': 2900000},
-    6: {'title': 'تخت خواب مدل آرسام', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000},
-    7: {'title': 'تخت خواب مدل نقطه', 'image': 'product7.webp', 'excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
-    8: {'title': 'تخت خواب مدل گل گندم', 'image': 'product8.webp', 'excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
+    1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
+    2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
+    3: {'title': 'تخت خواب مدل پارمیس', 'image': 'product3.webp','excerpt':'چوب با کیفیت، راحت','desc':'ابعاد مختلف و طراحی زیبا','full_desc':'تخت خواب مدل پارمیس با طراحی مدرن و راحتی عالی','price': 2800000},
+    4: {'title': 'تخت خواب مدل نیوشا', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
+    5: {'title': 'تخت خواب مدل ماهور', 'image': 'product5.webp','excerpt':'راحت و مدرن','desc':'ابعاد استاندارد و قابل تنظیم','full_desc':'تخت خواب مدل ماهور با طراحی مدرن و راحتی بالا','price': 2900000},
+    6: {'title': 'تخت خواب مدل یکتا', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000},
+    7: {'title': 'تخت خواب مدل سولینا', 'image': 'product7.webp', 'excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
+    8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp', 'excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
 }
 
+# صفحات اصلی
 @app.route('/')
 def index():
     products = []
@@ -58,6 +58,7 @@ def product_detail(id):
     prod['image'] = url_for('static', filename=f'images/{product["image"]}')
     return render_template('product_detail.html', meta=SITE_META, product=prod)
 
+# ===== سبد خرید =====
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     cart = session.get('cart', {})
@@ -82,7 +83,7 @@ def cart():
     total_price = sum(item['total'] for item in cart_items)
     return render_template('cart.html', meta=SITE_META, cart=cart_items, total_price=total_price)
 
-@app.route('/checkout', methods=['GET', 'POST'])
+@app.route('/checkout', methods=['GET','POST'])
 def checkout():
     if session.get('cart'):
         if request.method == 'POST':
@@ -100,19 +101,9 @@ def contact():
 def sitemap():
     pages = []
     today = datetime.now().date().isoformat()
-    static_pages = ['index', 'products', 'contact']
+    static_pages = ['index','products','contact']
     for page in static_pages:
         pages.append({'loc': url_for(page, _external=True), 'lastmod': today})
     for pid in products_dict.keys():
         pages.append({'loc': url_for('product_detail', id=pid, _external=True), 'lastmod': today})
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for p in pages:
-        xml.append('<url>')
-        xml.append(f"<loc>{p['loc']}</loc>")
-        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
-        xml.append('</url>')
-    xml.append('</urlset>')
-    return Response('\n'.join(xml), mimetype='application/xml')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http]()

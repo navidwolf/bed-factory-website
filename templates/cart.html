@@ -5,20 +5,31 @@
 <h1 class="page-title">سبد خرید شما</h1>
 
 {% if cart %}
-<table>
-    <tr><th>محصول</th><th>تعداد</th><th>قیمت واحد</th><th>جمع</th></tr>
-    {% for item in cart %}
-    <tr>
-        <td>{{ item.title }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.price }} تومان</td>
-        <td>{{ item.total }} تومان</td>
-    </tr>
-    {% endfor %}
+<table style="width:100%; border-collapse: collapse;">
+<thead>
+<tr>
+<th style="border-bottom:1px solid #ddd; padding:10px;">محصول</th>
+<th style="border-bottom:1px solid #ddd; padding:10px;">قیمت</th>
+<th style="border-bottom:1px solid #ddd; padding:10px;">تعداد</th>
+<th style="border-bottom:1px solid #ddd; padding:10px;">جمع</th>
+</tr>
+</thead>
+<tbody>
+{% for item in cart %}
+<tr>
+<td style="border-bottom:1px solid #ddd; padding:10px;">{{ item.title }}</td>
+<td style="border-bottom:1px solid #ddd; padding:10px;">{{ item.price | number_format }}</td>
+<td style="border-bottom:1px solid #ddd; padding:10px;">{{ item.quantity }}</td>
+<td style="border-bottom:1px solid #ddd; padding:10px;">{{ item.total | number_format }}</td>
+</tr>
+{% endfor %}
+</tbody>
 </table>
-<p><strong>جمع کل: {{ total_price }} تومان</strong></p>
-<a href="{{ url_for('checkout') }}" class="btn">ادامه خرید / پرداخت</a>
+
+<h3 style="margin-top:20px;">مجموع کل: {{ total_price | number_format }}</h3>
+<a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+
 {% else %}
 <p>سبد خرید شما خالی است.</p>
 {% endif %}
-{% endblock %}
+{% endblock

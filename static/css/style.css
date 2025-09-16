@@ -1,173 +1,109 @@
-/* ===== Reset ساده ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+from flask import Flask, render_template, url_for, Response, session, redirect, request
+from datetime import datetime
+
+app = Flask(__name__)
+app.secret_key = 'your-secret-key'
+
+SITE_META = {
+    'site_name': 'Bed Factory Co.',
+    'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
+    'phone': '+98-21-12345678',
+    'address': 'تهران، خیابان نمونه، نبش کارخانه',
+    'email': 'info@bedfactory.example'
 }
 
-/* ===== بدنه و فونت ===== */
-body {
-    font-family: 'Tahoma', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fff;
+@app.context_processor
+def inject_now():
+    return {'now': datetime.now()}
+
+products_dict = {
+    1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
+    2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
+    3: {'title': 'تخت خواب مدل پارمیس', 'image': 'product3.webp','excerpt':'چوب با کیفیت، راحت','desc':'ابعاد مختلف و طراحی زیبا','full_desc':'تخت خواب مدل پارمیس با طراحی مدرن و راحتی عالی','price': 2800000},
+    4: {'title': 'تخت خواب مدل نیوشا', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
+    5: {'title': 'تخت خواب مدل ماهور', 'image': 'product5.webp','excerpt':'راحت و مدرن','desc':'ابعاد استاندارد و قابل تنظیم','full_desc':'تخت خواب مدل ماهور با طراحی مدرن و راحتی بالا','price': 2900000},
+    6: {'title': 'تخت خواب مدل یکتا', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000},
+    7: {'title': 'تخت خواب مدل سولینا', 'image': 'product7.webp', 'excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
+    8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp', 'excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
 }
 
-/* ===== Header / Nav ===== */
-header {
-    background-color: #f8f8f8;
-    padding: 15px 20px;
-}
+# صفحات اصلی
+@app.route('/')
+def index():
+    products = []
+    for pid, p in products_dict.items():
+        prod = p.copy()
+        prod['id'] = pid
+        prod['image'] = url_for('static', filename=f'images/{p["image"]}')
+        products.append(prod)
+    return render_template('index.html', meta=SITE_META, products=products)
 
-header nav ul {
-    display: flex;
-    justify-content: flex-start;
-    list-style: none;
-    gap: 20px;
-}
+@app.route('/products')
+def products():
+    products = []
+    for pid, p in products_dict.items():
+        prod = p.copy()
+        prod['id'] = pid
+        prod['image'] = url_for('static', filename=f'images/{p["image"]}')
+        products.append(prod)
+    return render_template('products.html', meta=SITE_META, products=products)
 
-header nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
+@app.route('/product/<int:id>')
+def product_detail(id):
+    product = products_dict.get(id)
+    if not product:
+        return "محصول یافت نشد", 404
+    prod = product.copy()
+    prod['id'] = id
+    prod['image'] = url_for('static', filename=f'images/{product["image"]}')
+    return render_template('product_detail.html', meta=SITE_META, product=prod)
 
-/* ===== Main ===== */
-main {
-    padding: 20px;
-}
+# ===== سبد خرید =====
+@app.route('/add_to_cart/<int:product_id>')
+def add_to_cart(product_id):
+    cart = session.get('cart', {})
+    cart[product_id] = cart.get(product_id, 0) + 1
+    session['cart'] = cart
+    return redirect(url_for('cart'))
 
-.page-title {
-    text-align: center;
-    margin-bottom: 30px;
-}
+@app.route('/cart')
+def cart():
+    cart_items = []
+    cart = session.get('cart', {})
+    for pid, qty in cart.items():
+        product = products_dict.get(pid)
+        if product:
+            cart_items.append({
+                'id': pid,
+                'title': product['title'],
+                'price': product['price'],
+                'quantity': qty,
+                'total': product['price'] * qty
+            })
+    total_price = sum(item['total'] for item in cart_items)
+    return render_template('cart.html', meta=SITE_META, cart=cart_items, total_price=total_price)
 
-/* ===== Products Grid ===== */
-.products-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 20px;
-}
+@app.route('/checkout', methods=['GET','POST'])
+def checkout():
+    if session.get('cart'):
+        if request.method == 'POST':
+            session.pop('cart')
+            return "<h2>سفارش شما ثبت شد. ممنون!</h2>"
+        return render_template('checkout.html', meta=SITE_META)
+    else:
+        return redirect(url_for('cart'))
 
-.product-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 10px;
-    background: #fff;
-    transition: transform 0.3s;
-    height: 100%;
-}
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', meta=SITE_META)
 
-.product-card:hover {
-    transform: scale(1.02);
-}
-
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.product-card h2, .product-card h3 {
-    margin: 10px 0 5px 0;
-    font-size: 1.1rem;
-}
-
-.product-card p {
-    font-size: 0.9rem;
-    color: #555;
-    flex-grow: 1;
-}
-
-.product-card .btn {
-    margin-top: 10px;
-    display: inline-block;
-    padding: 8px 12px;
-    background: #007bff;
-    color: white;
-    text-align: center;
-    border-radius: 4px;
-    text-decoration: none;
-}
-
-/* ===== Product Detail ===== */
-.product-detail-img {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 6px;
-    display: block;
-    margin-bottom: 15px;
-}
-
-.product-desc {
-    font-size: 1rem;
-    color: #333;
-}
-
-/* ===== Contact / Info ===== */
-.info {
-    margin-bottom: 20px;
-}
-
-.media-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.media-container img,
-.media-container iframe {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-/* ===== Footer ===== */
-footer {
-    background-color: #f1f1f1;
-    padding: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-    margin-top: 40px;
-}
-
-footer p {
-    margin: 5px 0;
-}
-
-/* ===== Media Queries ===== */
-@media (max-width: 768px) {
-    header nav ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .products-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 14px;
-    }
-
-    header {
-        padding: 10px 15px;
-    }
-
-    .product-card {
-        padding: 10px;
-    }
-}
+@app.route('/sitemap.xml')
+def sitemap():
+    pages = []
+    today = datetime.now().date().isoformat()
+    static_pages = ['index','products','contact']
+    for page in static_pages:
+        pages.append({'loc': url_for(page, _external=True), 'lastmod': today})
+    for pid in products_dict.keys():
+        pages.append({'loc': url_for('product_detail', id=pid, _external=True), 'lastmod': today})
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http]()

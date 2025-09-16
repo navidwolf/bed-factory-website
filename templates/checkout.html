@@ -2,12 +2,12 @@
 {% block title %}پرداخت — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 class="page-title">پرداخت و ثبت سفارش</h1>
+<h1 class="page-title">پرداخت</h1>
 
-<form method="POST" action="{{ url_for('checkout') }}">
-    <label>نام و نام خانوادگی:</label><input type="text" name="name" required>
-    <label>آدرس:</label><input type="text" name="address" required>
-    <label>تلفن:</label><input type="text" name="phone" required>
+<form method="POST" style="max-width:400px; margin:0 auto; display:flex; flex-direction:column; gap:10px;">
+    <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+    <input type="text" name="phone" placeholder="شماره تماس" required>
+    <input type="text" name="address" placeholder="آدرس" required>
     <button type="submit" class="btn">ثبت سفارش</button>
 </form>
 {% endblock %}
