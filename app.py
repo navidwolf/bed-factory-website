@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, Response, session, redirect, 
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'  # حتما تنظیم شود
+app.secret_key = 'your-secret-key'  # حتماً تنظیم شود
 
 SITE_META = {
     'site_name': 'Bed Factory Co.',
@@ -16,7 +16,7 @@ SITE_META = {
 def inject_now():
     return {'now': datetime.now()}
 
-# محصولات (8 محصول)
+# ===== محصولات =====
 products_dict = {
     1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
     2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
@@ -28,7 +28,6 @@ products_dict = {
     8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
 }
 
-# Helper برای آماده سازی لیست محصولات با URL تصاویر
 def get_products_list():
     products = []
     for pid, p in products_dict.items():
@@ -57,7 +56,6 @@ def product_detail(id):
     prod['image'] = url_for('static', filename=f'images/{product["image"]}')
     return render_template('product_detail.html', meta=SITE_META, product=prod)
 
-# ===== Add to Cart =====
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     if product_id not in products_dict:
@@ -67,7 +65,6 @@ def add_to_cart(product_id):
     session['cart'] = cart
     return redirect(url_for('cart'))
 
-# ===== Cart Page =====
 @app.route('/cart')
 def cart():
     cart_items = []
@@ -85,7 +82,6 @@ def cart():
     total_price = sum(item['total'] for item in cart_items)
     return render_template('cart.html', meta=SITE_META, cart=cart_items, total_price=total_price)
 
-# ===== Checkout =====
 @app.route('/checkout', methods=['GET','POST'])
 def checkout():
     if session.get('cart'):
@@ -95,12 +91,10 @@ def checkout():
         return render_template('checkout.html', meta=SITE_META)
     return redirect(url_for('cart'))
 
-# ===== Contact =====
 @app.route('/contact')
 def contact():
     return render_template('contact.html', meta=SITE_META)
 
-# ===== Sitemap =====
 @app.route('/sitemap.xml')
 def sitemap():
     pages = []
