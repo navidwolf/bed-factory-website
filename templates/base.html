@@ -3,49 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Meta -->
     <title>{% block title %}{{ meta.site_name }}{% endblock %}</title>
-    <meta name="description" content="{{ meta.description }}">
-    <meta name="keywords" content="تخت خواب, کارخانه, مبلمان, سرویس خواب, محصولات چوبی">
-    <meta name="author" content="{{ meta.site_name }}">
-
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="{{ meta.site_name }}">
-    <meta property="og:description" content="{{ meta.description }}">
-    <meta property="og:image" content="{{ url_for('static', filename='images/cover.jpg') }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.url }}">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">خانه</a></li>
-                <li><a href="{{ url_for('products') }}">محصولات</a></li>
-                <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">خانه</a></li>
+            <li><a href="{{ url_for('products') }}">محصولات</a></li>
+            <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
+            <li><a href="{{ url_for('cart') }}">سبد خرید</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <!-- Main Content -->
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<main>
+    {% block content %}{% endblock %}
+</main>
 
-    <!-- Footer -->
-    <footer>
-        <p>© {{ now.year }} کلیه حقوق محفوظ است - {{ meta.site_name }}</p>
-        <p>📍 {{ meta.address }} | 📞 {{ meta.phone }} | ✉️ {{ meta.email }}</p>
-    </footer>
-
-    <!-- Scripts -->
-    <script src=
+<footer>
+    <p>&copy; {{ now.year }} {{ meta.site_name }}. همه حقوق محفوظ است.</p>
+</footer>
+</body>
+</html>

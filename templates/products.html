@@ -11,7 +11,6 @@
         <h2>{{ product.title }}</h2>
         <p>{{ product.desc }}</p>
         <p>{{ product.full_desc }}</p>
-        <!-- دکمه افزودن به سبد خرید -->
         <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
     </div>
     {% endfor %}

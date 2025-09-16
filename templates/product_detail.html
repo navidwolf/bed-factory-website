@@ -5,8 +5,9 @@
 <h1 class="page-title">{{ product.title }}</h1>
 
 <img src="{{ product.image }}" alt="{{ product.title }}" class="product-detail-img">
-
 <p class="product-desc">{{ product.full_desc }}</p>
-<p>قیمت: {{ product.price }} تومان</p>
+<p><strong>قیمت:</strong> {{ product.price | int | string }} تومان</p>
+
 <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
+<a href="{{ url_for('products') }}" class="btn">بازگشت به محصولات</a>
 {% endblock %}

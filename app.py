@@ -1,8 +1,8 @@
-from flask import Flask, render_template, url_for, Response, session, redirect
+from flask import Flask, render_template, url_for, Response, session, redirect, request
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
+app.secret_key = 'your-secret-key'  # حتما تنظیم شود
 
 SITE_META = {
     'site_name': 'Bed Factory Co.',
@@ -16,7 +16,7 @@ SITE_META = {
 def inject_now():
     return {'now': datetime.now()}
 
-# محصولات (۸ محصول مثال)
+# محصولات (8 محصول)
 products_dict = {
     1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
     2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
@@ -24,29 +24,28 @@ products_dict = {
     4: {'title': 'تخت خواب مدل نیوشا', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
     5: {'title': 'تخت خواب مدل ماهور', 'image': 'product5.webp','excerpt':'راحت و مدرن','desc':'ابعاد استاندارد و قابل تنظیم','full_desc':'تخت خواب مدل ماهور با طراحی مدرن و راحتی بالا','price': 2900000},
     6: {'title': 'تخت خواب مدل یکتا', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000},
-    7: {'title': 'تخت خواب مدل سولینا', 'image': 'product7.webp', 'excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
-    8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp', 'excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
+    7: {'title': 'تخت خواب مدل سولینا', 'image': 'product7.webp','excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
+    8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
 }
 
-@app.route('/')
-def index():
+# Helper برای آماده سازی لیست محصولات با URL تصاویر
+def get_products_list():
     products = []
     for pid, p in products_dict.items():
         prod = p.copy()
         prod['id'] = pid
         prod['image'] = url_for('static', filename=f'images/{p["image"]}')
         products.append(prod)
-    return render_template('index.html', meta=SITE_META, products=products)
+    return products
+
+# ===== Routes =====
+@app.route('/')
+def index():
+    return render_template('index.html', meta=SITE_META, products=get_products_list())
 
 @app.route('/products')
 def products():
-    products = []
-    for pid, p in products_dict.items():
-        prod = p.copy()
-        prod['id'] = pid
-        prod['image'] = url_for('static', filename=f'images/{p["image"]}')
-        products.append(prod)
-    return render_template('products.html', meta=SITE_META, products=products)
+    return render_template('products.html', meta=SITE_META, products=get_products_list())
 
 @app.route('/product/<int:id>')
 def product_detail(id):
@@ -61,6 +60,8 @@ def product_detail(id):
 # ===== Add to Cart =====
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
+    if product_id not in products_dict:
+        return "محصول یافت نشد", 404
     cart = session.get('cart', {})
     cart[product_id] = cart.get(product_id, 0) + 1
     session['cart'] = cart
@@ -84,6 +85,7 @@ def cart():
     total_price = sum(item['total'] for item in cart_items)
     return render_template('cart.html', meta=SITE_META, cart=cart_items, total_price=total_price)
 
+# ===== Checkout =====
 @app.route('/checkout', methods=['GET','POST'])
 def checkout():
     if session.get('cart'):
@@ -93,10 +95,12 @@ def checkout():
         return render_template('checkout.html', meta=SITE_META)
     return redirect(url_for('cart'))
 
+# ===== Contact =====
 @app.route('/contact')
 def contact():
     return render_template('contact.html', meta=SITE_META)
 
+# ===== Sitemap =====
 @app.route('/sitemap.xml')
 def sitemap():
     pages = []

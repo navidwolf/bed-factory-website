@@ -10,7 +10,6 @@
         <img src="{{ p.image }}" alt="{{ p.title }}">
         <h3>{{ p.title }}</h3>
         <p>{{ p.excerpt }}</p>
-        <!-- دکمه افزودن به سبد خرید -->
         <a href="{{ url_for('add_to_cart', product_id=p.id) }}" class="btn">افزودن به سبد خرید</a>
     </div>
     {% endfor %}
