@@ -1,18 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}محصولات — {{ meta.site_name }}{% endblock %}
-
 {% block content %}
-<h1 class="page-title">محصولات ما</h1>
-
-<div class="products-container">
+<h2>محصولات</h2>
+<div class="products-grid">
     {% for product in products %}
-    <div class="product-card">
-        <img src="{{ product.image }}" alt="{{ product.title }}">
-        <h2>{{ product.title }}</h2>
-        <p>{{ product.desc }}</p>
-        <p>{{ product.full_desc }}</p>
-        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
+    <div class="product-card" data-id="{{ product.id }}">
+        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }} تومان</p>
+        <button class="add-to-cart-btn-ajax" data-id="{{ product.id }}">افزودن به سبد خرید</button>
     </div>
     {% endfor %}
 </div>
+
+<div id="cart-summary" style="margin-top:20px;">
+    <strong>تعداد محصولات در سبد: <span id="cart-count">{{ session.get('cart', {})|length }}</span></strong>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}

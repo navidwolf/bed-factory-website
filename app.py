@@ -1,116 +1,82 @@
-from flask import Flask, render_template, url_for, Response, session, redirect, request
-from datetime import datetime
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'  # حتماً تنظیم شود
+app.secret_key = "your_secret_key"
 
-SITE_META = {
-    'site_name': 'Bed Factory Co.',
-    'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
-    'phone': '+98-21-12345678',
-    'address': 'تهران، خیابان نمونه، نبش کارخانه',
-    'email': 'info@bedfactory.example'
-}
+# نمونه محصولات
+products = [
+    {"id": 1, "name": "تخت خواب مدل 1", "price": 1500000, "description": "تخت دو نفره با کفی MDF", "image": "product1.webp"},
+    {"id": 2, "name": "تخت خواب مدل 2", "price": 1200000, "description": "تخت یک نفره با کشو", "image": "product2.webp"},
+    {"id": 3, "name": "تخت خواب مدل 3", "price": 2000000, "description": "تخت دو نفره لوکس با تاج چوبی", "image": "product3.webp"},
+    {"id": 4, "name": "تخت خواب مدل 4", "price": 1700000, "description": "تخت یک نفره ساده", "image": "product4.webp"},
+    {"id": 5, "name": "تخت خواب مدل 5", "price": 2500000, "description": "تخت دو نفره با کشو", "image": "product5.webp"},
+    {"id": 6, "name": "تخت خواب مدل 6", "price": 1800000, "description": "تخت یک نفره با تاج چوبی", "image": "product6.webp"},
+    {"id": 7, "name": "تخت خواب مدل 7", "price": 3000000, "description": "تخت دو نفره لوکس با MDF", "image": "product7.webp"},
+    {"id": 8, "name": "تخت خواب مدل 8", "price": 2200000, "description": "تخت دو نفره ساده", "image": "product8.webp"},
+]
 
-@app.context_processor
-def inject_now():
-    return {'now': datetime.now()}
-
-# ===== محصولات =====
-products_dict = {
-    1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
-    2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
-    3: {'title': 'تخت خواب مدل پارمیس', 'image': 'product3.webp','excerpt':'چوب با کیفیت، راحت','desc':'ابعاد مختلف و طراحی زیبا','full_desc':'تخت خواب مدل پارمیس با طراحی مدرن و راحتی عالی','price': 2800000},
-    4: {'title': 'تخت خواب مدل نیوشا', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
-    5: {'title': 'تخت خواب مدل ماهور', 'image': 'product5.webp','excerpt':'راحت و مدرن','desc':'ابعاد استاندارد و قابل تنظیم','full_desc':'تخت خواب مدل ماهور با طراحی مدرن و راحتی بالا','price': 2900000},
-    6: {'title': 'تخت خواب مدل یکتا', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000},
-    7: {'title': 'تخت خواب مدل سولینا', 'image': 'product7.webp','excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
-    8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
-}
-
-def get_products_list():
-    products = []
-    for pid, p in products_dict.items():
-        prod = p.copy()
-        prod['id'] = pid
-        prod['image'] = url_for('static', filename=f'images/{p["image"]}')
-        products.append(prod)
-    return products
-
-# ===== Routes =====
 @app.route('/')
-def index():
-    return render_template('index.html', meta=SITE_META, products=get_products_list())
+def home():
+    return render_template('index.html')
 
 @app.route('/products')
-def products():
-    return render_template('products.html', meta=SITE_META, products=get_products_list())
-
-@app.route('/product/<int:id>')
-def product_detail(id):
-    product = products_dict.get(id)
-    if not product:
-        return "محصول یافت نشد", 404
-    prod = product.copy()
-    prod['id'] = id
-    prod['image'] = url_for('static', filename=f'images/{product["image"]}')
-    return render_template('product_detail.html', meta=SITE_META, product=prod)
-
-@app.route('/add_to_cart/<int:product_id>')
-def add_to_cart(product_id):
-    if product_id not in products_dict:
-        return "محصول یافت نشد", 404
-    cart = session.get('cart', {})
-    cart[product_id] = cart.get(product_id, 0) + 1
-    session['cart'] = cart
-    return redirect(url_for('cart'))
+def products_page():
+    return render_template('products.html', products=products)
 
 @app.route('/cart')
-def cart():
-    cart_items = []
+def cart_page():
     cart = session.get('cart', {})
-    for pid, qty in cart.items():
-        product = products_dict.get(pid)
-        if product:
-            cart_items.append({
-                'id': pid,
-                'title': product['title'],
-                'price': product['price'],
-                'quantity': qty,
-                'total': product['price'] * qty
-            })
-    total_price = sum(item['total'] for item in cart_items)
-    return render_template('cart.html', meta=SITE_META, cart=cart_items, total_price=total_price)
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    return render_template('cart.html', cart=cart, total=total)
 
-@app.route('/checkout', methods=['GET','POST'])
+@app.route('/add_to_cart_ajax/<int:product_id>', methods=['POST'])
+def add_to_cart_ajax(product_id):
+    product = next((p for p in products if p["id"] == product_id), None)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    cart = session.get('cart', {})
+    if str(product_id) in cart:
+        cart[str(product_id)]['quantity'] += 1
+    else:
+        cart[str(product_id)] = {
+            "name": product['name'],
+            "price": product['price'],
+            "description": product['description'],
+            "image": product['image'],
+            "quantity": 1
+        }
+
+    session['cart'] = cart
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    total_items = sum(item['quantity'] for item in cart.values())
+    return jsonify({"cart": cart, "total": total, "total_items": total_items})
+
+@app.route('/update_cart_ajax', methods=['POST'])
+def update_cart_ajax():
+    data = request.get_json()
+    product_id = str(data.get("product_id"))
+    action = data.get("action")
+    
+    cart = session.get('cart', {})
+    if product_id in cart:
+        if action == "increase":
+            cart[product_id]['quantity'] += 1
+        elif action == "decrease":
+            cart[product_id]['quantity'] -= 1
+            if cart[product_id]['quantity'] <= 0:
+                cart.pop(product_id)
+        elif action == "remove":
+            cart.pop(product_id)
+    session['cart'] = cart
+
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    total_items = sum(item['quantity'] for item in cart.values())
+    return jsonify(cart=cart, total=total, total_items=total_items)
+
+@app.route('/checkout')
 def checkout():
-    if session.get('cart'):
-        if request.method=='POST':
-            session.pop('cart')
-            return "<h2>سفارش شما ثبت شد. ممنون!</h2>"
-        return render_template('checkout.html', meta=SITE_META)
-    return redirect(url_for('cart'))
+    return render_template('checkout.html')
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html', meta=SITE_META)
-
-@app.route('/sitemap.xml')
-def sitemap():
-    pages = []
-    today = datetime.now().date().isoformat()
-    for page in ['index','products','contact']:
-        pages.append({'loc': url_for(page,_external=True),'lastmod':today})
-    for pid in products_dict.keys():
-        pages.append({'loc': url_for('product_detail',id=pid,_external=True),'lastmod':today})
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for p in pages:
-        xml.append('<url>')
-        xml.append(f"<loc>{p['loc']}</loc>")
-        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
-        xml.append('</url>')
-    xml.append('</urlset>')
-    return Response('\n'.join(xml), mimetype='application/xml')
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
