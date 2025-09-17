@@ -1,19 +1,12 @@
 {% extends 'base.html' %}
+
 {% block title %}خانه — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-
-<!-- Hero Section -->
 <section class="hero">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="کارخانه تخت خواب">
-    <div>
-        <h1>کارخانه تولید تخت خواب ایرانیان</h1>
-        <p>
-            تولید انواع تخت خواب با کیفیت بالا، طراحی مدرن و کلاسیک،
-            استفاده از چوب با دوام و راحتی بی‌نظیر برای آرامش شما.
-        </p>
-        <a href="{{ url_for('products') }}" class="btn">مشاهده محصولات ما</a>
-    </div>
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image">
+    <h1>به {{ meta.site_name }} خوش آمدید!</h1>
+    <p>بهترین تخت‌ها و مبلمان راحتی را پیدا کنید.</p>
+    <a href="{{ url_for('products') }}" class="btn">مشاهده محصولات</a>
 </section>
-
 {% endblock %}
