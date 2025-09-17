@@ -2,37 +2,32 @@
 {% block title %}سبد خرید — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 class="page-title">سبد خرید شما</h1>
+<h1 style="text-align:center; margin-bottom:20px;">سبد خرید شما</h1>
 
-{% if cart %}
-<table style="width:100%; border-collapse: collapse;">
+{% if items %}
+<table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
     <thead>
-        <tr>
-            <th style="border:1px solid #ddd; padding:8px;">محصول</th>
-            <th style="border:1px solid #ddd; padding:8px;">تعداد</th>
-            <th style="border:1px solid #ddd; padding:8px;">قیمت واحد</th>
-            <th style="border:1px solid #ddd; padding:8px;">جمع</th>
+        <tr style="background:#f1f1f1;">
+            <th style="padding:10px; border:1px solid #ddd;">محصول</th>
+            <th style="padding:10px; border:1px solid #ddd;">تعداد</th>
+            <th style="padding:10px; border:1px solid #ddd;">قیمت واحد</th>
+            <th style="padding:10px; border:1px solid #ddd;">قیمت کل</th>
         </tr>
     </thead>
     <tbody>
-        {% for item in cart %}
+        {% for item in items %}
         <tr>
-            <td style="border:1px solid #ddd; padding:8px;">{{ item.title }}</td>
-            <td style="border:1px solid #ddd; padding:8px;">{{ item.quantity }}</td>
-            <td style="border:1px solid #ddd; padding:8px;">{{ item.price | int | string }} تومان</td>
-            <td style="border:1px solid #ddd; padding:8px;">{{ item.total | int | string }} تومان</td>
+            <td style="padding:10px; border:1px solid #ddd;">{{ item.product.title }}</td>
+            <td style="padding:10px; border:1px solid #ddd;">{{ item.qty }}</td>
+            <td style="padding:10px; border:1px solid #ddd;">{{ "{:,}".format(item.product.price) }} تومان</td>
+            <td style="padding:10px; border:1px solid #ddd;">{{ "{:,}".format(item.subtotal) }} تومان</td>
         </tr>
         {% endfor %}
-        <tr>
-            <td colspan="3" style="text-align:right; padding:8px; font-weight:bold;">مجموع</td>
-            <td style="border:1px solid #ddd; padding:8px; font-weight:bold;">{{ total_price | int | string }} تومان</td>
-        </tr>
     </tbody>
 </table>
 
-<a href="{{ url_for('checkout') }}" class="btn" style="margin-top:15px;">ادامه به پرداخت</a>
-
+<p style="font-size:1.1rem; font-weight:bold; text-align:right;">جمع کل: {{ "{:,}".format(total) }} تومان</p>
 {% else %}
-<p>سبد خرید شما خالی است.</p>
+<p style="text-align:center;">سبد خرید شما خالی است.</p>
 {% endif %}
 {% endblock %}
