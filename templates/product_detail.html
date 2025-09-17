@@ -2,34 +2,12 @@
 {% block title %}{{ product.title }} — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 style="margin-bottom:20px;">{{ product.title }}</h1>
+<h1 class="page-title">{{ product.title }}</h1>
 
-<img src="{{ product.image }}" alt="{{ product.title }}" style="width:100%; max-width:400px; height:auto; border-radius:6px; display:block; margin-bottom:15px;">
+<img src="{{ product.image }}" alt="{{ product.title }}" class="product-detail-img">
+<p class="product-desc">{{ product.full_desc }}</p>
+<p><strong>قیمت:</strong> {{ product.price | int | string }} تومان</p>
 
-<p style="font-size:1rem; color:#333;">{{ product.full_desc }}</p>
-
-<form action="{{ url_for('add_to_cart') }}" method="post" style="margin-top:20px;">
-    <input type="hidden" name="product_id" value="{{ product.id }}">
-    <button type="submit" class="btn">افزودن به سبد خرید</button>
-</form>
-
-<a href="{{ url_for('products_page') }}" class="btn" style="margin-top:15px; display:inline-block;">بازگشت به محصولات</a>
-
-<!-- JSON-LD -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Product",
-  "name": "{{ product.title | e }}",
-  "image": ["{{ product.image }}"],
-  "description": "{{ product.full_desc | e }}",
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "IRR",
-    "price": "{{ product.price }}",
-    "availability": "https://schema.org/InStock",
-    "url": "{{ request.url }}"
-  }
-}
-</script>
+<a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
+<a href="{{ url_for('products') }}" class="btn">بازگشت به محصولات</a>
 {% endblock %}

@@ -4,28 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ meta.site_name }}{% endblock %}</title>
-    <meta name="description" content="{{ meta.description }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">خانه</a></li>
-                <li><a href="{{ url_for('products_page') }}">محصولات</a></li>
-                <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
-                <li><a href="{{ url_for('cart') }}">سبد خرید</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">خانه</a></li>
+            <li><a href="{{ url_for('products') }}">محصولات</a></li>
+            <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
+            <li><a href="{{ url_for('cart') }}">سبد خرید</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<main>
+    {% block content %}{% endblock %}
+</main>
 
-    <footer>
-        <p>&copy; {{ now.year }} {{ meta.site_name }}</p>
-        <p>{{ meta.address }} | تلفن: {{ meta.phone }} | ایمیل: {{ meta.email }}</p>
-    </footer>
+<footer>
+    <p>&copy; {{ now.year }} {{ meta.site_name }}. همه حقوق محفوظ است.</p>
+</footer>
 </body>
 </html>

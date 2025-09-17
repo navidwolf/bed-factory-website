@@ -1,105 +1,116 @@
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, render_template, url_for, Response, session, redirect, request
+from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # برای session (سبد خرید)
+app.secret_key = 'your-secret-key'  # حتماً تنظیم شود
 
-# ================== اطلاعات سایت ==================
-meta = {
-    "site_name": "کارخانه تخت خواب ایرانیان",
-    "address": "تهران، خیابان مثال، پلاک ۱۲۳",
-    "phone": "021-12345678",
-    "email": "info@example.com"
+SITE_META = {
+    'site_name': 'Bed Factory Co.',
+    'description': 'تولید کنندهٔ تخت‌خواب‌های با کیفیت — طراحی و ساخت در ایران.',
+    'phone': '+98-21-12345678',
+    'address': 'تهران، خیابان نمونه، نبش کارخانه',
+    'email': 'info@bedfactory.example'
 }
 
-# ================== محصولات ==================
-products = [
-    {
-        "id": 1,
-        "title": "تخت خواب مدل کلاسیک",
-        "excerpt": "تخت خواب چوبی کلاسیک با طراحی ساده",
-        "desc": "این تخت خواب مناسب دکوراسیون سنتی است.",
-        "full_desc": "تخت خواب کلاسیک ساخته‌شده از چوب مرغوب...",
-        "image": "/static/images/product1.webp"
-    },
-    {
-        "id": 2,
-        "title": "تخت خواب مدرن",
-        "excerpt": "طراحی مدرن با رنگ‌بندی متنوع",
-        "desc": "تخت خواب مناسب اتاق‌های مدرن و امروزی",
-        "full_desc": "این تخت خواب با طراحی مدرن و مینیمال...",
-        "image": "/static/images/product2.webp"
-    },
-    {
-        "id": 3,
-        "title": "تخت خواب سلطنتی",
-        "excerpt": "لوکس و شیک برای خانه‌های خاص",
-        "desc": "مناسب برای اتاق خواب‌های بزرگ",
-        "full_desc": "تخت خواب سلطنتی با تاج‌کاری زیبا...",
-        "image": "/static/images/product3.webp"
-    },
-    {
-        "id": 4,
-        "title": "تخت خواب نوجوان",
-        "excerpt": "مناسب برای نوجوانان با طراحی شاد",
-        "desc": "تخت خواب سبک و مقاوم",
-        "full_desc": "این تخت خواب با رنگ‌های متنوع برای نوجوانان...",
-        "image": "/static/images/product4.webp"
-    },
-    {
-        "id": 5,
-        "title": "تخت خواب دو نفره",
-        "excerpt": "ساده و شیک برای زوج‌ها",
-        "desc": "تخت خواب با ابعاد استاندارد دو نفره",
-        "full_desc": "این تخت خواب مقاوم و زیبا...",
-        "image": "/static/images/product5.webp"
-    },
-    {
-        "id": 6,
-        "title": "تخت خواب تاشو",
-        "excerpt": "صرفه‌جویی در فضا برای خانه‌های کوچک",
-        "desc": "تاشو و سبک با طراحی کاربردی",
-        "full_desc": "این تخت خواب قابلیت جمع شدن دارد...",
-        "image": "/static/images/product6.webp"
-    },
-    {
-        "id": 7,
-        "title": "تخت خواب طبی",
-        "excerpt": "مناسب برای سلامتی و راحتی خواب",
-        "desc": "دارای تشک طبی و اسکلت محکم",
-        "full_desc": "این تخت خواب برای افرادی که به سلامتی اهمیت می‌دهند...",
-        "image": "/static/images/product7.webp"
-    },
-    {
-        "id": 8,
-        "title": "تخت خواب مینیمال",
-        "excerpt": "طراحی ساده و شیک",
-        "desc": "مناسب برای دکوراسیون مدرن",
-        "full_desc": "این تخت خواب برای فضاهای کوچک و مینیمالیستی...",
-        "image": "/static/images/product8.webp"
-    }
-]
+@app.context_processor
+def inject_now():
+    return {'now': datetime.now()}
 
-# ================== مسیرها (Routes) ==================
+# ===== محصولات =====
+products_dict = {
+    1: {'title': 'تخت خواب مدل آریا', 'image': 'product1.webp','excerpt':'کلاف چوبی، راحتی بالا','desc':'کلاف چوبی استاندارد، ابعاد مختلف','full_desc':'تخت خواب مدل آریا با طراحی کلاسیک و راحتی بالا','price': 2500000},
+    2: {'title': 'تخت خواب مدل نیلا', 'image': 'product2.webp','excerpt':'مدرن و شیک','desc':'مناسب فضاهای مدرن، قابل سفارش','full_desc':'تخت خواب مدل نیلا با طراحی مدرن و شیک','price': 3000000},
+    3: {'title': 'تخت خواب مدل پارمیس', 'image': 'product3.webp','excerpt':'چوب با کیفیت، راحت','desc':'ابعاد مختلف و طراحی زیبا','full_desc':'تخت خواب مدل پارمیس با طراحی مدرن و راحتی عالی','price': 2800000},
+    4: {'title': 'تخت خواب مدل نیوشا', 'image': 'product4.webp','excerpt':'شیک و محکم','desc':'کلاف چوبی و قابلیت سفارش','full_desc':'تخت خواب مدل نیوشا با طراحی کلاسیک و رنگ‌بندی شیک','price': 3200000},
+    5: {'title': 'تخت خواب مدل ماهور', 'image': 'product5.webp','excerpt':'راحت و مدرن','desc':'ابعاد استاندارد و قابل تنظیم','full_desc':'تخت خواب مدل ماهور با طراحی مدرن و راحتی بالا','price': 2900000},
+    6: {'title': 'تخت خواب مدل یکتا', 'image': 'product6.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام و طراحی زیبا','full_desc':'تخت خواب مدل یکتا با طراحی شیک و راحت','price': 3500000},
+    7: {'title': 'تخت خواب مدل سولینا', 'image': 'product7.webp','excerpt':'راحت و شیک','desc':'ابعاد استاندارد','full_desc':'تخت خواب مدل سولینا با طراحی زیبا و راحت','price': 3100000},
+    8: {'title': 'تخت خواب مدل آرامیس', 'image': 'product8.webp','excerpt':'کیفیت عالی','desc':'چوب با دوام','full_desc':'تخت خواب مدل آرامیس با طراحی شیک و مقاوم','price': 3300000}
+}
 
-@app.route("/")
+def get_products_list():
+    products = []
+    for pid, p in products_dict.items():
+        prod = p.copy()
+        prod['id'] = pid
+        prod['image'] = url_for('static', filename=f'images/{p["image"]}')
+        products.append(prod)
+    return products
+
+# ===== Routes =====
+@app.route('/')
 def index():
-    return render_template("index.html", meta=meta)
+    return render_template('index.html', meta=SITE_META, products=get_products_list())
 
-@app.route("/products")
-def products_page():
-    return render_template("products.html", products=products, meta=meta)
+@app.route('/products')
+def products():
+    return render_template('products.html', meta=SITE_META, products=get_products_list())
 
-@app.route("/product/<int:product_id>")
-def product_detail(product_id):
-    product = next((p for p in products if p["id"] == product_id), None)
-    if product:
-        return render_template("product_detail.html", product=product, meta=meta)
-    return "محصول پیدا نشد", 404
+@app.route('/product/<int:id>')
+def product_detail(id):
+    product = products_dict.get(id)
+    if not product:
+        return "محصول یافت نشد", 404
+    prod = product.copy()
+    prod['id'] = id
+    prod['image'] = url_for('static', filename=f'images/{product["image"]}')
+    return render_template('product_detail.html', meta=SITE_META, product=prod)
 
-@app.route("/contact")
+@app.route('/add_to_cart/<int:product_id>')
+def add_to_cart(product_id):
+    if product_id not in products_dict:
+        return "محصول یافت نشد", 404
+    cart = session.get('cart', {})
+    cart[product_id] = cart.get(product_id, 0) + 1
+    session['cart'] = cart
+    return redirect(url_for('cart'))
+
+@app.route('/cart')
+def cart():
+    cart_items = []
+    cart = session.get('cart', {})
+    for pid, qty in cart.items():
+        product = products_dict.get(pid)
+        if product:
+            cart_items.append({
+                'id': pid,
+                'title': product['title'],
+                'price': product['price'],
+                'quantity': qty,
+                'total': product['price'] * qty
+            })
+    total_price = sum(item['total'] for item in cart_items)
+    return render_template('cart.html', meta=SITE_META, cart=cart_items, total_price=total_price)
+
+@app.route('/checkout', methods=['GET','POST'])
+def checkout():
+    if session.get('cart'):
+        if request.method=='POST':
+            session.pop('cart')
+            return "<h2>سفارش شما ثبت شد. ممنون!</h2>"
+        return render_template('checkout.html', meta=SITE_META)
+    return redirect(url_for('cart'))
+
+@app.route('/contact')
 def contact():
-    return render_template("contact.html", meta=meta)
+    return render_template('contact.html', meta=SITE_META)
 
-# ================== اجرای برنامه ==================
-if __name__ == "__main__":
+@app.route('/sitemap.xml')
+def sitemap():
+    pages = []
+    today = datetime.now().date().isoformat()
+    for page in ['index','products','contact']:
+        pages.append({'loc': url_for(page,_external=True),'lastmod':today})
+    for pid in products_dict.keys():
+        pages.append({'loc': url_for('product_detail',id=pid,_external=True),'lastmod':today})
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for p in pages:
+        xml.append('<url>')
+        xml.append(f"<loc>{p['loc']}</loc>")
+        xml.append(f"<lastmod>{p['lastmod']}</lastmod>")
+        xml.append('</url>')
+    xml.append('</urlset>')
+    return Response('\n'.join(xml), mimetype='application/xml')
+
+if __name__ == '__main__':
     app.run(debug=True)
