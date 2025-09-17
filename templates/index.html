@@ -2,29 +2,22 @@
 {% block title %}خانه — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 style="text-align:center; margin-bottom:30px;">کارخانه تولید تخت خواب ایرانیان</h1>
+<!-- بخش هرو -->
+<section class="hero" style="text-align:center; margin-bottom:30px;">
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="کارخانه تخت خواب" style="width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin-bottom:20px;">
+    <h1>کارخانه تولید تخت خواب ایرانیان</h1>
+    <p style="margin-top:10px;">ما تولیدکنندهٔ تخت خواب‌های با کیفیت، طراحی‌شده با بهترین متریال و ساخت ایران هستیم. محصولات ما ترکیبی از راحتی، دوام و زیبایی برای خانه شما هستند.</p>
+</section>
 
-<div class="hero" style="max-width:900px; margin:0 auto 40px auto;">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}"
-         alt="کارخانه تخت خواب"
-         style="width:100%; height:auto; border-radius:8px;">
-    <p style="margin-top:15px; font-size:1.1rem; line-height:1.8; text-align:justify;">
-        کارخانه تخت‌خواب ایرانیان با سال‌ها تجربه در طراحی و تولید انواع تخت‌خواب‌های مدرن و کلاسیک،
-        افتخار دارد محصولاتی با کیفیت ممتاز، طراحی زیبا و متناسب با سلیقه خانواده‌های ایرانی عرضه کند.
-    </p>
-</div>
-
-<h2 style="text-align:center; margin-bottom:20px;">محصولات ویژه</h2>
+<!-- محصولات ویژه -->
+<h2 style="text-align:center; margin-bottom:20px;">محصولات ویژه ما</h2>
 <div class="products" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;">
     {% for p in products %}
     <div class="product-card" style="border:1px solid #ddd; border-radius:8px; padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-between;">
-        <img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy" style="width:100%; height:200px; object-fit:cover; border-radius:4px;">
+        <img src="{{ p.image }}" alt="{{ p.title }}" style="width:100%; height:200px; object-fit:cover; border-radius:4px;">
         <h3 style="margin:10px 0 5px 0;">{{ p.title }}</h3>
         <p style="font-size:0.9rem; color:#555;">{{ p.excerpt }}</p>
-        <form action="{{ url_for('add_to_cart') }}" method="post" style="margin-top:auto;">
-            <input type="hidden" name="product_id" value="{{ p.id }}">
-            <button type="submit" class="btn" style="width:100%;">افزودن به سبد خرید</button>
-        </form>
+        <a href="{{ url_for('product_detail', id=p.id) }}" style="display:inline-block; margin-top:10px; padding:8px 12px; background:#007bff; color:white; text-align:center; border-radius:4px;">مشاهده جزئیات</a>
     </div>
     {% endfor %}
 </div>
