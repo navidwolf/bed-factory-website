@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
-
 {% block title %}محصولات — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h2>لیست محصولات</h2>
-<ul>
+<h1 class="page-title">محصولات ما</h1>
+
+<div class="products-container">
     {% for product in products %}
-    <li>
-        <strong>{{ product.name }}</strong> - {{ product.price }} تومان
-        <a href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد</a>
-    </li>
+    <div class="product-card">
+        <img src="{{ product.image }}" alt="{{ product.title }}">
+        <h2>{{ product.title }}</h2>
+        <p>{{ product.desc }}</p>
+        <p>{{ product.full_desc }}</p>
+        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
+    </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
