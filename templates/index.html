@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<!-- Hero Section -->
 <section class="hero">
     <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="کارخانه تخت خواب">
     <div>
@@ -12,23 +13,6 @@
             استفاده از چوب با دوام و راحتی بی‌نظیر برای آرامش شما.
         </p>
         <a href="{{ url_for('products') }}" class="btn">مشاهده محصولات ما</a>
-    </div>
-</section>
-
-<section class="intro-products">
-    <h2>محصولات ویژه ما</h2>
-    <div class="products-container">
-        {% for p in products[:4] %}
-        <div class="product-card">
-            <img src="{{ p.image }}" alt="{{ p.title }}">
-            <h3>{{ p.title }}</h3>
-            <p>{{ p.excerpt }}</p>
-            <a href="{{ url_for('add_to_cart', product_id=p.id) }}" class="btn">افزودن به سبد خرید</a>
-        </div>
-        {% endfor %}
-    </div>
-    <div style="text-align:center; margin-top:20px;">
-        <a href="{{ url_for('products') }}" class="btn">مشاهده همه محصولات</a>
     </div>
 </section>
 
