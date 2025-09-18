@@ -2,17 +2,18 @@
 {% block title %}محصولات{% endblock %}
 
 {% block content %}
-<div class="products-container">
+<div class="product-grid">
     {% for product in products %}
     <div class="product-card">
-        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
-        <h3>{{ product.name }}</h3>
-        <div class="price">{{ "{:,}".format(product.price) }} تومان</div>
-        <div class="rating">امتیاز: {{ product.rating }}</div>
         {% if product.tag %}
-        <span class="tag">{{ product.tag }}</span>
+        <div class="tag">{{ product.tag }}</div>
         {% endif %}
-        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="add-cart">افزودن به سبد</a>
+        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+        <h3>{{ product.name }}</h3>
+        <div class="rating">⭐ {{ product.rating }}</div>
+        <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
+        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
+        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
     </div>
     {% endfor %}
 </div>
