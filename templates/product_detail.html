@@ -1,11 +1,19 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="product-detail">
-    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
-    <h2>{{ product.name }}</h2>
-    <div class="price">{{ product.price | int | comma }} تومان</div>
-    <div class="rating">{% for i in range(product.rating|round(0, 'floor')) %}★{% endfor %}</div>
-    <p>توضیحات محصول اینجا قرار می‌گیرد.</p>
-    <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn-add-cart">افزودن به سبد</a>
-</section>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ product.name }}</h1>
+        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" style="width: 100%; max-width: 500px;">
+        <div class="price">{{ product.price | comma }} تومان</div>
+        <div class="rating">⭐ {{ product.rating }}</div>
+        <a class="btn" href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد خرید</a>
+        <a class="btn" href="{{ url_for('products_page') }}">بازگشت به محصولات</a>
+    </div>
+</body>
+</html>

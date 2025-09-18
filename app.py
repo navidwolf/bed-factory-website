@@ -3,6 +3,12 @@ from flask import Flask, render_template, redirect, url_for, session
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
+# فیلتر سفارشی برای جداکننده هزارگان
+def format_comma(value):
+    return "{:,}".format(value)
+
+app.jinja_env.filters['comma'] = format_comma
+
 # لیست محصولات (8 محصول)
 products = [
     {"id": 1, "name": "تخت یک نفره", "price": 1500000, "image": "product1.webp", "tag": "جدید", "rating": 4.5},
@@ -29,6 +35,8 @@ def products_page():
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
     product = next((p for p in products if p['id'] == product_id), None)
+    if not product:
+        return redirect(url_for('products_page'))
     return render_template("product_detail.html", product=product)
 
 # سبد خرید

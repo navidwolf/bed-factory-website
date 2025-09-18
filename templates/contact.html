@@ -1,15 +1,19 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="contact-page">
-    <h2>تماس با ما</h2>
-    <div class="contact-info">
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تماس با ما</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>تماس با ما</h1>
+        <p>برای تماس با ما می‌توانید از طریق ایمیل زیر اقدام کنید:</p>
+        <p>Email: info@example.com</p>
         <p>تلفن: 021-12345678</p>
-        <p>ایمیل: info@bedfactory.ir</p>
-        <p>آدرس: تهران، خیابان مثال</p>
+        <p>آدرس: تهران، خیابان نمونه</p>
+        <a class="btn" href="{{ url_for('index') }}">بازگشت به صفحه اصلی</a>
     </div>
-    <h3>تیم ما</h3>
-    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="Team" class="team-image">
-    <h3>مکان ما روی نقشه</h3>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-</section>
-{% endblock %}
+</body>
+</html>

@@ -1,30 +1,31 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="hero">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero">
-</section>
-
-<section class="products">
-    <h2>محصولات ما</h2>
-    <div class="product-grid">
-        {% for product in products %}
-        <div class="product-card">
-            <div class="product-image">
-                <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
-                {% if product.tag %}
-                    <span class="product-tag">{{ product.tag }}</span>
-                {% endif %}
-            </div>
-            <div class="product-info">
-                <h3>{{ product.name }}</h3>
-                <div class="price">{{ product.price | int | comma }} تومان</div>
-                <div class="rating">
-                    {% for i in range(product.rating|round(0, 'floor')) %}★{% endfor %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه اصلی</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>محصولات ما</h1>
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+                <div class="product-content">
+                    <h3>{{ product.name }}</h3>
+                    {% if product.tag %}
+                    <span class="tag">{{ product.tag }}</span>
+                    {% endif %}
+                    <div class="price">{{ product.price | comma }} تومان</div>
+                    <div class="rating">⭐ {{ product.rating }}</div>
+                    <a class="btn" href="{{ url_for('product_detail', product_id=product.id) }}">جزئیات</a>
+                    <a class="btn" href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد خرید</a>
                 </div>
-                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn-add-cart">افزودن به سبد</a>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</section>
-{% endblock %}
+</body>
+</html>
