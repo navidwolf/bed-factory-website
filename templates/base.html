@@ -3,49 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}وب سایت تخت خواب{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <title>{% block title %}وب‌سایت تخت خواب{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazir&display=swap">
 </head>
 <body>
-    <!-- هدر و منو -->
     <header>
-        <div class="header-container">
-            <div class="logo">
-                <a href="{{ url_for('index') }}">Bed Factory</a>
-            </div>
-            <nav>
-                <ul class="menu">
-                    <li><a href="{{ url_for('index') }}">خانه</a></li>
-                    <li><a href="{{ url_for('products_page') }}">محصولات</a></li>
-                    <li><a href="{{ url_for('cart') }}">سبد خرید</a></li>
-                    <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
-                    <li><a href="{{ url_for('checkout') }}">پرداخت</a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav class="navbar">
+            <a href="{{ url_for('index') }}">خانه</a>
+            <a href="{{ url_for('products_page') }}">محصولات</a>
+            <a href="{{ url_for('cart') }}">سبد خرید</a>
+            <a href="{{ url_for('contact') }}">تماس با ما</a>
+        </nav>
     </header>
-
-    <!-- محتوای صفحه -->
     <main>
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
-
-    <!-- فوتر -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-info">
-                <p>&copy; 2025 Bed Factory. تمامی حقوق محفوظ است.</p>
-                <p>آدرس: تهران، خیابان تخت خواب، شماره ۱۲۳</p>
-                <p>تلفن: 021-12345678</p>
-            </div>
-            <div class="footer-social">
-                <a href="#">اینستاگرام</a>
-                <a href="#">تلگرام</a>
-                <a href="#">واتساپ</a>
-            </div>
-        </div>
+        <p>تمامی حقوق © 2025 محفوظ است.</p>
     </footer>
 </body>
 </html>
