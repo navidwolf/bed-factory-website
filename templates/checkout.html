@@ -1,23 +1,29 @@
 {% extends "base.html" %}
-{% block title %}پرداخت{% endblock %}
+{% block title %}تسویه حساب{% endblock %}
+
 {% block content %}
-<h2>پرداخت</h2>
-{% if success %}
-<p class="success">سفارش شما با موفقیت ثبت شد. متشکریم {{ name }} 🌹</p>
-{% else %}
-{% if cart_items %}
-<h3>جمع کل: {{ "{:,.0f}".format(total) }} تومان</h3>
-<form method="post">
-    <label>نام:</label>
-    <input type="text" name="name" required>
-    <label>شماره تماس:</label>
-    <input type="tel" name="phone" required>
-    <label>آدرس:</label>
-    <textarea name="address" required></textarea>
-    <button type="submit" class="btn">ثبت سفارش</button>
-</form>
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
-{% endif %}
+<div class="checkout-container" style="max-width:900px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <h2>تسویه حساب</h2>
+    {% if cart_items %}
+        {% for item in cart_items %}
+        <div class="checkout-item" style="display:flex;justify-content:space-between;border-bottom:1px solid #ddd;padding:12px 0;">
+            <span>{{ item.name }}</span>
+            <span>{{ "{:,}".format(item.price) }} تومان</span>
+        </div>
+        {% endfor %}
+        <h3 style="margin-top:20px;">مجموع کل: {{ "{:,}".format(total) }} تومان</h3>
+        <form action="#" method="post" style="margin-top:20px;">
+            <label>نام و نام خانوادگی</label>
+            <input type="text" required>
+            <label>شماره تماس</label>
+            <input type="text" required>
+            <label>آدرس</label>
+            <textarea rows="4" required></textarea>
+            <button type="submit" class="btn btn-primary">ثبت سفارش</button>
+            <a href="{{ url_for('clear_cart') }}" class="btn btn-danger">خالی کردن سبد</a>
+        </form>
+    {% else %}
+        <p>سبد خرید شما خالی است. لطفاً ابتدا محصولی اضافه کنید.</p>
+    {% endif %}
+</div>
 {% endblock %}
