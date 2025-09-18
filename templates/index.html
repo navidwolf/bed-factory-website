@@ -1,28 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>محصولات ویژه</h2>
-<div class="products-grid">
-    {% for product in products %}
-    <div class="product-card">
-        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
-        {% if product.tag %}
-        <div class="tag">{{ product.tag }}</div>
-        {% endif %}
-        <h3>{{ product.name }}</h3>
-        <div class="price">
-            {{ product.price }} تومان
-            {% if product.old_price %}
-            <span class="old-price">{{ product.old_price }} تومان</span>
-            {% endif %}
+<section class="hero">
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image">
+</section>
+
+<section class="products-preview container">
+    <h2>محصولات ما</h2>
+    <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <div class="product-image">
+                <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+                {% if product.tag %}
+                    <span class="product-tag">{{ product.tag }}</span>
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h3><a href="{{ url_for('product_detail', id=product.id) }}">{{ product.name }}</a></h3>
+                <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
+                <p class="rating">
+                    {% for i in range(1,6) %}
+                        {% if i <= product.rating %}
+                            ★
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
         </div>
-        <div class="rating">{% for i in range(product.rating) %}★{% endfor %}</div>
-        <a class="btn" href="{{ url_for('product_detail', product_id=product.id) }}">مشاهده جزئیات</a>
-        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
-            <input type="number" name="quantity" value="1" min="1">
-            <button class="btn" type="submit">افزودن به سبد</button>
-        </form>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+</section>
 {% endblock %}

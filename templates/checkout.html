@@ -1,21 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>صفحه پرداخت</h2>
-{% if cart %}
-<form method="post">
-    <label>نام و نام خانوادگی</label>
-    <input type="text" name="name" required>
-    <label>ایمیل</label>
-    <input type="email" name="email" required>
-    <label>آدرس</label>
-    <textarea name="address" rows="4" required></textarea>
-    <label>تلفن</label>
-    <input type="tel" name="phone" required>
-    <button class="btn" type="submit">تکمیل خرید</button>
-</form>
-<div class="total">مجموع قابل پرداخت: {{ total }} تومان</div>
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
+<section class="checkout container">
+    <h2>پرداخت</h2>
+    {% if cart_items %}
+    <form method="POST">
+        <div class="form-group">
+            <label>نام و نام خانوادگی</label>
+            <input type="text" name="fullname" required>
+        </div>
+        <div class="form-group">
+            <label>ایمیل</label>
+            <input type="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label>آدرس</label>
+            <textarea name="address" required></textarea>
+        </div>
+        <p class="cart-total">مجموع قابل پرداخت: {{ "{:,}".format(total) }} تومان</p>
+        <button type="submit" class="btn-pay">پرداخت</button>
+    </form>
+    {% else %}
+    <p>سبد خرید خالی است.</p>
+    {% endif %}
+</section>
 {% endblock %}

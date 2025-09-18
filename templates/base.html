@@ -7,20 +7,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-<header>
-    <h1><a href="{{ url_for('index') }}">🏭 کارخانه تخت</a></h1>
-    <nav>
-        <a href="{{ url_for('index') }}">خانه</a>
-        <a href="{{ url_for('product_list') }}">فروشگاه</a>
-        <a href="{{ url_for('cart') }}">سبد خرید</a>
-        <a href="{{ url_for('checkout') }}">پرداخت</a>
-    </nav>
-</header>
-<div class="container">
-    {% block content %}{% endblock %}
-</div>
-<footer>
-    <p>© 2025 کارخانه تخت. همه حقوق محفوظ است.</p>
-</footer>
+    <header>
+        <div class="container">
+            <h1><a href="{{ url_for('index') }}">🏭 کارخانه تخت</a></h1>
+            <nav>
+                <a href="{{ url_for('index') }}">خانه</a>
+                <a href="{{ url_for('products_page') }}">فروشگاه</a>
+                <a href="{{ url_for('contact') }}">تماس با ما</a>
+                <a href="{{ url_for('cart') }}">سبد خرید</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 کارخانه تخت</p>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
