@@ -2,26 +2,25 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}کارخانه تخت{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏭 کارخانه تخت</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 <header>
-    <h1><a href="{{ url_for('home') }}">🏭 کارخانه تخت</a></h1>
+    <h1><a href="{{ url_for('index') }}">🏭 کارخانه تخت</a></h1>
     <nav>
-        <a href="{{ url_for('home') }}">خانه</a>
-        <a href="{{ url_for('product_list') }}">محصولات</a>
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('product_list') }}">فروشگاه</a>
         <a href="{{ url_for('cart') }}">سبد خرید</a>
-        <a href="{{ url_for('contact') }}">تماس</a>
+        <a href="{{ url_for('checkout') }}">پرداخت</a>
     </nav>
 </header>
-
-<main>
+<div class="container">
     {% block content %}{% endblock %}
-</main>
-
+</div>
 <footer>
-    <p>© 2025 کارخانه تخت - همه حقوق محفوظ است</p>
+    <p>© 2025 کارخانه تخت. همه حقوق محفوظ است.</p>
 </footer>
 </body>
 </html>
