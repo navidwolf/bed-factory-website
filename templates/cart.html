@@ -1,29 +1,35 @@
 {% extends "base.html" %}
 {% block title %}سبد خرید{% endblock %}
 {% block content %}
-<h2>سبد خرید</h2>
-{% if cart_items %}
-<table class="cart-table">
-    <tr>
-        <th>محصول</th>
-        <th>تعداد</th>
-        <th>قیمت واحد</th>
-        <th>جمع</th>
-        <th>حذف</th>
-    </tr>
-    {% for item in cart_items %}
-    <tr>
-        <td>{{ item.product.name }}</td>
-        <td>{{ item.qty }}</td>
-        <td>{{ "{:,.0f}".format(item.product.price) }} تومان</td>
-        <td>{{ "{:,.0f}".format(item.subtotal) }} تومان</td>
-        <td><a href="{{ url_for('remove_from_cart', product_id=item.product.id) }}" class="btn">X</a></td>
-    </tr>
-    {% endfor %}
-</table>
-<h3>جمع کل: {{ "{:,.0f}".format(total) }} تومان</h3>
-<a href="{{ url_for('checkout') }}" class="btn">ادامه به پرداخت</a>
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
+<div class="page-container">
+    <div class="cart-wrapper">
+        <h2>سبد خرید شما</h2>
+        {% if cart_items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>محصول</th>
+                    <th>تعداد</th>
+                    <th>قیمت</th>
+                    <th>حذف</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.qty }}</td>
+                    <td>{{ "{:,.0f}".format(item.subtotal) }} تومان</td>
+                    <td><a href="{{ url_for('remove_from_cart', product_id=item.product.id) }}" class="btn">حذف</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p><strong>جمع کل: </strong>{{ "{:,.0f}".format(total) }} تومان</p>
+        <a href="{{ url_for('checkout') }}" class="btn">ادامه به پرداخت</a>
+        {% else %}
+        <p>سبد خرید شما خالی است.</p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

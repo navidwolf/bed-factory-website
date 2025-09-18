@@ -1,3 +1,4 @@
+/* ==== Body & General ==== */
 body {
     font-family: tahoma, sans-serif;
     margin: 0;
@@ -20,13 +21,22 @@ header nav a {
     text-decoration: none;
 }
 
+/* ==== Page Container ==== */
+.page-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
 /* ==== Product Grid ==== */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
-    padding: 20px;
+    padding: 20px 0;
 }
+
+/* ==== Product Card ==== */
 .product-card {
     background: #fff;
     padding: 15px;
@@ -37,17 +47,22 @@ header nav a {
     align-items: center;
     text-align: center;
     height: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 .product-card img {
     width: 100%;
-    height: 200px;      /* ارتفاع ثابت */
-    object-fit: cover;  /* برش متناسب */
+    height: 200px;
+    object-fit: cover;
     border-radius: 10px;
 }
 .product-card h3 {
     font-size: 16px;
     margin: 10px 0;
-    min-height: 40px;   /* ارتفاع ثابت برای عنوان */
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,7 +71,7 @@ header nav a {
     margin: 5px 0;
     font-weight: bold;
     color: #c00;
-    min-height: 25px;   /* ارتفاع یکنواخت قیمت */
+    min-height: 25px;
 }
 .old {
     text-decoration: line-through;
@@ -64,7 +79,7 @@ header nav a {
     margin-left: 5px;
 }
 .product-card .btn {
-    margin-top: auto;   /* دکمه در انتهای کارت */
+    margin-top: auto;
 }
 
 /* ==== Buttons ==== */
@@ -81,40 +96,14 @@ header nav a {
     background: #218838;
 }
 
-/* ==== Cart Table ==== */
-.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+/* ==== Headings ==== */
+h2 {
+    margin: 30px 0 15px;
+    font-size: 22px;
+    border-bottom: 2px solid #28a745;
+    display: inline-block;
+    padding-bottom: 5px;
 }
-.cart-table th, .cart-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
-.cart-table th {
-    background: #f4f4f4;
-}
-
-/* ==== Checkout Form ==== */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 400px;
-}
-form input, form textarea {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-.success {
-    background: #d4edda;
-    color: #155724;
-    padding: 10px;
-    border-radius: 5px;
-}
-
 
 /* ==== Product Detail Page ==== */
 .product-detail {
@@ -160,4 +149,55 @@ form input, form textarea {
 }
 .detail-info p {
     margin: 10px 0 20px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* ==== Related Products Section ==== */
+.product-detail h3 {
+    margin: 30px 0 15px;
+    font-size: 18px;
+}
+
+/* ==== Cart Table ==== */
+.cart-wrapper, .checkout-wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+.cart-table th, .cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+.cart-table th {
+    background: #f4f4f4;
+}
+
+/* ==== Checkout Form ==== */
+.checkout-wrapper {
+    max-width: 600px;
+    margin: auto;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+form input, form textarea {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.success {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
 }

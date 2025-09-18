@@ -1,44 +1,67 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # حتماً توی حالت واقعی تغییرش بده
+app.secret_key = "secret123"
 
-# دیتای محصولات
+# محصولات نمونه
 products = [
-    {"id": 1, "name": "تشک طبی مدل A", "price": 2500000, "old_price": 2800000, "image": "product1.webp"},
-    {"id": 2, "name": "تخت خواب دو نفره مدل B", "price": 4800000, "old_price": 5200000, "image": "product2.webp"},
-    {"id": 3, "name": "کالای خواب لوکس مدل C", "price": 3500000, "old_price": 3900000, "image": "product3.webp"},
-    {"id": 4, "name": "تشک فنری مدل D", "price": 1800000, "old_price": 2000000, "image": "product4.webp"},
-    {"id": 5, "name": "تخت یک نفره مدل E", "price": 2200000, "old_price": 2500000, "image": "product5.webp"},
-    {"id": 6, "name": "سرویس خواب مدل F", "price": 5600000, "old_price": 6000000, "image": "product6.webp"},
-    {"id": 7, "name": "تشک طبی فنری مدل G", "price": 2700000, "old_price": 3000000, "image": "product7.webp"},
-    {"id": 8, "name": "کالای خواب ارگونومیک مدل H", "price": 3900000, "old_price": 4200000, "image": "product8.webp"},
+    {"id": 1, "name": "تشک رویال", "image": "product1.webp", "price": 3500000, "old_price": 4000000, "discount": 12, "is_new": False, "rating": 5, "description":"تشک راحت و بادوام"},
+    {"id": 2, "name": "بالش طبی", "image": "product2.webp", "price": 500000, "old_price": 600000, "discount": 15, "is_new": False, "rating": 4, "description":"بالش طبی با حفظ ستون فقرات"},
+    {"id": 3, "name": "پتو نرم", "image": "product3.webp", "price": 750000, "old_price": 900000, "discount": 17, "is_new": False, "rating": 5, "description":"پتو نرم و سبک برای خواب راحت"},
+    {"id": 4, "name": "تشک کودک", "image": "product4.webp", "price": 2500000, "old_price": 2800000, "discount": 11, "is_new": True, "rating": 4, "description":"تشک کودک با بهترین مواد"},
+    {"id": 5, "name": "کوسن تزئینی", "image": "product5.webp", "price": 350000, "old_price": 400000, "discount": 12, "is_new": True, "rating": 3, "description":"کوسن زیبا و نرم برای دکوراسیون"},
+    {"id": 6, "name": "روبالشی", "image": "product6.webp", "price": 180000, "old_price": 200000, "discount": 10, "is_new": False, "rating": 4, "description":"روبالشی ضد حساسیت"},
+    {"id": 7, "name": "ملحفه", "image": "product7.webp", "price": 900000, "old_price": 1100000, "discount": 18, "is_new": False, "rating": 5, "description":"ملحفه نرم و لطیف"},
+    {"id": 8, "name": "تشک دونفره", "image": "product8.webp", "price": 5000000, "old_price": 5500000, "discount": 9, "is_new": True, "rating": 5, "description":"تشک دو نفره راحت و شیک"}
 ]
 
+# سبد خرید در session
+def get_cart():
+    return session.get("cart", {})
+
+def save_cart(cart):
+    session["cart"] = cart
+
+# صفحه اصلی
 @app.route("/")
-def home():
+def index():
     return render_template("index.html", products=products)
 
+# لیست همه محصولات
 @app.route("/products")
 def product_list():
     return render_template("products.html", products=products)
 
+# جزئیات محصول
 @app.route("/product/<int:product_id>")
 def product_detail(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
+    if not product:
+        return "محصول یافت نشد", 404
     return render_template("product_detail.html", product=product, products=products)
 
-@app.route("/add-to-cart/<int:product_id>")
+# افزودن به سبد خرید
+@app.route("/add_to_cart/<int:product_id>")
 def add_to_cart(product_id):
-    cart = session.get("cart", {})
+    cart = get_cart()
     cart[str(product_id)] = cart.get(str(product_id), 0) + 1
-    session["cart"] = cart
+    save_cart(cart)
+    return redirect(request.referrer or url_for("index"))
+
+# حذف از سبد خرید
+@app.route("/remove_from_cart/<int:product_id>")
+def remove_from_cart(product_id):
+    cart = get_cart()
+    cart.pop(str(product_id), None)
+    save_cart(cart)
     return redirect(url_for("cart"))
 
+# صفحه سبد خرید
 @app.route("/cart")
 def cart():
-    cart = session.get("cart", {})
-    cart_items, total = [], 0
+    cart = get_cart()
+    cart_items = []
+    total = 0
     for pid, qty in cart.items():
         product = next((p for p in products if p["id"] == int(pid)), None)
         if product:
@@ -47,37 +70,15 @@ def cart():
             cart_items.append({"product": product, "qty": qty, "subtotal": subtotal})
     return render_template("cart.html", cart_items=cart_items, total=total)
 
-@app.route("/remove-from-cart/<int:product_id>")
-def remove_from_cart(product_id):
-    cart = session.get("cart", {})
-    if str(product_id) in cart:
-        del cart[str(product_id)]
-    session["cart"] = cart
-    return redirect(url_for("cart"))
-
-@app.route("/checkout", methods=["GET", "POST"])
+# صفحه پرداخت
+@app.route("/checkout", methods=["GET","POST"])
 def checkout():
-    cart = session.get("cart", {})
-    cart_items, total = [], 0
-    for pid, qty in cart.items():
-        product = next((p for p in products if p["id"] == int(pid)), None)
-        if product:
-            subtotal = product["price"] * qty
-            total += subtotal
-            cart_items.append({"product": product, "qty": qty, "subtotal": subtotal})
-
+    success = False
     if request.method == "POST":
-        name = request.form["name"]
-        phone = request.form["phone"]
-        address = request.form["address"]
+        # اینجا می‌توان اطلاعات پرداخت را پردازش کرد
         session.pop("cart", None)
-        return render_template("checkout.html", success=True, name=name)
-
-    return render_template("checkout.html", cart_items=cart_items, total=total, success=False)
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
-
+        success = True
+    return render_template("checkout.html", success=success)
+    
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,23 +1,19 @@
 {% extends "base.html" %}
 {% block title %}پرداخت{% endblock %}
 {% block content %}
-<h2>پرداخت</h2>
-{% if success %}
-<p class="success">سفارش شما با موفقیت ثبت شد. متشکریم {{ name }} 🌹</p>
-{% else %}
-{% if cart_items %}
-<h3>جمع کل: {{ "{:,.0f}".format(total) }} تومان</h3>
-<form method="post">
-    <label>نام:</label>
-    <input type="text" name="name" required>
-    <label>شماره تماس:</label>
-    <input type="tel" name="phone" required>
-    <label>آدرس:</label>
-    <textarea name="address" required></textarea>
-    <button type="submit" class="btn">ثبت سفارش</button>
-</form>
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
-{% endif %}
+<div class="page-container">
+    <div class="checkout-wrapper">
+        <h2>اطلاعات پرداخت</h2>
+        {% if success %}
+        <p class="success">خرید شما با موفقیت ثبت شد. با شما تماس خواهیم گرفت.</p>
+        {% endif %}
+        <form method="POST">
+            <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+            <input type="email" name="email" placeholder="ایمیل" required>
+            <input type="text" name="address" placeholder="آدرس" required>
+            <input type="text" name="phone" placeholder="شماره تماس" required>
+            <button type="submit" class="btn">تکمیل خرید</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
