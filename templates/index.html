@@ -2,30 +2,44 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه اصلی</title>
+    <title>خانه</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>محصولات ما</h1>
-        <div class="product-grid">
-            {% for product in products %}
-            <div class="product-card">
-                <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
-                <div class="product-content">
-                    <h3>{{ product.name }}</h3>
-                    {% if product.tag %}
-                    <span class="tag">{{ product.tag }}</span>
-                    {% endif %}
-                    <div class="price">{{ product.price | comma }} تومان</div>
-                    <div class="rating">⭐ {{ product.rating }}</div>
-                    <a class="btn" href="{{ url_for('product_detail', product_id=product.id) }}">جزئیات</a>
-                    <a class="btn" href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد خرید</a>
-                </div>
-            </div>
-            {% endfor %}
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
+    <div class="menu">
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">سبد خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
+    </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+    بهترین تخت‌ها برای خانه شما
+</div>
+
+<!-- Products -->
+<div class="products-container">
+    {% for product in products %}
+    <div class="product-card">
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+        <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            {% if product.tag %}
+            <div class="tag">{{ product.tag }}</div>
+            {% endif %}
+            <div class="price">{{ product.price | comma }} تومان</div>
+            <a class="btn" href="{{ url_for('product_detail', product_id=product.id) }}">جزئیات</a>
+            <a class="btn" href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد</a>
         </div>
     </div>
+    {% endfor %}
+</div>
+
 </body>
 </html>

@@ -2,18 +2,37 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product.name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>{{ product.name }}</h1>
-        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" style="width: 100%; max-width: 500px;">
-        <div class="price">{{ product.price | comma }} تومان</div>
-        <div class="rating">⭐ {{ product.rating }}</div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
+    <div class="menu">
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">سبد خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
+    </div>
+</div>
+
+<div class="product-detail" style="padding: 40px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;">
+    <div>
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}" style="width:300px; border-radius:10px;">
+    </div>
+    <div>
+        <h2>{{ product.name }}</h2>
+        <p>قیمت: {{ product.price | comma }} تومان</p>
+        {% if product.tag %}
+        <p>برچسب: {{ product.tag }}</p>
+        {% endif %}
+        <p>امتیاز: {{ product.rating }} / 5</p>
         <a class="btn" href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد خرید</a>
         <a class="btn" href="{{ url_for('products_page') }}">بازگشت به محصولات</a>
     </div>
+</div>
+
 </body>
 </html>

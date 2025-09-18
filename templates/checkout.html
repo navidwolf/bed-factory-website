@@ -1,20 +1,37 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="checkout-page">
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>صفحه پرداخت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
+    <div class="menu">
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">سبد خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
+    </div>
+</div>
+
+<div style="padding:40px; max-width:600px; margin:auto;">
     <h2>پرداخت</h2>
     {% if cart_items %}
-    <form action="#" method="POST">
-        <label>نام و نام خانوادگی:</label>
-        <input type="text" name="fullname" required>
-        <label>آدرس:</label>
-        <input type="text" name="address" required>
-        <label>تلفن:</label>
-        <input type="text" name="phone" required>
-        <h3>جمع کل: {{ total | int | comma }} تومان</h3>
+    <p>جمع کل: {{ total | comma }} تومان</p>
+    <form>
+        <input type="text" placeholder="نام و نام خانوادگی">
+        <input type="text" placeholder="آدرس">
+        <input type="text" placeholder="شماره کارت">
         <button type="submit">پرداخت</button>
     </form>
     {% else %}
     <p>سبد خرید شما خالی است.</p>
     {% endif %}
-</section>
-{% endblock %}
+</div>
+
+</body>
+</html>

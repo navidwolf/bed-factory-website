@@ -1,13 +1,13 @@
 from flask import Flask, render_template, redirect, url_for, session
+from jinja2 import Environment
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
-# فیلتر سفارشی برای جداکننده هزارگان
-def format_comma(value):
+# ثبت فیلتر comma برای قیمت
+def comma(value):
     return "{:,}".format(value)
-
-app.jinja_env.filters['comma'] = format_comma
+app.jinja_env.filters['comma'] = comma
 
 # لیست محصولات (8 محصول)
 products = [
@@ -21,32 +21,26 @@ products = [
     {"id": 8, "name": "تخت راحتی", "price": 2000000, "image": "product8.webp", "tag": "جدید", "rating": 4.0}
 ]
 
-# صفحه اصلی
+# صفحات
 @app.route('/')
 def index():
     return render_template("index.html", products=products)
 
-# صفحه محصولات
 @app.route('/products')
 def products_page():
     return render_template("products.html", products=products)
 
-# صفحه جزئیات محصول
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
     product = next((p for p in products if p['id'] == product_id), None)
-    if not product:
-        return redirect(url_for('products_page'))
     return render_template("product_detail.html", product=product)
 
-# سبد خرید
 @app.route('/cart')
 def cart():
     cart_items = session.get('cart', [])
     total = sum(item['price'] for item in cart_items)
     return render_template("cart.html", cart_items=cart_items, total=total)
 
-# افزودن به سبد خرید
 @app.route('/add-to-cart/<int:product_id>')
 def add_to_cart(product_id):
     product = next((p for p in products if p['id'] == product_id), None)
@@ -56,14 +50,12 @@ def add_to_cart(product_id):
         session['cart'] = cart_items
     return redirect(url_for('cart'))
 
-# صفحه پرداخت
 @app.route('/checkout')
 def checkout():
     cart_items = session.get('cart', [])
     total = sum(item['price'] for item in cart_items)
     return render_template("checkout.html", cart_items=cart_items, total=total)
 
-# صفحه تماس با ما
 @app.route('/contact')
 def contact():
     return render_template("contact.html")

@@ -2,31 +2,46 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سبد خرید</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>سبد خرید شما</h1>
-        {% if cart_items %}
-        <div class="product-grid">
-            {% for item in cart_items %}
-            <div class="product-card">
-                <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
-                <div class="product-content">
-                    <h3>{{ item.name }}</h3>
-                    <div class="price">{{ item.price | comma }} تومان</div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <h2>جمع کل: {{ total | comma }} تومان</h2>
-        <a class="btn" href="{{ url_for('checkout') }}">پرداخت</a>
-        {% else %}
-        <p>سبد خرید شما خالی است.</p>
-        {% endif %}
-        <a class="btn" href="{{ url_for('products_page') }}">بازگشت به محصولات</a>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
+    <div class="menu">
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">سبد خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
     </div>
+</div>
+
+<div style="padding:40px;">
+    <h2>سبد خرید شما</h2>
+    {% if cart_items %}
+    <table class="cart-table">
+        <tr>
+            <th>نام محصول</th>
+            <th>قیمت</th>
+        </tr>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.price | comma }} تومان</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>جمع کل</th>
+            <th>{{ total | comma }} تومان</th>
+        </tr>
+    </table>
+    <a class="btn" href="{{ url_for('checkout') }}">ادامه به پرداخت</a>
+    {% else %}
+    <p>سبد خرید شما خالی است.</p>
+    {% endif %}
+</div>
+
 </body>
 </html>

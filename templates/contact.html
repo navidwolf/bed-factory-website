@@ -2,18 +2,31 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تماس با ما</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>تماس با ما</h1>
-        <p>برای تماس با ما می‌توانید از طریق ایمیل زیر اقدام کنید:</p>
-        <p>Email: info@example.com</p>
-        <p>تلفن: 021-12345678</p>
-        <p>آدرس: تهران، خیابان نمونه</p>
-        <a class="btn" href="{{ url_for('index') }}">بازگشت به صفحه اصلی</a>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
+    <div class="menu">
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">سبد خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
     </div>
+</div>
+
+<div class="contact-form">
+    <h2>فرم تماس با ما</h2>
+    <form>
+        <input type="text" placeholder="نام و نام خانوادگی">
+        <input type="email" placeholder="ایمیل">
+        <textarea placeholder="پیام شما"></textarea>
+        <button type="submit">ارسال</button>
+    </form>
+</div>
+
 </body>
 </html>
