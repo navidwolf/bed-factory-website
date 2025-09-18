@@ -1,47 +1,26 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <title>سبد خرید</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}سبد خرید{% endblock %}
 
-<!-- Navbar -->
-<div class="navbar">
-    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
-    <div class="menu">
-        <a href="{{ url_for('index') }}">خانه</a>
-        <a href="{{ url_for('products_page') }}">محصولات</a>
-        <a href="{{ url_for('cart') }}">سبد خرید</a>
-        <a href="{{ url_for('contact') }}">تماس با ما</a>
-    </div>
-</div>
-
-<div style="padding:40px;">
+{% block content %}
+<div class="cart-container" style="max-width:900px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
     <h2>سبد خرید شما</h2>
     {% if cart_items %}
-    <table class="cart-table">
-        <tr>
-            <th>نام محصول</th>
-            <th>قیمت</th>
-        </tr>
         {% for item in cart_items %}
-        <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.price | comma }} تومان</td>
-        </tr>
+        <div class="cart-item" style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:15px 0;">
+            <div style="display:flex;align-items:center;">
+                <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}" style="width:80px;margin-left:15px;border-radius:8px;">
+                <span>{{ item.name }}</span>
+            </div>
+            <span>{{ "{:,}".format(item.price) }} تومان</span>
+        </div>
         {% endfor %}
-        <tr>
-            <th>جمع کل</th>
-            <th>{{ total | comma }} تومان</th>
-        </tr>
-    </table>
-    <a class="btn" href="{{ url_for('checkout') }}">ادامه به پرداخت</a>
+        <div class="cart-summary" style="margin-top:25px;text-align:left;">
+            <h3>مجموع: {{ "{:,}".format(total) }} تومان</h3>
+            <a href="{{ url_for('checkout') }}" class="btn btn-primary">تسویه حساب</a>
+            <a href="{{ url_for('clear_cart') }}" class="btn btn-danger">خالی کردن سبد</a>
+        </div>
     {% else %}
-    <p>سبد خرید شما خالی است.</p>
+        <p>سبد خرید شما خالی است.</p>
     {% endif %}
 </div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,32 +1,11 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <title>تماس با ما</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}تماس با ما{% endblock %}
 
-<!-- Navbar -->
-<div class="navbar">
-    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
-    <div class="menu">
-        <a href="{{ url_for('index') }}">خانه</a>
-        <a href="{{ url_for('products_page') }}">محصولات</a>
-        <a href="{{ url_for('cart') }}">سبد خرید</a>
-        <a href="{{ url_for('contact') }}">تماس با ما</a>
-    </div>
+{% block content %}
+<div style="max-width:900px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <h2>تماس با ما</h2>
+    <p>برای اطلاعات بیشتر یا سفارش، با ما تماس بگیرید.</p>
+    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم ما" style="width:100%;border-radius:10px;margin:20px 0;">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." width="100%" height="350" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
 </div>
-
-<div class="contact-form">
-    <h2>فرم تماس با ما</h2>
-    <form>
-        <input type="text" placeholder="نام و نام خانوادگی">
-        <input type="email" placeholder="ایمیل">
-        <textarea placeholder="پیام شما"></textarea>
-        <button type="submit">ارسال</button>
-    </form>
-</div>
-
-</body>
-</html>
+{% endblock %}

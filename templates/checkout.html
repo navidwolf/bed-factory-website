@@ -1,37 +1,29 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <title>صفحه پرداخت</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}تسویه حساب{% endblock %}
 
-<!-- Navbar -->
-<div class="navbar">
-    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
-    <div class="menu">
-        <a href="{{ url_for('index') }}">خانه</a>
-        <a href="{{ url_for('products_page') }}">محصولات</a>
-        <a href="{{ url_for('cart') }}">سبد خرید</a>
-        <a href="{{ url_for('contact') }}">تماس با ما</a>
-    </div>
-</div>
-
-<div style="padding:40px; max-width:600px; margin:auto;">
-    <h2>پرداخت</h2>
+{% block content %}
+<div class="checkout-container" style="max-width:900px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <h2>تسویه حساب</h2>
     {% if cart_items %}
-    <p>جمع کل: {{ total | comma }} تومان</p>
-    <form>
-        <input type="text" placeholder="نام و نام خانوادگی">
-        <input type="text" placeholder="آدرس">
-        <input type="text" placeholder="شماره کارت">
-        <button type="submit">پرداخت</button>
-    </form>
+        {% for item in cart_items %}
+        <div class="checkout-item" style="display:flex;justify-content:space-between;border-bottom:1px solid #ddd;padding:12px 0;">
+            <span>{{ item.name }}</span>
+            <span>{{ "{:,}".format(item.price) }} تومان</span>
+        </div>
+        {% endfor %}
+        <h3 style="margin-top:20px;">مجموع کل: {{ "{:,}".format(total) }} تومان</h3>
+        <form action="#" method="post" style="margin-top:20px;">
+            <label>نام و نام خانوادگی</label>
+            <input type="text" required>
+            <label>شماره تماس</label>
+            <input type="text" required>
+            <label>آدرس</label>
+            <textarea rows="4" required></textarea>
+            <button type="submit" class="btn btn-primary">ثبت سفارش</button>
+            <a href="{{ url_for('clear_cart') }}" class="btn btn-danger">خالی کردن سبد</a>
+        </form>
     {% else %}
-    <p>سبد خرید شما خالی است.</p>
+        <p>سبد خرید شما خالی است. لطفاً ابتدا محصولی اضافه کنید.</p>
     {% endif %}
 </div>
-
-</body>
-</html>
+{% endblock %}
