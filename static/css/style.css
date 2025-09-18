@@ -114,3 +114,50 @@ form input, form textarea {
     padding: 10px;
     border-radius: 5px;
 }
+
+
+/* ==== Product Detail Page ==== */
+.product-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.detail-image {
+    flex: 1 1 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.detail-image img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.detail-info {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.detail-info h2 {
+    margin: 0 0 15px;
+    font-size: 20px;
+}
+.detail-info .price {
+    font-weight: bold;
+    color: #c00;
+    margin: 10px 0;
+}
+.detail-info .old {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 5px;
+}
+.detail-info p {
+    margin: 10px 0 20px;
+}

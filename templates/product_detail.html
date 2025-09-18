@@ -2,13 +2,16 @@
 {% block title %}{{ product.name }}{% endblock %}
 {% block content %}
 <div class="product-detail">
-    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
-    <div>
+    <div class="detail-image">
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+    </div>
+    <div class="detail-info">
         <h2>{{ product.name }}</h2>
         <p class="price">
             <span class="old">{{ "{:,.0f}".format(product.old_price) }} تومان</span>
             {{ "{:,.0f}".format(product.price) }} تومان
         </p>
+        <p>{{ product.description or "توضیحات محصول در دسترس نیست." }}</p>
         <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد خرید</a>
     </div>
 </div>
