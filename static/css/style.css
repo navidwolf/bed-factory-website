@@ -1,90 +1,75 @@
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Tahoma', sans-serif; line-height:1.6; color:#333; background:#fff; }
-header { background:#f8f8f8; padding:15px 20px; }
-header nav ul { display:flex; gap:20px; list-style:none; }
-header nav ul li a { text-decoration:none; color:#333; font-weight:bold; }
-main { padding:20px; }
-.page-title { text-align:center; margin-bottom:30px; }
-
-/* Hero */
-.hero { position:relative; margin-bottom:40px; border-radius:10px; overflow:hidden; }
-.hero img { width:100%; max-height:500px; object-fit:cover; display:block; }
-.hero div { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:white; background:rgba(0,0,0,0.4); padding:20px; border-radius:10px; text-align:center; }
-.hero h1 { font-size:2.5rem; margin-bottom:15px; }
-.hero p { font-size:1.2rem; max-width:600px; margin:auto; }
-
-/* Products */
-.products-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-.product-card { display:flex; flex-direction:column; justify-content:space-between; border:1px solid #ddd; padding:15px; border-radius:10px; background:#fff; height:100%; transition: transform 0.3s; }
-.product-card:hover { transform:scale(1.02); }
-.product-card img { width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:10px; }
-.product-card h2,h3 { margin:10px 0 5px 0; font-size:1.1rem; }
-.product-card p { font-size:0.9rem; color:#555; flex-grow:1; }
-.product-card .btn { margin-top:10px; display:inline-block; padding:8px 12px; background:#007bff; color:#fff; text-align:center; border-radius:4px; text-decoration:none; }
-
-/* Product Detail */
-.product-detail-img { width:100%; max-width:400px; height:auto; border-radius:6px; display:block; margin-bottom:15px; }
-.product-desc { font-size:1rem; color:#333; }
-
-/* Footer */
-footer { background:#f1f1f1; padding:20px; text-align:center; font-size:0.9rem; margin-top:40px; }
-footer p { margin:5px 0; }
-
-/* Media Queries */
-@media(max-width:768px){
-    header nav ul{ flex-direction:column; align-items:center; gap:10px; }
-    .products-container{ grid-template-columns:1fr; }
-    .hero h1 { font-size:2rem; }
-    .hero p { font-size:1rem; padding:15px; }
-}
-@media(max-width:480px){
-    body{ font-size:14px; } 
-    header{ padding:10px 15px; } 
-    .product-card{ padding:10px; }
-    .hero h1 { font-size:1.5rem; }
-    .hero p { font-size:0.9rem; padding:10px; }
-}
-/* ===== Contact Page ===== */
-.contact-info p {
-    font-size: 1rem;
-    margin-bottom: 10px;
+body {
+    font-family: tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
     color: #333;
+    direction: rtl;
+    text-align: right;
 }
-
-.contact-images {
+header, footer {
+    background: #444;
+    color: #fff;
+    padding: 15px;
+}
+header nav a {
+    margin: 0 10px;
+    color: #fff;
+    text-decoration: none;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+.product-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.product-card img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+.price {
+    color: #c00;
+    font-weight: bold;
+}
+.old {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 5px;
+}
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #28a745;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.cart-table {
     width: 100%;
-    max-width: 800px;
-    margin: 0 auto 30px auto;
+    border-collapse: collapse;
+    margin: 20px 0;
 }
-
-.contact-images img.team-img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-    display: block;
+.cart-table th, .cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
 }
-
-.contact-images iframe.map-frame {
-    width: 100%;
-    height: 400px;
-    border: 0;
-    border-radius: 8px;
-    display: block;
+.success {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
 }
-
-/* Media Queries برای موبایل */
-@media(max-width:768px){
-    .contact-images img.team-img,
-    .contact-images iframe.map-frame {
-        height: 300px;
-    }
-}
-
-@media(max-width:480px){
-    .contact-images img.team-img,
-    .contact-images iframe.map-frame {
-        height: 250px;
-    }
-    .contact-info p { font-size: 0.9rem; }
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
 }

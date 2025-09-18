@@ -1,19 +1,21 @@
-{% extends 'base.html' %}
-{% block title %}خانه — {{ meta.site_name }}{% endblock %}
-
+{% extends "base.html" %}
+{% block title %}خانه{% endblock %}
 {% block content %}
-
-<!-- Hero Section -->
-<section class="hero">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="کارخانه تخت خواب">
-    <div>
-        <h1>کارخانه تولید تخت خواب ایرانیان</h1>
-        <p>
-            تولید انواع تخت خواب با کیفیت بالا، طراحی مدرن و کلاسیک،
-            استفاده از چوب با دوام و راحتی بی‌نظیر برای آرامش شما.
-        </p>
-        <a href="{{ url_for('products') }}" class="btn">مشاهده محصولات ما</a>
+<h2>محصولات ویژه</h2>
+<div class="product-grid">
+    {% for product in products[:4] %}
+    <div class="product-card">
+        <a href="{{ url_for('product_detail', product_id=product.id) }}">
+            <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p class="price">
+                <span class="old">{{ "{:,.0f}".format(product.old_price) }} تومان</span>
+                {{ "{:,.0f}".format(product.price) }} تومان
+            </p>
+        </a>
+        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
     </div>
-</section>
-
+    {% endfor %}
+</div>
+<a href="{{ url_for('product_list') }}" class="btn">مشاهده همه محصولات</a>
 {% endblock %}

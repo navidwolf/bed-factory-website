@@ -1,13 +1,23 @@
-{% extends 'base.html' %}
-{% block title %}تکمیل سفارش — {{ meta.site_name }}{% endblock %}
-
+{% extends "base.html" %}
+{% block title %}پرداخت{% endblock %}
 {% block content %}
-<h1 class="page-title">تکمیل سفارش</h1>
-
+<h2>پرداخت</h2>
+{% if success %}
+<p class="success">سفارش شما با موفقیت ثبت شد. متشکریم {{ name }} 🌹</p>
+{% else %}
+{% if cart_items %}
+<h3>جمع کل: {{ "{:,.0f}".format(total) }} تومان</h3>
 <form method="post">
-    <p>اطلاعات خود را وارد کنید:</p>
-    <label>نام و نام خانوادگی:<br><input type="text" name="name" required></label><br><br>
-    <label>آدرس:<br><textarea name="address" required></textarea></label><br><br>
+    <label>نام:</label>
+    <input type="text" name="name" required>
+    <label>شماره تماس:</label>
+    <input type="tel" name="phone" required>
+    <label>آدرس:</label>
+    <textarea name="address" required></textarea>
     <button type="submit" class="btn">ثبت سفارش</button>
 </form>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
+{% endif %}
 {% endblock %}
