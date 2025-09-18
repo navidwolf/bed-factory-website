@@ -2,19 +2,21 @@
 {% block title %}محصولات{% endblock %}
 
 {% block content %}
-<div class="product-grid">
+<div class="products-container">
     {% for product in products %}
-    <div class="product-card">
-        {% if product.tag %}
-        <div class="tag">{{ product.tag }}</div>
-        {% endif %}
-        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
-        <h3>{{ product.name }}</h3>
-        <div class="rating">⭐ {{ product.rating }}</div>
-        <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
-        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
-        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
-    </div>
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                {% if product.tag %}
+                    <span class="tag">{{ product.tag }}</span>
+                {% endif %}
+                <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
+                <p>امتیاز: {{ product.rating }}/5</p>
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">جزئیات بیشتر</a>
+                <a href="{{ url_for('add_to_cart', product_id=product.id) }}">افزودن به سبد خرید</a>
+            </div>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
