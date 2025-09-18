@@ -1,11 +1,13 @@
-/* ==============================
-   عمومی
-============================== */
+/* ===============================
+   فونت و تنظیمات پایه برای کل سایت
+   =============================== */
 body {
+    font-family: 'Poppins', sans-serif;
     margin: 0;
-    font-family: 'Vazir', sans-serif;
-    background-color: #fdfdfd;
+    padding: 0;
+    background: #f9f9f9;
     color: #333;
+    line-height: 1.6;
 }
 
 a {
@@ -13,283 +15,195 @@ a {
     color: inherit;
 }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
-/* ==============================
+/* ===============================
+   کلاس‌های عمومی container و layout
+   =============================== */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.section {
+    padding: 60px 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ===============================
+   دکمه‌ها: نسخه حرفه‌ای و پیشرفته
+   =============================== */
+.button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.button::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.25);
+    display: block;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 1s;
+}
+
+.button:active::after {
+    transform: scale(3);
+    opacity: 1;
+    transition: 0s;
+}
+
+/* نوع 1: گرادیان آبی-بنفش */
+.button-primary {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 6px 15px rgba(38,65,238,0.4);
+}
+
+.button-primary:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(38,65,238,0.6);
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+/* نوع 2: گرادیان صورتی-نارنجی */
+.button-pink {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    box-shadow: 0 6px 15px rgba(255,65,108,0.4);
+}
+
+.button-pink:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(255,65,108,0.6);
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+}
+
+/* نوع 3: گرادیان سبز-آبی */
+.button-green {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    box-shadow: 0 6px 15px rgba(56,239,125,0.4);
+}
+
+.button-green:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(56,239,125,0.6);
+    background: linear-gradient(135deg, #38ef7d, #11998e);
+}
+
+/* نوع 4: دکمه کلاسیک با border */
+.button-outline {
+    background: transparent;
+    border: 2px solid #2575fc;
+    color: #2575fc;
+    box-shadow: none;
+    transition: all 0.4s ease;
+}
+
+.button-outline:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    color: #fff;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 18px rgba(38,65,238,0.5);
+}
+
+/* سایز دکمه‌ها */
+.button-small { padding: 8px 20px; font-size: 0.9rem; }
+.button-medium { padding: 12px 28px; font-size: 1rem; }
+.button-large { padding: 16px 36px; font-size: 1.1rem; }
+
+/* ===============================
+   افکت subtle text hover
+   =============================== */
+.button span {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.button:hover span {
+    color: #fff;
+}
+
+/* ===============================
+   مثال hover برای لینک‌ها و بخش‌های مهم
+   =============================== */
+a:hover {
+    color: #2575fc;
+    transition: color 0.3s ease;
+}
+
+/* ===============================
+   کلاس‌های responsive تصاویر و محصولات
+   =============================== */
+.product {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* ===============================
    هدر و منو
-============================== */
+   =============================== */
 header {
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 15px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
-}
-
-nav .logo {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #ff6f61;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-}
-
-nav ul li a {
-    font-size: 1em;
-    padding: 5px 10px;
-    transition: 0.3s;
-}
-
-nav ul li a:hover {
-    color: #ff4b3a;
-}
-
-/* ==============================
-   Hero Section
-============================== */
-.hero {
-    height: 400px;
-    background: url('../images/hero.webp') center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ===============================
+   بخش footer
+   =============================== */
+footer {
+    background: #222;
     color: #fff;
-    font-size: 2.5em;
-    font-weight: bold;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-/* ==============================
-   Intro / مقاله
-============================== */
-.intro-section {
-    padding: 60px 20px;
-    max-width: 900px;
-    margin: auto;
-    text-align: justify;
-    line-height: 2.2;
-}
-
-.intro-section h2 {
+    padding: 40px 0;
     text-align: center;
-    margin-bottom: 25px;
 }
 
-/* ==============================
-   محصولات
-============================== */
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    padding: 50px 0;
-}
-
-.product-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    overflow: hidden;
-    transition: transform 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.product-card .product-info {
-    padding: 15px;
-    flex: 1;
-}
-
-.product-card .product-info h3 {
-    margin: 0 0 10px;
-    font-size: 1.2em;
-    color: #333;
-}
-
-.product-card .product-info p {
-    margin: 5px 0;
-    font-size: 1em;
-    color: #555;
-}
-
-.product-card .product-info .price {
-    font-weight: bold;
-    color: #ff6f61;
-    margin-top: 10px;
-}
-
-.product-card .product-info .tag {
-    display: inline-block;
-    background: #ff6f61;
+footer a {
     color: #fff;
-    font-size: 0.8em;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-bottom: 5px;
 }
 
-/* ==============================
-   سبد خرید
-============================== */
-.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
+footer a:hover {
+    color: #2575fc;
 }
 
-.cart-table th, .cart-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.cart-total {
-    text-align: right;
-    font-size: 1.3em;
-    font-weight: bold;
-}
-
-/* ==============================
-   فرم ها
-============================== */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-input[type="text"], input[type="email"], textarea {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1em;
-}
-
-button {
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background-color: #ff6f61;
-    color: #fff;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background-color: #ff4b3a;
-}
-
-/* ==============================
-   تماس با ما
-============================== */
-.contact-page {
-    padding: 50px 20px;
-}
-
-.contact-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.contact-header h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
-}
-
-.contact-header p {
-    font-size: 1.2em;
-    color: #555;
-    line-height: 1.8;
-}
-
-.contact-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: space-between;
-    margin-bottom: 50px;
-}
-
-.contact-form, .contact-map {
-    flex: 1 1 45%;
-    min-width: 300px;
-}
-
-.contact-form h2, .contact-map h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.team-section {
-    text-align: center;
-}
-
-.team-section h2 {
-    font-size: 2.5em;
-    margin-bottom: 30px;
-}
-
-.team-card {
-    display: inline-block;
-    max-width: 400px;
-    text-align: center;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.team-card img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.team-card p {
-    font-size: 1.1em;
-    color: #555;
-    line-height: 1.6;
-}
-
-/* ==============================
-   ریسپانسیو
-============================== */
-@media (max-width: 900px) {
-    .contact-container {
-        flex-direction: column;
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .products {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
+/* ===============================
+   Media Queries برای ریسپانسیو
+   =============================== */
+@media (max-width: 768px) {
+    .container { width: 95%; padding: 10px 0; }
+    .button { width: 100%; text-align: center; margin-bottom: 10px; }
 }
