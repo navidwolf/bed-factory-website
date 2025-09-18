@@ -1,35 +1,31 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="cart container">
+<section class="cart-page">
     <h2>سبد خرید</h2>
     {% if cart_items %}
     <table>
         <thead>
             <tr>
                 <th>محصول</th>
-                <th>تعداد</th>
-                <th>قیمت واحد</th>
-                <th>مجموع</th>
-                <th>حذف</th>
+                <th>قیمت</th>
             </tr>
         </thead>
         <tbody>
             {% for item in cart_items %}
             <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ "{:,}".format(item.product.price) }} تومان</td>
-                <td>{{ "{:,}".format(item.total) }} تومان</td>
-                <td><a href="{{ url_for('remove_from_cart', id=item.product.id) }}">❌</a></td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price | int | comma }} تومان</td>
             </tr>
             {% endfor %}
+            <tr>
+                <td><strong>جمع کل</strong></td>
+                <td><strong>{{ total | int | comma }} تومان</strong></td>
+            </tr>
         </tbody>
     </table>
-    <p class="cart-total">مجموع کل: {{ "{:,}".format(total) }} تومان</p>
-    <a href="{{ url_for('checkout') }}" class="btn-checkout">پرداخت</a>
+    <a href="{{ url_for('checkout') }}" class="btn-checkout">ادامه پرداخت</a>
     {% else %}
-    <p>سبد خرید خالی است.</p>
+    <p>سبد خرید شما خالی است.</p>
     {% endif %}
 </section>
 {% endblock %}
