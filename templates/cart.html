@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% block title %}سبد خرید{% endblock %}
-
 {% block content %}
-<div class="cart-container" style="max-width:900px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-    <h2>سبد خرید شما</h2>
-    {% if cart_items %}
-        {% for item in cart_items %}
-        <div class="cart-item" style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:15px 0;">
-            <div style="display:flex;align-items:center;">
-                <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}" style="width:80px;margin-left:15px;border-radius:8px;">
-                <span>{{ item.name }}</span>
-            </div>
-            <span>{{ "{:,}".format(item.price) }} تومان</span>
-        </div>
-        {% endfor %}
-        <div class="cart-summary" style="margin-top:25px;text-align:left;">
-            <h3>مجموع: {{ "{:,}".format(total) }} تومان</h3>
-            <a href="{{ url_for('checkout') }}" class="btn btn-primary">تسویه حساب</a>
-            <a href="{{ url_for('clear_cart') }}" class="btn btn-danger">خالی کردن سبد</a>
-        </div>
-    {% else %}
-        <p>سبد خرید شما خالی است.</p>
-    {% endif %}
-</div>
+<h2>سبد خرید</h2>
+{% if cart_items %}
+<table class="cart-table">
+    <tr>
+        <th>محصول</th>
+        <th>تعداد</th>
+        <th>قیمت واحد</th>
+        <th>جمع</th>
+        <th>حذف</th>
+    </tr>
+    {% for item in cart_items %}
+    <tr>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.qty }}</td>
+        <td>{{ "{:,.0f}".format(item.product.price) }} تومان</td>
+        <td>{{ "{:,.0f}".format(item.subtotal) }} تومان</td>
+        <td><a href="{{ url_for('remove_from_cart', product_id=item.product.id) }}" class="btn">X</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<h3>جمع کل: {{ "{:,.0f}".format(total) }} تومان</h3>
+<a href="{{ url_for('checkout') }}" class="btn">ادامه به پرداخت</a>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
 {% endblock %}

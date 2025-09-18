@@ -2,27 +2,26 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - BedFactory</title>
+    <title>{% block title %}کارخانه تخت{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-
-<!-- Navbar -->
-<div class="navbar">
-    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
-    <div class="menu">
-        <a href="{{ url_for('index') }}">خانه</a>
-        <a href="{{ url_for('products_page') }}">محصولات</a>
+<header>
+    <h1><a href="{{ url_for('home') }}">🏭 کارخانه تخت</a></h1>
+    <nav>
+        <a href="{{ url_for('home') }}">خانه</a>
+        <a href="{{ url_for('product_list') }}">محصولات</a>
         <a href="{{ url_for('cart') }}">سبد خرید</a>
-        <a href="{{ url_for('contact') }}">تماس با ما</a>
-    </div>
-</div>
+        <a href="{{ url_for('contact') }}">تماس</a>
+    </nav>
+</header>
 
-{% block content %}{% endblock %}
+<main>
+    {% block content %}{% endblock %}
+</main>
 
 <footer>
-    <p>© 2024 BedFactory - تمامی حقوق محفوظ است.</p>
+    <p>© 2025 کارخانه تخت - همه حقوق محفوظ است</p>
 </footer>
-
 </body>
 </html>

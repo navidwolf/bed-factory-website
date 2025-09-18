@@ -1,11 +1,27 @@
-{% extends "base.html" %}
-{% block title %}تماس با ما{% endblock %}
+{% extends 'base.html' %}
+{% block title %}تماس با ما — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<div style="max-width:900px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-    <h2>تماس با ما</h2>
-    <p>برای اطلاعات بیشتر یا سفارش، با ما تماس بگیرید.</p>
-    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم ما" style="width:100%;border-radius:10px;margin:20px 0;">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." width="100%" height="350" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
+<h1 class="page-title">تماس با ما</h1>
+
+<div class="contact-info" style="text-align:center; margin-bottom:30px;">
+    <p><strong>آدرس کارخانه:</strong> {{ meta.address }}</p>
+    <p><strong>تلفن:</strong> {{ meta.phone }}</p>
+    <p><strong>ایمیل:</strong> {{ meta.email }}</p>
 </div>
+
+<!-- عکس تیم -->
+<div class="contact-images">
+    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه" class="team-img">
+</div>
+
+<!-- نقشه گوگل -->
+<div class="contact-images">
+    <iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed"
+            class="map-frame"
+            allowfullscreen
+            loading="lazy">
+    </iframe>
+</div>
+
 {% endblock %}

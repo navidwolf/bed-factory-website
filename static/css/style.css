@@ -1,106 +1,116 @@
 body {
-    font-family: "Vazirmatn", Tahoma, sans-serif;
+    font-family: tahoma, sans-serif;
     margin: 0;
     padding: 0;
+    background: #fafafa;
+    color: #333;
     direction: rtl;
-    background: #fdfdfd;
+    text-align: right;
 }
 
-/* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #2c3e50;
-    padding: 15px 30px;
-    color: white;
+/* ==== Header / Footer ==== */
+header, footer {
+    background: #444;
+    color: #fff;
+    padding: 15px;
 }
-.navbar .logo a {
-    color: white;
-    font-size: 1.4rem;
-    font-weight: bold;
+header nav a {
+    margin: 0 10px;
+    color: #fff;
     text-decoration: none;
 }
-.navbar .menu a {
-    color: white;
-    margin: 0 12px;
-    text-decoration: none;
-    font-weight: 500;
-}
-.navbar .menu a:hover {
-    color: #f39c12;
-}
 
-/* Hero */
-.hero {
-    background: url("../images/hero.webp") center/cover no-repeat;
-    color: white;
-    padding: 80px 20px;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-/* Product Grid */
+/* ==== Product Grid ==== */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    padding: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 .product-card {
-    background: white;
+    background: #fff;
     padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    position: relative;
+    height: 100%;
 }
 .product-card img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 200px;      /* ارتفاع ثابت */
+    object-fit: cover;  /* برش متناسب */
     border-radius: 10px;
 }
 .product-card h3 {
+    font-size: 16px;
     margin: 10px 0;
-    font-size: 1.2rem;
+    min-height: 40px;   /* ارتفاع ثابت برای عنوان */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .product-card .price {
+    margin: 5px 0;
     font-weight: bold;
-    margin-bottom: 10px;
+    color: #c00;
+    min-height: 25px;   /* ارتفاع یکنواخت قیمت */
 }
-.product-card .tag {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: #e67e22;
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-}
-.product-card .rating {
-    color: #f39c12;
-    margin-bottom: 8px;
+.old {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 5px;
 }
 .product-card .btn {
-    display: inline-block;
-    padding: 8px 16px;
-    background: #2c3e50;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-}
-.product-card .btn:hover {
-    background: #34495e;
+    margin-top: auto;   /* دکمه در انتهای کارت */
 }
 
-/* Footer */
-footer {
-    background: #2c3e50;
-    color: white;
+/* ==== Buttons ==== */
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #28a745;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.btn:hover {
+    background: #218838;
+}
+
+/* ==== Cart Table ==== */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+.cart-table th, .cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+}
+.cart-table th {
+    background: #f4f4f4;
+}
+
+/* ==== Checkout Form ==== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+}
+form input, form textarea {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.success {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
 }
