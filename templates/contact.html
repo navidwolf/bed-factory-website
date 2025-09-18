@@ -1,27 +1,59 @@
 {% extends 'base.html' %}
-{% block title %}تماس با ما — {{ meta.site_name }}{% endblock %}
 
 {% block content %}
-<h1 class="page-title">تماس با ما</h1>
+<section id="contact" class="contact-section">
+    <div class="container">
+        <h1>تماس با ما</h1>
+        <p>می‌توانید از طریق فرم زیر با ما در تماس باشید:</p>
+        <form action="/contact" method="POST">
+            <div class="form-group">
+                <label for="name">نام و نام خانوادگی</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">ایمیل</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">پیام شما</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit">ارسال</button>
+        </form>
+    </div>
+</section>
 
-<div class="contact-info" style="text-align:center; margin-bottom:30px;">
-    <p><strong>آدرس کارخانه:</strong> {{ meta.address }}</p>
-    <p><strong>تلفن:</strong> {{ meta.phone }}</p>
-    <p><strong>ایمیل:</strong> {{ meta.email }}</p>
-</div>
-
-<!-- عکس تیم -->
-<div class="contact-images">
-    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه" class="team-img">
-</div>
-
-<!-- نقشه گوگل -->
-<div class="contact-images">
-    <iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed"
-            class="map-frame"
-            allowfullscreen
-            loading="lazy">
+<!-- بخش نقشه -->
+<section id="contact-map" style="margin-top: 40px;">
+  <h2 style="text-align: center; margin-bottom: 20px;">موقعیت ما</h2>
+  <div class="map-container">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d24724.78410362356!2d52.5368738294947!3d29.60138478689655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1758235453663!5m2!1sen!2s"
+      style="border:0; width:100%; height:450px; border-radius:8px;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
     </iframe>
-</div>
+  </div>
+</section>
+
+<!-- CSS ریسپانسیو -->
+<style>
+.map-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* موبایل */
+@media (max-width: 768px) {
+  .map-container iframe {
+    height: 300px;
+  }
+}
+</style>
 
 {% endblock %}
