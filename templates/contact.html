@@ -1,27 +1,25 @@
-{% extends 'base.html' %}
-{% block title %}تماس با ما — {{ meta.site_name }}{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1 class="page-title">تماس با ما</h1>
-
-<div class="contact-info" style="text-align:center; margin-bottom:30px;">
-    <p><strong>آدرس کارخانه:</strong> {{ meta.address }}</p>
-    <p><strong>تلفن:</strong> {{ meta.phone }}</p>
-    <p><strong>ایمیل:</strong> {{ meta.email }}</p>
+<h2>تماس با ما</h2>
+<div class="contact-container">
+    <div class="contact-info">
+        <h3>تیم ما</h3>
+        <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه" style="width:100%; border-radius:10px;">
+        <p>برای ارتباط با تیم ما می‌توانید از فرم زیر استفاده کنید:</p>
+        <form method="post">
+            <label>نام و نام خانوادگی</label>
+            <input type="text" name="name" required>
+            <label>ایمیل</label>
+            <input type="email" name="email" required>
+            <label>پیام</label>
+            <textarea name="message" rows="4" required></textarea>
+            <button class="btn" type="submit">ارسال پیام</button>
+        </form>
+    </div>
+    <div class="map-container">
+        <h3>مکان ما روی نقشه</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." allowfullscreen="" loading="lazy"></iframe>
+    </div>
 </div>
-
-<!-- عکس تیم -->
-<div class="contact-images">
-    <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه" class="team-img">
-</div>
-
-<!-- نقشه گوگل -->
-<div class="contact-images">
-    <iframe src="https://www.google.com/maps?q={{ meta.address | urlencode }}&output=embed"
-            class="map-frame"
-            allowfullscreen
-            loading="lazy">
-    </iframe>
-</div>
-
 {% endblock %}
