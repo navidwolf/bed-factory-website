@@ -3,25 +3,46 @@
 
 {% block content %}
 <div class="contact-page">
-    <section class="contact-form-section" style="max-width:800px;margin:auto;padding:50px 20px;">
-        <h2>تماس با ما</h2>
-        <form action="#" method="post">
-            <input type="text" name="name" placeholder="نام شما" required>
-            <input type="email" name="email" placeholder="ایمیل شما" required>
-            <textarea name="message" placeholder="پیام شما" rows="6" required></textarea>
-            <button type="submit">ارسال پیام</button>
-        </form>
-    </section>
+    <div class="contact-header">
+        <h1>تماس با ما</h1>
+        <p>ما آماده پاسخگویی به سوالات شما هستیم. لطفاً فرم زیر را پر کنید یا با ما از طریق اطلاعات تماس ارتباط برقرار کنید.</p>
+    </div>
 
-    <section class="map-section" style="max-width:900px;margin:50px auto;">
-        <h2>موقعیت ما روی نقشه</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!... (لینک نقشه گوگل خودت) ..." allowfullscreen="" loading="lazy"></iframe>
-    </section>
+    <div class="contact-container">
+        <!-- فرم تماس -->
+        <div class="contact-form">
+            <h2>ارسال پیام</h2>
+            <form action="#" method="post">
+                <label for="name">نام شما</label>
+                <input type="text" id="name" name="name" placeholder="نام خود را وارد کنید" required>
 
-    <section class="team-section" style="max-width:900px;margin:50px auto;text-align:center;">
+                <label for="email">ایمیل</label>
+                <input type="email" id="email" name="email" placeholder="ایمیل خود را وارد کنید" required>
+
+                <label for="message">پیام</label>
+                <textarea id="message" name="message" placeholder="پیام خود را بنویسید" rows="6" required></textarea>
+
+                <button type="submit">ارسال پیام</button>
+            </form>
+        </div>
+
+        <!-- نقشه گوگل -->
+        <div class="contact-map">
+            <h2>موقعیت ما</h2>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.123456789!2d51.421234567!3d35.689567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8f1234567890ab%3A0xcdef1234567890ab!2sBed%20Factory!5e0!3m2!1sen!2sus!4v1695000000000!5m2!1sen!2sus" 
+                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- بخش تیم -->
+    <div class="team-section">
         <h2>تیم ما</h2>
-        <p>تیم حرفه‌ای ما با سال‌ها تجربه در تولید تخت خواب باکیفیت، آماده ارائه بهترین خدمات به شماست.</p>
-        <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم ما">
-    </section>
+        <div class="team-card">
+            <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم ما">
+            <p>تیم حرفه‌ای ما با سال‌ها تجربه در تولید تخت‌های با کیفیت آماده است تا بهترین خدمات را به شما ارائه دهد.</p>
+        </div>
+    </div>
 </div>
 {% endblock %}
