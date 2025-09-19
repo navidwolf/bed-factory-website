@@ -3,12 +3,20 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
-# داده‌های نمونه
+# ---------------------
+# داده‌های نمونه محصولات
+# ---------------------
 products = [
-    {"id": 1, "name": "تخت خواب 1", "price": 1000},
-    {"id": 2, "name": "تخت خواب 2", "price": 1500},
-    {"id": 3, "name": "تخت خواب 3", "price": 2000},
+    {"id": 1, "name": "تخت خواب 1", "price": 1000, "image": "product1.webp", "rating": 4.5, "tag": "جدید"},
+    {"id": 2, "name": "تخت خواب 2", "price": 1500, "image": "product2.webp", "rating": 4.0, "tag": None},
+    {"id": 3, "name": "تخت خواب 3", "price": 2000, "image": "product3.webp", "rating": 5.0, "tag": "پرفروش"},
+    {"id": 4, "name": "تخت خواب 4", "price": 2500, "image": "product4.webp", "rating": 4.2, "tag": None},
+    {"id": 5, "name": "تخت خواب 5", "price": 3000, "image": "product5.webp", "rating": 3.9, "tag": None},
+    {"id": 6, "name": "تخت خواب 6", "price": 3500, "image": "product6.webp", "rating": 4.8, "tag": "جدید"},
+    {"id": 7, "name": "تخت خواب 7", "price": 4000, "image": "product7.webp", "rating": 4.6, "tag": None},
+    {"id": 8, "name": "تخت خواب 8", "price": 4500, "image": "product8.webp", "rating": 5.0, "tag": "پرفروش"},
 ]
+
 messages = []
 
 # ---------------------
@@ -46,6 +54,14 @@ def contact():
     return render_template("contact.html")
 
 # ---------------------
+# مسیر افزودن به سبد خرید
+# ---------------------
+@app.route("/add_to_cart/<int:product_id>")
+def add_to_cart(product_id):
+    # منطق افزودن به سبد خرید (فعلاً فقط ریدایرکت به cart)
+    return redirect(url_for("cart"))
+
+# ---------------------
 # پنل ادمین
 # ---------------------
 @app.route("/admin/login", methods=["GET", "POST"])
@@ -77,8 +93,11 @@ def admin_add_product():
         return redirect(url_for("admin_login"))
     name = request.form.get("name")
     price = request.form.get("price")
+    image = request.form.get("image")  # نام فایل تصویر
+    rating = float(request.form.get("rating", 0))
+    tag = request.form.get("tag")
     new_id = max([p["id"] for p in products]) + 1 if products else 1
-    products.append({"id": new_id, "name": name, "price": price})
+    products.append({"id": new_id, "name": name, "price": int(price), "image": image, "rating": rating, "tag": tag})
     return redirect(url_for("admin_dashboard"))
 
 @app.route("/admin/product/delete/<int:product_id>")
