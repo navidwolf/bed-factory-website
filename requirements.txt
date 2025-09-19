@@ -3,3 +3,6 @@ gunicorn
 requests
 Jinja2
 Flask-SQLAlchemy
+Werkzeug
+itsdangerous
+click
