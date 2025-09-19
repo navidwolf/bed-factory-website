@@ -1,69 +1,70 @@
-from flask import Flask, render_template_string
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin
+from flask import Flask, render_template, redirect, url_for, session
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'supersecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = "supersecretkey"
 
-db = SQLAlchemy(app)
-login_manager = LoginManager(app)
+# لیست محصولات (8 محصول)
+products = [
+    {"id": 1, "name": "تخت یک نفره", "price": 1500000, "image": "product1.webp", "tag": "جدید", "rating": 4.5},
+    {"id": 2, "name": "تخت دو نفره", "price": 2500000, "image": "product2.webp", "tag": "تخفیف", "rating": 4.0},
+    {"id": 3, "name": "تخت کودک", "price": 1200000, "image": "product3.webp", "tag": "جدید", "rating": 5.0},
+    {"id": 4, "name": "تخت مهمان", "price": 1800000, "image": "product4.webp", "tag": "", "rating": 3.5},
+    {"id": 5, "name": "تخت دو طبقه", "price": 3000000, "image": "product5.webp", "tag": "جدید", "rating": 4.0},
+    {"id": 6, "name": "تخت سلطنتی", "price": 4500000, "image": "product6.webp", "tag": "تخفیف", "rating": 5.0},
+    {"id": 7, "name": "تخت اسپرت", "price": 2200000, "image": "product7.webp", "tag": "", "rating": 4.5},
+    {"id": 8, "name": "تخت راحتی", "price": 2000000, "image": "product8.webp", "tag": "جدید", "rating": 4.0}
+]
 
-# ------------------
-# MODELS
-# ------------------
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-
-class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(200))
-    price = db.Column(db.Float, nullable=False)
-    image = db.Column(db.String(100))
-
-# ------------------
-# ROUTES
-# ------------------
-
+# صفحه اصلی
 @app.route('/')
 def index():
-    products = Product.query.limit(8).all()  # حالا ۸ محصول می‌گیریم
-    html = "<h1>Products:</h1>"
-    for p in products:
-        html += f"<div><h3>{p.name}</h3><p>{p.description}</p><p>Price: {p.price}</p></div>"
-    return render_template_string(html)
+    return render_template("index.html")
 
-# ------------------
-# AUTO INIT DATABASE
-# ------------------
+# صفحه محصولات
+@app.route('/products')
+def products_page():
+    return render_template("products.html", products=products)
 
-@app.before_first_request
-def init_db():
-    db.create_all()
-    if not Product.query.first():
-        sample_products = [
-            {"name": "Bed A", "description": "Comfortable bed A", "price": 299.99, "image": "bed_a.png"},
-            {"name": "Bed B", "description": "Comfortable bed B", "price": 349.99, "image": "bed_b.png"},
-            {"name": "Bed C", "description": "Comfortable bed C", "price": 399.99, "image": "bed_c.png"},
-            {"name": "Bed D", "description": "Comfortable bed D", "price": 279.99, "image": "bed_d.png"},
-            {"name": "Bed E", "description": "Comfortable bed E", "price": 319.99, "image": "bed_e.png"},
-            {"name": "Bed F", "description": "Comfortable bed F", "price": 359.99, "image": "bed_f.png"},
-            {"name": "Bed G", "description": "Comfortable bed G", "price": 389.99, "image": "bed_g.png"},
-            {"name": "Bed H", "description": "Comfortable bed H", "price": 329.99, "image": "bed_h.png"},
-        ]
-        for prod in sample_products:
-            db.session.add(Product(**prod))
-        db.session.commit()
-    print("✅ Database initialized with 8 sample products!")
+# صفحه جزئیات محصول
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    product = next((p for p in products if p['id'] == product_id), None)
+    return render_template("product_detail.html", product=product)
 
-# ------------------
-# RUN
-# ------------------
+# صفحه سبد خرید
+@app.route('/cart')
+def cart():
+    cart_items = session.get('cart', [])
+    total = sum(item['price'] for item in cart_items)
+    return render_template("cart.html", cart_items=cart_items, total=total)
+
+# افزودن محصول به سبد خرید
+@app.route('/add-to-cart/<int:product_id>')
+def add_to_cart(product_id):
+    product = next((p for p in products if p['id'] == product_id), None)
+    if product:
+        cart_items = session.get('cart', [])
+        cart_items.append(product)
+        session['cart'] = cart_items
+    return redirect(url_for('cart'))
+
+# خالی کردن سبد خرید
+@app.route('/clear-cart')
+def clear_cart():
+    session['cart'] = []
+    return redirect(url_for('cart'))
+
+# صفحه پرداخت
+@app.route('/checkout')
+def checkout():
+    cart_items = session.get('cart', [])
+    total = sum(item['price'] for item in cart_items)
+    return render_template("checkout.html", cart_items=cart_items, total=total)
+
+# صفحه تماس با ما
+@app.route('/contact')
+def contact():
+    return render_template("contact.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)

@@ -2,30 +2,27 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}فروشگاه تخت‌خواب{% endblock %}</title>
+    <title>{% block title %}{% endblock %} - BedFactory</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="{{ url_for('index') }}">🏠 فروشگاه</a>
-            </div>
-            <div class="menu">
-                <a href="{{ url_for('products') }}">محصولات</a>
-                <a href="{{ url_for('cart') }}">سبد خرید</a>
-                <a href="{{ url_for('contact') }}">تماس با ما</a>
-            </div>
-        </nav>
-    </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo"><a href="{{ url_for('index') }}">BedFactory</a></div>
+    <div class="menu">
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">سبد خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
+    </div>
+</div>
 
-    <footer>
-        <p>© 2025 فروشگاه تخت‌خواب - تمامی حقوق محفوظ است.</p>
-    </footer>
+{% block content %}{% endblock %}
+
+<footer>
+    <p>© 2024 BedFactory - تمامی حقوق محفوظ است.</p>
+</footer>
+
 </body>
 </html>
