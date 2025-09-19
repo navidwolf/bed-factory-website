@@ -1,70 +1,96 @@
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+import os
 
+# =========================
+# تنظیمات اصلی اپلیکیشن
+# =========================
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
 
-# لیست محصولات (8 محصول)
-products = [
-    {"id": 1, "name": "تخت یک نفره", "price": 1500000, "image": "product1.webp", "tag": "جدید", "rating": 4.5},
-    {"id": 2, "name": "تخت دو نفره", "price": 2500000, "image": "product2.webp", "tag": "تخفیف", "rating": 4.0},
-    {"id": 3, "name": "تخت کودک", "price": 1200000, "image": "product3.webp", "tag": "جدید", "rating": 5.0},
-    {"id": 4, "name": "تخت مهمان", "price": 1800000, "image": "product4.webp", "tag": "", "rating": 3.5},
-    {"id": 5, "name": "تخت دو طبقه", "price": 3000000, "image": "product5.webp", "tag": "جدید", "rating": 4.0},
-    {"id": 6, "name": "تخت سلطنتی", "price": 4500000, "image": "product6.webp", "tag": "تخفیف", "rating": 5.0},
-    {"id": 7, "name": "تخت اسپرت", "price": 2200000, "image": "product7.webp", "tag": "", "rating": 4.5},
-    {"id": 8, "name": "تخت راحتی", "price": 2000000, "image": "product8.webp", "tag": "جدید", "rating": 4.0}
-]
+# کلید امنیتی برای سشن‌ها
+app.config['SECRET_KEY'] = "mysecretkey"
 
-# صفحه اصلی
-@app.route('/')
+# مسیر دیتابیس (SQLite)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'site.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# =========================
+# مدل‌های دیتابیس
+# =========================
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    price = db.Column(db.Float, nullable=False)
+    image = db.Column(db.String(200), nullable=True)
+
+    def __repr__(self):
+        return f"<Product {self.name}>"
+
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    customer_name = db.Column(db.String(100), nullable=False)
+    customer_email = db.Column(db.String(120), nullable=False)
+    total_price = db.Column(db.Float, nullable=False)
+
+    def __repr__(self):
+        return f"<Order {self.id} - {self.customer_name}>"
+
+# =========================
+# راه‌اندازی Flask-Admin
+# =========================
+admin = Admin(app, name="مدیریت سایت", template_mode="bootstrap3")
+admin.add_view(ModelView(Product, db.session))
+admin.add_view(ModelView(Order, db.session))
+
+# =========================
+# مسیرهای عمومی سایت
+# =========================
+@app.route("/")
 def index():
-    return render_template("index.html")
+    products = Product.query.all()
+    return render_template("index.html", products=products)
 
-# صفحه محصولات
-@app.route('/products')
-def products_page():
+@app.route("/products")
+def products():
+    products = Product.query.all()
     return render_template("products.html", products=products)
 
-# صفحه جزئیات محصول
-@app.route('/product/<int:product_id>')
+@app.route("/product/<int:product_id>")
 def product_detail(product_id):
-    product = next((p for p in products if p['id'] == product_id), None)
+    product = Product.query.get_or_404(product_id)
     return render_template("product_detail.html", product=product)
 
-# صفحه سبد خرید
-@app.route('/cart')
+@app.route("/cart")
 def cart():
-    cart_items = session.get('cart', [])
-    total = sum(item['price'] for item in cart_items)
-    return render_template("cart.html", cart_items=cart_items, total=total)
+    return render_template("cart.html")
 
-# افزودن محصول به سبد خرید
-@app.route('/add-to-cart/<int:product_id>')
-def add_to_cart(product_id):
-    product = next((p for p in products if p['id'] == product_id), None)
-    if product:
-        cart_items = session.get('cart', [])
-        cart_items.append(product)
-        session['cart'] = cart_items
-    return redirect(url_for('cart'))
-
-# خالی کردن سبد خرید
-@app.route('/clear-cart')
-def clear_cart():
-    session['cart'] = []
-    return redirect(url_for('cart'))
-
-# صفحه پرداخت
-@app.route('/checkout')
+@app.route("/checkout", methods=["GET", "POST"])
 def checkout():
-    cart_items = session.get('cart', [])
-    total = sum(item['price'] for item in cart_items)
-    return render_template("checkout.html", cart_items=cart_items, total=total)
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        total = request.form.get("total", 0)
+        order = Order(customer_name=name, customer_email=email, total_price=total)
+        db.session.add(order)
+        db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("checkout.html")
 
-# صفحه تماس با ما
-@app.route('/contact')
+@app.route("/contact")
 def contact():
     return render_template("contact.html")
 
+# =========================
+# اجرای اپلیکیشن
+# =========================
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()  # ساخت دیتابیس و جداول در اولین اجرا
     app.run(debug=True)
