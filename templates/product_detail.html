@@ -1,9 +1,16 @@
 {% extends "base.html" %}
-{% block title %}جزئیات محصول{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
+
 {% block content %}
-<h1>{{ product.name }}</h1>
-<img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
-<p>قیمت: {{ "{:,}".format(product.price) }} تومان</p>
-<p>رتبه: {{ product.rating }}</p>
-<a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
+<section class="product-detail">
+    <h1>{{ product.name }}</h1>
+    <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+    <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
+    <div class="rating">⭐ {{ product.rating }}</div>
+    {% if product.tag %}
+    <div class="tag">{{ product.tag }}</div>
+    {% endif %}
+    <p class="description">توضیحات کامل محصول...</p>
+    <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
+</section>
 {% endblock %}

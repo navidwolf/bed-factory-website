@@ -1,6 +1,27 @@
 {% extends "base.html" %}
 {% block title %}خانه{% endblock %}
+
 {% block content %}
-<h1>به وبسایت ما خوش آمدید</h1>
-<img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero">
+<section class="hero">
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image">
+    <div class="hero-text">
+        <h1>به کارخانه تخت ما خوش آمدید</h1>
+        <p>بهترین تخت‌ها با کیفیت عالی</p>
+        <a href="{{ url_for('products_page') }}" class="btn">مشاهده محصولات</a>
+    </div>
+</section>
+
+<section class="featured-products">
+    <h2>محصولات ویژه</h2>
+    <div class="product-grid">
+        {% for product in products[:4] %}
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
+            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

@@ -1,10 +1,20 @@
-{% extends "base.html" %}
-{% block title %}ورود ادمین{% endblock %}
-{% block content %}
-<h1>ورود ادمین</h1>
-<form method="POST">
-    <input type="text" name="username" placeholder="نام کاربری">
-    <input type="password" name="password" placeholder="رمز عبور">
-    <button type="submit">ورود</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body>
+<div class="admin-login">
+    <h1>ورود به پنل مدیریت</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="نام کاربری" required>
+        <input type="password" name="password" placeholder="رمز عبور" required>
+        <button type="submit">ورود</button>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='admin/js/admin.js') }}"></script>
+</body>
+</html>

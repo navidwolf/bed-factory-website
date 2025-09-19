@@ -1,33 +1,50 @@
-{% extends "base.html" %}
-{% block title %}داشبورد ادمین{% endblock %}
-{% block content %}
-<h1>داشبورد ادمین</h1>
-
-<h2>محصولات</h2>
-<ul>
-{% for product in products %}
-    <li>{{ product.name }} - {{ "{:,}".format(product.price) }} تومان
-        <a href="{{ url_for('admin_delete_product', product_id=product.id) }}">حذف</a>
-    </li>
-{% endfor %}
-</ul>
-
-<h2>افزودن محصول جدید</h2>
-<form method="POST" action="{{ url_for('admin_add_product') }}">
-    <input type="text" name="name" placeholder="نام محصول">
-    <input type="text" name="price" placeholder="قیمت">
-    <input type="text" name="image" placeholder="نام فایل تصویر">
-    <input type="text" name="rating" placeholder="رتبه">
-    <input type="text" name="tag" placeholder="برچسب (اختیاری)">
-    <button type="submit">افزودن</button>
-</form>
-
-<h2>پیام‌ها</h2>
-<ul>
-{% for msg in messages %}
-    <li>{{ msg.name }}: {{ msg.message }}</li>
-{% endfor %}
-</ul>
-
-<a href="{{ url_for('admin_logout') }}">خروج</a>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body>
+<header>
+    <h1>پنل مدیریت</h1>
+</header>
+<main>
+    <section>
+        <h2>محصولات</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>نام محصول</th>
+                    <th>قیمت</th>
+                    <th>تگ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ "{:,}".format(product.price) }}</td>
+                    <td>{{ product.tag }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h2>سبد خرید</h2>
+        {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+            <li>{{ item.name }} - {{ "{:,}".format(item.price) }} تومان</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>سبد خرید خالی است.</p>
+        {% endif %}
+    </section>
+</main>
+<script src="{{ url_for('static', filename='admin/js/admin.js') }}"></script>
+</body>
+</html>

@@ -1,6 +1,27 @@
 {% extends "base.html" %}
 {% block title %}سبد خرید{% endblock %}
+
 {% block content %}
-<h1>سبد خرید</h1>
-<p>لیست محصولات شما اینجا نمایش داده می‌شود</p>
+<h1>سبد خرید شما</h1>
+{% if cart_items %}
+<table class="cart-table">
+    <thead>
+        <tr>
+            <th>محصول</th>
+            <th>قیمت</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ "{:,}".format(item.price) }} تومان</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
 {% endblock %}
