@@ -1,28 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="login-box" style="max-width:400px;margin:auto;margin-top:100px;">
-    <div class="card card-outline card-primary">
-        <div class="card-header text-center"><b>پنل مدیریت</b></div>
-        <div class="card-body">
-            <form method="POST">
-                <div class="input-group mb-3">
-                    <input type="text" name="username" class="form-control" placeholder="نام کاربری" required>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="رمز عبور" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">ورود</button>
-            </form>
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                <ul>
-                {% for message in messages %}
-                  <li style="color:red">{{ message }}</li>
-                {% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>ورود ادمین</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center"><b>پنل مدیریت</b></div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="input-group mb-3">
+                        <input type="text" name="username" class="form-control" placeholder="نام کاربری" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="رمز عبور" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">ورود</button>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul>
+                    {% for message in messages %}
+                      <li style="color:red">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+            </div>
         </div>
     </div>
-</div>
+    <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+</body>
+</html>
 {% endblock %}

@@ -1,28 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-    <h1>پنل مدیریت</h1>
-    <a href="{{ url_for('admin_logout') }}" class="btn btn-danger mb-3">خروج</a>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>پنل مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">پنل مدیریت</a>
+        <div class="ml-auto">
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">خروج</a>
+        </div>
+    </nav>
 
-    <h2>محصولات</h2>
-    <form action="{{ url_for('admin_add_product') }}" method="POST" class="mb-3">
-        <input type="text" name="name" placeholder="نام محصول" required>
-        <input type="number" name="price" placeholder="قیمت" required>
-        <button type="submit" class="btn btn-success">افزودن</button>
-    </form>
-    <ul class="list-group mb-4">
-        {% for product in products %}
-            <li class="list-group-item">{{ product.name }} - {{ product.price }} تومان
-                <a href="{{ url_for('admin_delete_product', product_id=product.id) }}" class="btn btn-sm btn-danger float-right">حذف</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="content-wrapper p-4">
+        <h2>محصولات</h2>
+        <form action="{{ url_for('admin_add_product') }}" method="POST" class="mb-3 form-inline">
+            <input type="text" name="name" class="form-control mr-2" placeholder="نام محصول" required>
+            <input type="number" name="price" class="form-control mr-2" placeholder="قیمت" required>
+            <button type="submit" class="btn btn-success">افزودن</button>
+        </form>
 
-    <h2>پیام‌ها</h2>
-    <ul class="list-group">
-        {% for msg in messages %}
-            <li class="list-group-item">{{ msg.name }} ({{ msg.email }}): {{ msg.message }}</li>
-        {% endfor %}
-    </ul>
+        <ul class="list-group mb-4">
+            {% for product in products %}
+                <li class="list-group-item">
+                    {{ product.name }} - {{ product.price }} تومان
+                    <a href="{{ url_for('admin_delete_product', product_id=product.id) }}" class="btn btn-sm btn-danger float-right">حذف</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>پیام‌ها</h2>
+        <ul class="list-group">
+            {% for msg in messages %}
+                <li class="list-group-item">{{ msg.name }} ({{ msg.email }}): {{ msg.message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
+<script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+</body>
+</html>
 {% endblock %}

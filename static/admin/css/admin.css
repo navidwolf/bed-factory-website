@@ -1,0 +1,32 @@
+body {
+    font-family: "Vazir", sans-serif;
+    background-color: #f4f6f9;
+}
+
+.login-box {
+    max-width: 400px;
+    margin: 100px auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.login-box .btn {
+    border-radius: 5px;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-group-item .btn {
+    margin-left: 10px;
+}
+
+.container h1, .container h2 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
