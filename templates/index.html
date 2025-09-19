@@ -4,10 +4,17 @@
 {% block content %}
 <section class="hero" style="position: relative;">
     <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image" style="width: 100%; height: auto;">
-    <div class="hero-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+    <div class="hero-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; text-align: center;">
         <h1>به کارخانه تخت ما خوش آمدید</h1>
         <p>بهترین تخت‌ها با کیفیت عالی</p>
-        <a href="{{ url_for('products_page') }}" class="btn">مشاهده محصولات</a>
+    </div>
+</section>
+
+<!-- بخش تیم -->
+<section class="team" style="margin-top: 40px; text-align: center;">
+    <h2>تیم ما</h2>
+    <div class="team-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+        <img src="{{ url_for('static', filename='images/team.webp') }}" alt="Team" style="max-width: 300px; width: 100%; border-radius: 10px;">
     </div>
 </section>
 {% endblock %}
