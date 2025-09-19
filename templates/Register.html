@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}ثبت‌نام{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>ثبت‌نام</h2>
+    <form method="POST">
+        <input type="text" name="username" placeholder="نام کاربری" required>
+        <input type="password" name="password" placeholder="رمز عبور" required>
+        <button type="submit" class="btn">ثبت‌نام</button>
+    </form>
+    <p>حساب دارید؟ <a href="{{ url_for('login') }}">ورود</a></p>
+</div>
+{% endblock %}
