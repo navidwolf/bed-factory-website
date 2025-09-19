@@ -5,7 +5,6 @@
   box-sizing: border-box;
 }
 
-/* فونت و رنگ اصلی */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #222;
@@ -13,7 +12,6 @@ body {
   line-height: 1.6;
 }
 
-/* هدر */
 header {
   background: #0d6efd;
   color: #fff;
@@ -40,7 +38,6 @@ header nav a:hover {
   color: #ffc107;
 }
 
-/* Hero Section */
 .hero {
   background: url("../images/hero.webp") center/cover no-repeat;
   min-height: 70vh;
@@ -61,7 +58,6 @@ header nav a:hover {
   font-size: 1.25rem;
 }
 
-/* Products grid */
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -97,7 +93,6 @@ header nav a:hover {
   color: #666;
 }
 
-/* دکمه‌ها */
 .btn {
   display: inline-block;
   background: #0d6efd;
@@ -121,7 +116,6 @@ header nav a:hover {
   background: #b02a37;
 }
 
-/* Footer */
 footer {
   background: #212529;
   color: #ddd;
@@ -130,7 +124,6 @@ footer {
   margin-top: 2rem;
 }
 
-/* فرم‌ها */
 .form-container {
     max-width: 400px;
     margin: 2rem auto;
@@ -172,7 +165,6 @@ footer {
     margin-top: 1rem;
 }
 
-/* پنل مدیریت */
 .admin-container {
     max-width: 1000px;
     margin: 2rem auto;
@@ -199,7 +191,6 @@ footer {
     color: #fff;
 }
 
-/* ریسپانسیو */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2rem;
