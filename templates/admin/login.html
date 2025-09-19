@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>ورود ادمین</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <h2>ورود مدیر</h2>
+        <form method="POST">
+            <input type="text" name="username" placeholder="نام کاربری" required>
+            <input type="password" name="password" placeholder="رمز عبور" required>
+            <button type="submit">ورود</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

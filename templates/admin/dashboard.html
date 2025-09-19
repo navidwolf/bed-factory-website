@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>پنل مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body>
+    <h1>پنل مدیریت</h1>
+    <a href="{{ url_for('admin_logout') }}">خروج</a>
+
+    <h2>محصولات</h2>
+    <form action="{{ url_for('admin_add_product') }}" method="POST">
+        <input type="text" name="name" placeholder="نام محصول" required>
+        <input type="number" name="price" placeholder="قیمت" required>
+        <button type="submit">افزودن</button>
+    </form>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }} تومان 
+                <a href="{{ url_for('admin_delete_product', product_id=product.id) }}">حذف</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>پیام‌ها</h2>
+    <ul>
+        {% for msg in messages %}
+            <li>{{ msg.name }} ({{ msg.email }}): {{ msg.message }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
