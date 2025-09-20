@@ -1,41 +1,74 @@
-from flask import Flask, render_template, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bed_factory.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
-# مدل محصول
-class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
-    rating = db.Column(db.Float, default=5.0)
-    image = db.Column(db.String(100), nullable=False)
-    tag = db.Column(db.String(50), nullable=True)
+# داده‌های نمونه محصولات
+products = [
+    {"id": 1, "name": "تخت خواب 1", "price": 1200000, "image": "product1.webp", "rating": 4.5, "tag": "جدید"},
+    {"id": 2, "name": "تخت خواب 2", "price": 1500000, "image": "product2.webp", "rating": 4.0, "tag": ""},
+    {"id": 3, "name": "تخت خواب 3", "price": 900000, "image": "product3.webp", "rating": 3.5, "tag": "پرفروش"},
+    {"id": 4, "name": "تخت خواب 4", "price": 1100000, "image": "product4.webp", "rating": 4.2, "tag": ""},
+    {"id": 5, "name": "تخت خواب 5", "price": 1300000, "image": "product5.webp", "rating": 4.7, "tag": "جدید"},
+    {"id": 6, "name": "تخت خواب 6", "price": 1250000, "image": "product6.webp", "rating": 4.1, "tag": ""},
+    {"id": 7, "name": "تخت خواب 7", "price": 1400000, "image": "product7.webp", "rating": 3.9, "tag": "پرفروش"},
+    {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
+]
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+cart_items = []
 
-@app.route('/products')
+@app.route("/")
+def index():
+    return render_template("index.html", products=products)
+
+@app.route("/products")
 def products_page():
-    products = Product.query.all()
-    return render_template('products.html', products=products)
+    return render_template("products.html", products=products)
 
-@app.route('/product/<int:product_id>')
+@app.route("/product/<int:product_id>")
 def product_detail(product_id):
-    product = Product.query.get_or_404(product_id)
-    return render_template('product_detail.html', product=product)
+    product = next((p for p in products if p["id"] == product_id), None)
+    return render_template("product_detail.html", product=product)
 
-@app.route('/cart')
+@app.route("/cart")
 def cart():
-    return render_template('cart.html')
+    return render_template("cart.html", cart_items=cart_items)
 
-@app.route('/contact')
+@app.route("/checkout")
+def checkout():
+    return render_template("checkout.html", cart_items=cart_items)
+
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template('contact.html')
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message")
+        # ذخیره پیام یا پردازش
+        print(f"New message from {name} ({email}): {message}")
+        return redirect(url_for("contact"))
+    return render_template("contact.html")
+
+@app.route("/add_to_cart/<int:product_id>")
+def add_to_cart(product_id):
+    product = next((p for p in products if p["id"] == product_id), None)
+    if product:
+        cart_items.append(product)
+    return redirect(url_for("cart"))
+
+# ---- Admin routes ----
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        # اعتبارسنجی ساده
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if username == "admin" and password == "1234":
+            return redirect(url_for("admin_dashboard"))
+    return render_template("admin/login.html")
+
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    return render_template("admin/dashboard.html", products=products, cart_items=cart_items)
 
 if __name__ == "__main__":
     app.run(debug=True)

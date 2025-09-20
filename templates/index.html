@@ -2,22 +2,11 @@
 {% block title %}خانه{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero">
-    <h1>به کارخانه تخت خوش آمدید</h1>
-</section>
-
-<section class="products-preview">
-    <h2>محصولات ویژه</h2>
-    <div class="product-grid">
-        {% for product in products %}
-        <div class="product-card">
-            <img src="{{ url_for('static', filename='images/product' ~ loop.index ~ '.webp') }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
-            <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
-            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
-        </div>
-        {% endfor %}
+<section class="hero" style="position: relative;">
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image" style="width: 100%; height: auto;">
+    <div class="hero-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; text-align: center;">
+        <h1>به کارخانه تخت ما خوش آمدید</h1>
+        <p>بهترین تخت‌ها با کیفیت عالی</p>
     </div>
 </section>
 {% endblock %}

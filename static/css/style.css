@@ -1,14 +1,16 @@
-/* ===== Reset & Base ===== */
+/* =====================
+   Reset و پایه
+===================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Tahoma", sans-serif;
 }
 
 body {
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #f9fafb;
+    color: #1f2937;
     line-height: 1.6;
 }
 
@@ -17,186 +19,197 @@ a {
     color: inherit;
 }
 
-/* ===== Header ===== */
-header {
-    background-color: #222;
-    color: #fff;
-    padding: 15px 30px;
+/* =====================
+   منوی اصلی
+===================== */
+.main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px 30px;
+    background-color: #1f2937;
 }
 
-header nav a {
-    margin-left: 20px;
+.main-nav .logo img {
+    height: 50px;
+}
+
+.main-nav .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav .nav-links li a {
     color: #fff;
-    font-weight: 500;
+    font-weight: 600;
+    transition: color 0.3s;
 }
 
-header nav a:hover {
-    color: #ff9800;
+.main-nav .nav-links li a:hover {
+    color: #facc15;
 }
 
-/* ===== Hero Section ===== */
-.hero {
-    position: relative;
-    text-align: center;
-    color: #fff;
+/* =====================
+   هدر و تصاویر بزرگ
+===================== */
+header, .hero {
+    width: 100%;
 }
 
 .hero img {
     width: 100%;
-    max-height: 500px;
-    object-fit: cover;
     display: block;
 }
 
-.hero h1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3rem;
-    background-color: rgba(0,0,0,0.4);
-    padding: 20px;
-    border-radius: 10px;
-}
-
-/* ===== Product Grid ===== */
+/* =====================
+   گرید محصولات
+===================== */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     padding: 40px 20px;
 }
 
 .product-card {
-    background-color: #fff;
-    border-radius: 10px;
+    background: #fff;
+    border-radius: 12px;
     padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
 .product-card img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
     border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.product-card .tag {
+    display: inline-block;
+    background-color: #facc15;
+    color: #1f2937;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
 }
 
 .product-card h3 {
-    margin: 15px 0 10px;
+    margin: 10px 0 5px;
+    font-size: 1.1rem;
+}
+
+.product-card .rating {
+    margin-bottom: 5px;
+    color: #f59e0b;
 }
 
 .product-card .price {
-    color: #ff5722;
     font-weight: 600;
     margin-bottom: 10px;
 }
 
 .product-card .btn {
     display: inline-block;
-    margin: 5px 5px;
-    padding: 8px 15px;
-    background-color: #ff9800;
+    background-color: #1f2937;
     color: #fff;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin: 3px 0;
+    transition: background 0.3s;
 }
 
 .product-card .btn:hover {
-    background-color: #e68900;
+    background-color: #facc15;
+    color: #1f2937;
 }
 
-.tag {
-    background-color: #ff9800;
+/* =====================
+   صفحه تماس
+===================== */
+.contact-section {
+    padding: 60px 20px;
+    background-color: #f3f4f6;
+}
+
+.contact-section h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+}
+
+.contact-form button {
+    padding: 10px 20px;
+    background-color: #1f2937;
     color: #fff;
-    font-size: 0.8rem;
-    padding: 3px 8px;
-    border-radius: 5px;
-    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.contact-form button:hover {
+    background-color: #facc15;
+    color: #1f2937;
+}
+
+.contact-info h3 {
+    margin-bottom: 15px;
+}
+
+.contact-info p {
     margin-bottom: 10px;
 }
 
-/* ===== Product Detail ===== */
-.product-detail-container {
-    display: flex;
-    justify-content: center;
+.contact-info .team-img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.contact-info iframe {
+    border-radius: 12px;
+}
+
+/* =====================
+   سبد خرید و صفحات دیگر
+===================== */
+.cart-section, .checkout-section {
     padding: 40px 20px;
 }
 
-.product-detail-card {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    max-width: 900px;
-    padding: 20px;
-    gap: 20px;
+h1 {
+    margin-bottom: 20px;
 }
 
-.product-detail-card img {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 10px;
-}
-
-.product-info {
-    flex: 1;
-}
-
-.product-info h2 {
-    margin-bottom: 15px;
-}
-
-.product-info .price {
-    color: #ff5722;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-.product-info p {
-    margin-bottom: 15px;
-}
-
-/* ===== Team Section ===== */
-.team-section {
+footer {
+    background-color: #1f2937;
+    color: #fff;
     text-align: center;
-    padding: 40px 20px;
-}
-
-.team-section img {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.team-section h2 {
-    margin-bottom: 20px;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2rem;
-        padding: 15px;
-    }
-    
-    .product-detail-card {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .product-detail-card img {
-        max-width: 100%;
-    }
+    padding: 15px 0;
+    margin-top: 50px;
 }

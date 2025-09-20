@@ -3,20 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Bed Factory{% endblock %}</title>
+    <title>{% block title %}وبسایت کارخانه تخت{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+
 <header>
-    <nav>
-        <a href="{{ url_for('index') }}">خانه</a>
-        <a href="{{ url_for('products_page') }}">محصولات</a>
-        <a href="{{ url_for('cart') }}">ثبت خرید</a>
-        <a href="{{ url_for('contact') }}">تماس با ما</a>
+    <nav class="main-nav">
+        <div class="logo">
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/cover.jpg') }}" alt="Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">خانه</a></li>
+            <li><a href="{{ url_for('products_page') }}">محصولات</a></li>
+            <li><a href="{{ url_for('cart') }}">سبد خرید</a></li>
+            <li><a href="{{ url_for('contact') }}">تماس با ما</a></li>
+        </ul>
     </nav>
 </header>
 
-{% block content %}{% endblock %}
+<main>
+    {% block content %}{% endblock %}
+</main>
 
+<footer>
+    <p>تمامی حقوق محفوظ است &copy; 2025</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
