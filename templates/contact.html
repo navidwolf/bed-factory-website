@@ -2,8 +2,31 @@
 {% block title %}تماس با ما{% endblock %}
 
 {% block content %}
-<div class="contact-container">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." allowfullscreen="" loading="lazy"></iframe>
-    <img src="{{ url_for('static', filename='images/team.webp') }}" class="team-image" alt="تیم">
+<h1>تماس با ما</h1>
+<div class="contact-info">
+    <p>ایمیل: info@example.com</p>
+    <p>تلفن: 123456789</p>
+    <p>آدرس: تهران، خیابان نمونه</p>
+</div>
+
+<div class="contact-container" style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+    <!-- نقشه Google Maps -->
+    <div class="map-container" style="flex: 1 1 50%; height: 300px;">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110992.71914882273!2d52.43534496799567!3d29.617564979055796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3fb213b4de0587e3%3A0x7f8f3a6b7e46e048!2sGhoori%20Park!5e0!3m2!1sen!2s!4v1758354693347!5m2!1sen!2s" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <!-- تصویر تیم -->
+    <div class="team-container" style="flex: 1 1 50%; text-align: center;">
+        <img src="{{ url_for('static', filename='images/team.webp') }}" alt="Team" style="max-width: 100%; border-radius: 10px;">
+    </div>
 </div>
 {% endblock %}
+
