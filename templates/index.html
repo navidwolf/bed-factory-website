@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block title %}خانه{% endblock %}
 {% block content %}
-<section class="hero" style="position:relative; text-align:center;">
-    <img src="{{ url_for('static', filename='images/cover.jpg') }}" alt="hero" style="width:100%; height:400px; object-fit:cover;">
-    <h1 style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:black; background:rgba(255,255,255,0.7); padding:10px 20px; border-radius:10px;">
-        به کارخانه تخت خواب ما خوش آمدید - بهترین تخت‌ها با کیفیت عالی
-    </h1>
-</section>
+<div class="hero">
+    <img src="{{ url_for('static', filename='images/main.jpg') }}" alt="کارخانه تخت">
+    <div class="hero-text">
+        <h1 style="color:black;">به کارخانه تخت خواب ما خوش آمدید</h1>
+        <h2 style="color:black;">بهترین تخت‌ها با کیفیت</h2>
+    </div>
+</div>
 {% endblock %}

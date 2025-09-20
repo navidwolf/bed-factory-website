@@ -1,35 +1,26 @@
 {% extends "base.html" %}
 {% block title %}محصولات{% endblock %}
-
 {% block content %}
-<h1 style="text-align:center; margin-bottom:20px;">محصولات</h1>
-
 <div class="product-grid">
     {% for product in products %}
     <div class="product-card">
-        <!-- تگ (فضای ثابت) -->
-        <div class="tag-box">
-            {% if product.tag %}
-            <span class="tag">{{ product.tag }}</span>
-            {% endif %}
-        </div>
-
-        <!-- تصویر -->
-        <div class="product-img">
-            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
-        </div>
-
-        <!-- جزئیات -->
+        {% if product.tag %}
+        <div class="tag">{{ product.tag }}</div>
+        {% else %}
+        <div class="tag" style="visibility:hidden;"></div>
+        {% endif %}
+        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
         <h3>{{ product.name }}</h3>
         <div class="rating">⭐ {{ product.rating }}</div>
         <p class="price">{{ "{:,}".format(product.price) }} تومان</p>
-
-        <!-- دکمه‌ها -->
-        <div class="btn-box">
-            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
-            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
-        </div>
+        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
     </div>
     {% endfor %}
 </div>
+<style>
+.product-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.product-card { width: 250px; text-align: center; border: 1px solid #ccc; border-radius: 10px; padding: 10px; }
+.product-card img { width: 100%; height: 200px; object-fit: cover; }
+.tag { position: relative; top: 0; font-weight: bold; color: red; }
+</style>
 {% endblock %}
