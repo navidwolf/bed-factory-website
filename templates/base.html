@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}وبسایت کارخانه تخت{% endblock %}</title>
+    <title>{% block title %}Bed Factory{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="{{ url_for('index') }}">خانه</a>
-            <a href="{{ url_for('products_page') }}">محصولات</a>
-            <a href="{{ url_for('cart') }}">سبد خرید</a>
-            <a href="{{ url_for('contact') }}">تماس با ما</a>
-        </nav>
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<header>
+    <nav>
+        <a href="{{ url_for('index') }}">خانه</a>
+        <a href="{{ url_for('products_page') }}">محصولات</a>
+        <a href="{{ url_for('cart') }}">ثبت خرید</a>
+        <a href="{{ url_for('contact') }}">تماس با ما</a>
+    </nav>
+</header>
+
+{% block content %}{% endblock %}
+
 </body>
 </html>

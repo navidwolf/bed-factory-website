@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% block title %}خانه{% endblock %}
+
 {% block content %}
 <div class="hero">
-    <img src="{{ url_for('static', filename='images/main.jpg') }}" alt="کارخانه تخت">
-    <div class="hero-text">
-        <h1 style="color:black;">به کارخانه تخت خواب ما خوش آمدید</h1>
-        <h2 style="color:black;">بهترین تخت‌ها با کیفیت</h2>
-    </div>
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="هرو صفحه اصلی">
+    <div class="hero-text">به کارخانه تخت خواب ما خوش آمدید - بهترین تخت‌ها با کیفیت</div>
 </div>
 {% endblock %}
