@@ -6,6 +6,3 @@ Werkzeug
 click
 itsdangerous
 MarkupSafe
-Flask_sqlalchemy
-flask-login
-flask-bcrypt
