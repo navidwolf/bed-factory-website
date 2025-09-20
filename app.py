@@ -1,74 +1,97 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
+app.secret_key = "your_secret_key"
 
-# داده‌های نمونه محصولات
-products = [
-    {"id": 1, "name": "تخت خواب 1", "price": 1200000, "image": "product1.webp", "rating": 4.5, "tag": "جدید"},
-    {"id": 2, "name": "تخت خواب 2", "price": 1500000, "image": "product2.webp", "rating": 4.0, "tag": ""},
-    {"id": 3, "name": "تخت خواب 3", "price": 900000, "image": "product3.webp", "rating": 3.5, "tag": "پرفروش"},
-    {"id": 4, "name": "تخت خواب 4", "price": 1100000, "image": "product4.webp", "rating": 4.2, "tag": ""},
-    {"id": 5, "name": "تخت خواب 5", "price": 1300000, "image": "product5.webp", "rating": 4.7, "tag": "جدید"},
-    {"id": 6, "name": "تخت خواب 6", "price": 1250000, "image": "product6.webp", "rating": 4.1, "tag": ""},
-    {"id": 7, "name": "تخت خواب 7", "price": 1400000, "image": "product7.webp", "rating": 3.9, "tag": "پرفروش"},
-    {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
-]
+# مسیر مطلق دیتابیس
+basedir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(basedir, "instance", "database.db")
+if not os.path.exists(os.path.dirname(db_path)):
+    os.makedirs(os.path.dirname(db_path))
 
-cart_items = []
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-@app.route("/")
-def index():
-    return render_template("index.html", products=products)
+# مدل ادمین
+class Admin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
 
-@app.route("/products")
-def products_page():
-    return render_template("products.html", products=products)
+# مدل محصول
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    price = db.Column(db.Float)
 
-@app.route("/product/<int:product_id>")
-def product_detail(product_id):
-    product = next((p for p in products if p["id"] == product_id), None)
-    return render_template("product_detail.html", product=product)
-
-@app.route("/cart")
-def cart():
-    return render_template("cart.html", cart_items=cart_items)
-
-@app.route("/checkout")
-def checkout():
-    return render_template("checkout.html", cart_items=cart_items)
-
-@app.route("/contact", methods=["GET", "POST"])
-def contact():
-    if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
-        message = request.form.get("message")
-        # ذخیره پیام یا پردازش
-        print(f"New message from {name} ({email}): {message}")
-        return redirect(url_for("contact"))
-    return render_template("contact.html")
-
-@app.route("/add_to_cart/<int:product_id>")
-def add_to_cart(product_id):
-    product = next((p for p in products if p["id"] == product_id), None)
-    if product:
-        cart_items.append(product)
-    return redirect(url_for("cart"))
-
-# ---- Admin routes ----
+# صفحه ورود ادمین
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        # اعتبارسنجی ساده
-        username = request.form.get("username")
-        password = request.form.get("password")
-        if username == "admin" and password == "1234":
+        username = request.form["username"]
+        password = request.form["password"]
+        admin = Admin.query.filter_by(username=username).first()
+        if admin and check_password_hash(admin.password, password):
+            session["admin"] = admin.username
             return redirect(url_for("admin_dashboard"))
+        else:
+            return "Invalid credentials"
     return render_template("admin/login.html")
 
+# داشبورد ادمین
 @app.route("/admin/dashboard")
 def admin_dashboard():
-    return render_template("admin/dashboard.html", products=products, cart_items=cart_items)
+    if "admin" not in session:
+        return redirect(url_for("admin_login"))
+    products = Product.query.all()
+    return render_template("admin/dashboard.html", products=products)
+
+# افزودن محصول
+@app.route("/admin/products/add", methods=["GET", "POST"])
+def add_product():
+    if "admin" not in session:
+        return redirect(url_for("admin_login"))
+    if request.method == "POST":
+        name = request.form["name"]
+        price = request.form["price"]
+        new_product = Product(name=name, price=float(price))
+        db.session.add(new_product)
+        db.session.commit()
+        return redirect(url_for("admin_dashboard"))
+    return render_template("admin/add_product.html")
+
+# ویرایش محصول
+@app.route("/admin/products/edit/<int:id>", methods=["GET", "POST"])
+def edit_product(id):
+    if "admin" not in session:
+        return redirect(url_for("admin_login"))
+    product = Product.query.get_or_404(id)
+    if request.method == "POST":
+        product.name = request.form["name"]
+        product.price = float(request.form["price"])
+        db.session.commit()
+        return redirect(url_for("admin_dashboard"))
+    return render_template("admin/edit_product.html", product=product)
+
+# حذف محصول
+@app.route("/admin/products/delete/<int:id>")
+def delete_product(id):
+    if "admin" not in session:
+        return redirect(url_for("admin_login"))
+    product = Product.query.get_or_404(id)
+    db.session.delete(product)
+    db.session.commit()
+    return redirect(url_for("admin_dashboard"))
+
+# صفحه اصلی
+@app.route("/")
+def index():
+    products = Product.query.all()
+    return render_template("index.html", products=products)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,50 +1,21 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>داشبورد مدیریت</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+    <title>Admin Dashboard</title>
 </head>
 <body>
-<header>
-    <h1>پنل مدیریت</h1>
-</header>
-<main>
-    <section>
-        <h2>محصولات</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>نام محصول</th>
-                    <th>قیمت</th>
-                    <th>تگ</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ "{:,}".format(product.price) }}</td>
-                    <td>{{ product.tag }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
-    <section>
-        <h2>سبد خرید</h2>
-        {% if cart_items %}
-        <ul>
-            {% for item in cart_items %}
-            <li>{{ item.name }} - {{ "{:,}".format(item.price) }} تومان</li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>سبد خرید خالی است.</p>
-        {% endif %}
-    </section>
-</main>
-<script src="{{ url_for('static', filename='admin/js/admin.js') }}"></script>
+    <h1>Welcome Admin!</h1>
+    <a href="{{ url_for('add_product') }}">➕ Add Product</a>
+    <h3>Products List:</h3>
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }} - {{ product.price }} USD 
+                <a href="{{ url_for('edit_product', id=product.id) }}">✏️ Edit</a> | 
+                <a href="{{ url_for('delete_product', id=product.id) }}">🗑 Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
