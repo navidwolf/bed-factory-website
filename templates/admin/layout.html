@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>پنل مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/admin.css') }}">
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('admin_dashboard') }}">داشبورد</a></li>
+        <li><a href="{{ url_for('admin_products') }}">محصولات</a></li>
+        <li><a href="{{ url_for('admin_orders') }}">سفارش‌ها</a></li>
+        <li><a href="{{ url_for('admin_logout') }}">خروج</a></li>
+    </ul>
+</nav>
+<main>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

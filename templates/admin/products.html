@@ -1,0 +1,18 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<h1>مدیریت محصولات</h1>
+<a href="{{ url_for('admin_add_product') }}">➕ افزودن محصول</a>
+<table>
+    <tr><th>نام</th><th>قیمت</th><th>عملیات</th></tr>
+    {% for p in products %}
+    <tr>
+        <td>{{ p.name }}</td>
+        <td>{{ p.price }}</td>
+        <td>
+            <a href="{{ url_for('admin_edit_product', product_id=p.id) }}">ویرایش</a> |
+            <a href="{{ url_for('admin_delete_product', product_id=p.id) }}">حذف</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

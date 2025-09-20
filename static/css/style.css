@@ -1,215 +1,167 @@
-/* =====================
-   Reset و پایه
-===================== */
-* {
+body {
+    font-family: Tahoma, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: "Tahoma", sans-serif;
+    background: #fafafa;
 }
 
-body {
-    background-color: #f9fafb;
-    color: #1f2937;
-    line-height: 1.6;
+/* ناوبری */
+nav {
+    background: #222;
+    padding: 10px;
 }
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* =====================
-   منوی اصلی
-===================== */
-.main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #1f2937;
-}
-
-.main-nav .logo img {
-    height: 50px;
-}
-
-.main-nav .nav-links {
+nav ul {
     list-style: none;
     display: flex;
-    gap: 25px;
+    justify-content: center;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
 }
-
-.main-nav .nav-links li a {
+nav ul li a {
     color: #fff;
-    font-weight: 600;
-    transition: color 0.3s;
+    text-decoration: none;
 }
 
-.main-nav .nav-links li a:hover {
-    color: #facc15;
-}
-
-/* =====================
-   هدر و تصاویر بزرگ
-===================== */
-header, .hero {
-    width: 100%;
-}
-
-.hero img {
-    width: 100%;
-    display: block;
-}
-
-/* =====================
-   گرید محصولات
-===================== */
+/* محصولات */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-    padding: 40px 20px;
+    padding: 20px;
 }
 
 .product-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-.product-card img {
-    width: 100%;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    margin-bottom: 10px;
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.product-card .tag {
-    display: inline-block;
-    background-color: #facc15;
-    color: #1f2937;
-    padding: 3px 10px;
+/* تگ بالا */
+.tag-box {
+    height: 30px; /* همیشه فضای یکسان */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.tag {
+    background: #f39c12;
+    color: #fff;
+    padding: 3px 8px;
     border-radius: 5px;
-    font-size: 0.8rem;
-    margin-bottom: 5px;
+    font-size: 14px;
 }
 
+/* تصویر */
+.product-img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* متن */
 .product-card h3 {
-    margin: 10px 0 5px;
-    font-size: 1.1rem;
+    margin: 5px 0;
+    font-size: 18px;
 }
-
-.product-card .rating {
+.rating {
     margin-bottom: 5px;
-    color: #f59e0b;
+    font-size: 14px;
+    color: #444;
 }
-
-.product-card .price {
-    font-weight: 600;
+.price {
+    font-size: 16px;
+    color: #e74c3c;
     margin-bottom: 10px;
 }
 
-.product-card .btn {
-    display: inline-block;
-    background-color: #1f2937;
-    color: #fff;
-    padding: 7px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    margin: 3px 0;
+/* دکمه‌ها */
+.btn-box {
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    background: #3498db;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
     transition: background 0.3s;
 }
-
-.product-card .btn:hover {
-    background-color: #facc15;
-    color: #1f2937;
+.btn:hover {
+    background: #2980b9;
 }
 
-/* =====================
-   صفحه تماس
-===================== */
-.contact-section {
-    padding: 60px 20px;
-    background-color: #f3f4f6;
-}
-
-.contact-section h1 {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-}
-
-.contact-form button {
-    padding: 10px 20px;
-    background-color: #1f2937;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.contact-form button:hover {
-    background-color: #facc15;
-    color: #1f2937;
-}
-
-.contact-info h3 {
-    margin-bottom: 15px;
-}
-
-.contact-info p {
-    margin-bottom: 10px;
-}
-
-.contact-info .team-img {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-.contact-info iframe {
-    border-radius: 12px;
-}
-
-/* =====================
-   سبد خرید و صفحات دیگر
-===================== */
-.cart-section, .checkout-section {
+/* صفحه جزئیات محصول */
+.product-detail-container {
+    display: flex;
+    justify-content: center;
     padding: 40px 20px;
 }
 
-h1 {
+.product-detail-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.product-detail-img {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.product-detail-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-detail-info h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+.product-detail-info .rating {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.product-detail-info .price {
+    font-size: 18px;
+    color: #e74c3c;
+    margin-bottom: 15px;
+}
+.product-detail-info .description {
+    font-size: 15px;
+    line-height: 1.6;
     margin-bottom: 20px;
 }
 
-footer {
-    background-color: #1f2937;
-    color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 50px;
+/* دکمه بزرگ */
+.btn-big {
+    font-size: 16px;
+    padding: 12px 20px;
 }
+

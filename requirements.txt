@@ -6,3 +6,4 @@ Werkzeug
 click
 itsdangerous
 MarkupSafe
+Flask-SQLAlchemy
