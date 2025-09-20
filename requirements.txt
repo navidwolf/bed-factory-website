@@ -6,3 +6,4 @@ Werkzeug
 click
 itsdangerous
 MarkupSafe
+flask_sqlalchemy
