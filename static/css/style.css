@@ -16,104 +16,78 @@ body {
 }
 
 /* =============================
-   Header & Navigation
+   Buttons
 ============================= */
-header {
+.btn {
+    padding: 12px 20px;
     background-color: #0b1e3a;
-    padding: 15px 0;
-}
-
-.main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.main-nav .logo img {
-    height: 50px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-}
-
-.nav-links a {
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
     text-decoration: none;
-    color: #ffffff;
-    font-weight: 500;
-    transition: color 0.3s;
+    display: inline-block;
+    transition: background-color 0.3s;
 }
 
-.nav-links a:hover {
-    color: #1abc9c;
-}
-
-/* =============================
-   Footer
-============================= */
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #0b1e3a;
-    color: #ffffff;
+.btn:hover {
+    background-color: #162d57;
 }
 
 /* =============================
-   Contact Section
+   Cart Table & Box
 ============================= */
-.contact-section {
+.cart-container {
     max-width: 1200px;
-    margin: 50px auto;
+    margin: 30px auto;
     padding: 0 20px;
 }
 
-.contact-container {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.contact-left,
-.contact-right {
-    flex: 1 1 500px;
+.cart-box {
     background-color: #ffffff;
-    padding: 25px;
+    border: 1px solid #c1c1c1;
     border-radius: 10px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    padding: 20px;
 }
 
-/* =============================
-   Headings & Text
-============================= */
-.contact-left h2,
-.contact-right h2 {
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 12px;
+    text-align: right;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cart-table th {
+    background-color: #f4f6f8;
     color: #0b1e3a;
-    font-size: 28px;
-    margin-bottom: 15px;
 }
 
-.contact-left p,
-.contact-right p {
-    color: #33415c;
+.cart-total {
+    text-align: right;
+    font-weight: bold;
     margin-bottom: 15px;
 }
 
 /* =============================
-   Form Styling
+   Checkout Form
 ============================= */
-.contact-form {
+.checkout-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.contact-form input,
-.contact-form textarea {
+.checkout-form input,
+.checkout-form textarea {
     padding: 12px 15px;
     border: 1px solid #c1c1c1;
     border-radius: 6px;
@@ -122,99 +96,22 @@ footer {
     transition: all 0.3s;
 }
 
-/* راست‌چین کردن شماره تماس */
-.contact-form input[name="phone"] {
-    direction: rtl;
-    text-align: right;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
+.checkout-form input:focus,
+.checkout-form textarea:focus {
     border-color: #0b1e3a;
     box-shadow: 0 0 5px rgba(11,30,58,0.3);
-}
-
-.contact-form button {
-    padding: 12px;
-    background-color: #0b1e3a;
-    color: #ffffff;
-    font-size: 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.contact-form button:hover {
-    background-color: #162d57;
-}
-
-/* =============================
-   Map & Team
-============================= */
-.map-container {
-    width: 100%;
-    height: 300px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.map-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.team-container img {
-    width: 100%;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
-/* =============================
-   Info Boxes
-============================= */
-.info-boxes {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 40px;
-}
-
-.info-box {
-    flex: 1 1 300px;
-    background-color: #0b1e3a;
-    color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.info-box h3 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: #f0f0f0;
-}
-
-.info-box p, .info-box a {
-    color: #d3d3d3;
-    text-decoration: none;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.info-box a:hover {
-    color: #ffffff;
 }
 
 /* =============================
    Responsive
 ============================= */
 @media (max-width: 900px) {
-    .contact-container {
-        flex-direction: column;
+    .cart-container {
+        padding: 0 10px;
     }
-    .info-boxes {
-        flex-direction: column;
+
+    .cart-table th,
+    .cart-table td {
+        padding: 8px;
     }
 }
