@@ -1,17 +1,24 @@
 {% extends "base.html" %}
-{% block title %}پرداخت{% endblock %}
+{% block title %}تکمیل خرید{% endblock %}
 
 {% block content %}
-<h1>تکمیل خرید</h1>
-{% if cart_items %}
-<p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-<form method="POST" action="#">
-    <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
-    <input type="email" name="email" placeholder="ایمیل" required>
-    <input type="text" name="address" placeholder="آدرس" required>
-    <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
-</form>
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
+<section class="checkout-section">
+    <h1>تکمیل خرید</h1>
+
+    {% if cart_items %}
+    <p class="checkout-total">
+        جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان
+    </p>
+
+    <form method="POST" action="#" class="checkout-form">
+        <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+        <input type="tel" name="phone" placeholder="شماره تماس" required style="direction: rtl;">
+        <input type="email" name="email" placeholder="ایمیل" required>
+        <input type="text" name="address" placeholder="آدرس" required>
+        <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
+    </form>
+    {% else %}
+    <p>سبد خرید شما خالی است.</p>
+    {% endif %}
+</section>
 {% endblock %}
