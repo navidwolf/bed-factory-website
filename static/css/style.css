@@ -1,258 +1,130 @@
 /* =====================
-   Reset و پایه
-===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Tahoma", sans-serif;
-}
-
-body {
-    background-color: #f9fafb;
-    color: #1f2937;
-    line-height: 1.6;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* =====================
-   منوی اصلی
-===================== */
-.main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #1f2937;
-}
-
-.main-nav .logo img {
-    height: 50px;
-}
-
-.main-nav .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-}
-
-.main-nav .nav-links li a {
-    color: #fff;
-    font-weight: 600;
-    transition: color 0.3s;
-}
-
-.main-nav .nav-links li a:hover {
-    color: #facc15;
-}
-
-/* =====================
-   هدر و تصاویر بزرگ
-===================== */
-header, .hero {
-    width: 100%;
-}
-
-.hero img {
-    width: 100%;
-    display: block;
-}
-
-/* =====================
-   گرید محصولات
-===================== */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 40px 20px;
-}
-
-.product-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-.product-card img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.product-card .tag {
-    display: inline-block;
-    background-color: #facc15;
-    color: #1f2937;
-    padding: 3px 10px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-}
-
-.product-card h3 {
-    margin: 10px 0 5px;
-    font-size: 1.1rem;
-}
-
-.product-card .rating {
-    margin-bottom: 5px;
-    color: #f59e0b;
-}
-
-.product-card .price {
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.product-card .btn {
-    display: inline-block;
-    background-color: #1f2937;
-    color: #fff;
-    padding: 7px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    margin: 3px 0;
-    transition: background 0.3s;
-}
-
-.product-card .btn:hover {
-    background-color: #facc15;
-    color: #1f2937;
-}
-
-/* =====================
-   صفحه تماس
+   پایه و فونت
 ===================== */
 .contact-section {
     padding: 60px 20px;
-    background-color: #f3f4f6;
+    background-color: #f4f6f8;
+    direction: rtl;
+    font-family: "Vazir", Tahoma, sans-serif;
+    color: #1a202c;
 }
-
 .contact-container {
     display: flex;
     gap: 40px;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
 }
-
-/* ستون‌ها */
 .contact-left, .contact-right {
     flex: 1 1 400px;
     max-width: 500px;
 }
+.contact-left { order: 2; }
+.contact-right { order: 1; }
 
-/* تیترها */
-.contact-left h2,
-.contact-right h2 {
+/* =====================
+   تیترها
+===================== */
+.contact-left h2, .contact-right h2 {
     font-size: 1.8rem;
     margin-bottom: 15px;
-    color: #1f2937;
+    color: #1a202c;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-
-.contact-left h3 {
-    font-size: 1.2rem;
+.contact-left h3, .contact-right h3 {
     margin-top: 20px;
     margin-bottom: 10px;
-    color: #111827;
+    color: #1a202c;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.contact-left p, .contact-right p {
+    margin-bottom: 15px;
 }
 
-/* آیتم‌های آیکون باکس */
+/* =====================
+   آیکون باکس ها
+===================== */
 .icon-box {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    transition: transform 0.3s;
 }
-
 .icon-box i {
     font-size: 1.3rem;
-    color: #facc15;
+    color: #3b82f6;
     margin-top: 3px;
+    transition: transform 0.3s, color 0.3s;
 }
-
+.icon-box:hover i {
+    color: #2563eb;
+    transform: scale(1.2);
+}
 .icon-box p, .icon-box a {
-    color: #1f2937;
     font-size: 0.95rem;
+    color: #1a202c;
+    transition: color 0.3s;
 }
-
-.icon-box a:hover {
-    color: #f59e0b;
-}
-
-/* فرم تماس */
-.contact-form .form-group {
-    margin-bottom: 15px;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    font-size: 0.95rem;
-}
-
-.contact-form textarea {
-    resize: vertical;
-}
-
-.contact-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1f2937;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.contact-form button:hover {
-    background-color: #facc15;
-    color: #1f2937;
+.icon-box:hover p, .icon-box:hover a {
+    color: #1e40af;
 }
 
 /* =====================
-   سبد خرید و صفحات دیگر
+   فرم تماس
 ===================== */
-.cart-section, .checkout-section {
-    padding: 40px 20px;
+.contact-form .form-group { margin-bottom: 15px; }
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.95rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s, border-color 0.3s;
 }
-
-h1 {
-    margin-bottom: 20px;
+.contact-form input:focus, .contact-form textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59,130,246,0.3);
 }
-
-footer {
-    background-color: #1f2937;
+.contact-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1a202c;
     color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 50px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+.contact-form button:hover {
+    background-color: #3b82f6;
+    transform: translateY(-2px);
+    color: #fff;
+}
+
+/* =====================
+   نقشه
+===================== */
+.map-container iframe {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.map-container iframe:hover {
+    transform: scale(1.02);
 }
 
 /* =====================
    ریسپانسیو
 ===================== */
+@media (max-width: 1024px) {
+    .contact-container { flex-wrap: wrap; justify-content: center; gap: 30px; }
+}
 @media (max-width: 768px) {
-    .contact-container {
-        flex-direction: column;
-        gap: 20px;
-    }
+    .contact-container { flex-direction: column; gap: 20px; }
+    .contact-left, .contact-right { order: initial; max-width: 100%; }
 }

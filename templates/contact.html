@@ -1,80 +1,153 @@
 {% extends "base.html" %}
-{% block title %}تماس با ما - تخت ایران{% endblock %}
+{% block title %}تماس با ما{% endblock %}
 
 {% block content %}
 <section class="contact-section">
     <div class="contact-container">
-        <!-- ستون سمت چپ: اطلاعات تماس -->
-        <div class="contact-left">
-            <h2>اطلاعات تماس</h2>
-            <p>اطلاعات تماس با شعب تخت ایران</p>
 
-            <!-- شعبه مرکزی -->
-            <h3>شعبه مرکزی</h3>
+        <!-- ستون اطلاعات تماس -->
+        <div class="contact-right">
+            <h2>اطلاعات تماس</h2>
             <div class="icon-box">
                 <i class="fas fa-map-marked-alt"></i>
-                <p>تهران، خیابان نمونه، ساختمان تخت ایران</p>
+                <p>تهران، خیابان نمونه، پلاک 123</p>
             </div>
             <div class="icon-box">
                 <i class="fas fa-phone-alt"></i>
-                <p><a href="tel:02112345678">021-12345678</a></p>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-headphones"></i>
-                <p><a href="tel:1459">1459 بدون کد (ارتباط با کلیه شعب)</a></p>
+                <a href="tel:02112345678">021-12345678</a>
             </div>
             <div class="icon-box">
                 <i class="fas fa-envelope"></i>
-                <p><a href="mailto:info@takhtiran.com">info@takhtiran.com</a></p>
-            </div>
-
-            <!-- ساعت کار نمایشگاه -->
-            <h3>ساعت کار نمایشگاه</h3>
-            <div class="icon-box">
-                <i class="far fa-clock"></i>
-                <p>همه روزه: 9:30 صبح تا 10 شب</p>
-            </div>
-
-            <!-- ساعت کار اداری -->
-            <h3>ساعت کار اداری</h3>
-            <div class="icon-box">
-                <i class="far fa-clock"></i>
-                <p>شنبه تا پنجشنبه: 9 صبح تا 6 عصر</p>
-            </div>
-
-            <!-- لینک سایت‌ها -->
-            <h3>وب‌سایت‌ها</h3>
-            <div class="icon-box">
-                <i class="fas fa-globe-americas"></i>
-                <p><a href="https://takhtiran.com">TakhtIran.com</a> - سایت رسمی شرکت تخت ایران</p>
+                <a href="mailto:info@takhtiran.com">info@takhtiran.com</a>
             </div>
             <div class="icon-box">
                 <i class="fas fa-globe-americas"></i>
-                <p><a href="https://takhtiranmag.ir">TakhtIranMag.ir</a> - مجله اینترنتی تخت ایران</p>
+                <a href="https://takhtiran.com">takhtiran.com</a>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-clock"></i>
+                <p>ساعت کاری نمایشگاه: همه روزه ۹:۳۰ صبح تا ۱۰ شب</p>
             </div>
         </div>
 
-        <!-- ستون سمت راست: فرم تماس -->
-        <div class="contact-right">
+        <!-- ستون فرم تماس و نقشه -->
+        <div class="contact-left">
             <h2>سوالی دارید؟</h2>
             <p>با استفاده از فرم زیر می‌توانید با ما ارتباط برقرار کنید</p>
-            
-            <form method="post" class="contact-form">
+
+            <!-- فرم تماس -->
+            <form class="contact-form" method="post">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="نام شما" required>
+                    <input type="text" name="name" placeholder="نام" required>
                 </div>
                 <div class="form-group">
-                    <input type="tel" name="phone" placeholder="شماره تماس" required pattern="[0-9()+-]+">
+                    <input type="tel" name="phone" placeholder="شماره تماس" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="ایمیل شما">
+                    <input type="email" name="email" placeholder="ایمیل">
                 </div>
                 <div class="form-group">
-                    <textarea name="message" rows="5" placeholder="پیام شما"></textarea>
+                    <textarea name="message" rows="4" placeholder="متن پیام"></textarea>
                 </div>
-                <button type="submit">ارسال</button>
+                <div class="form-group">
+                    <button type="submit">ارسال</button>
+                </div>
             </form>
+
+            <!-- نقشه گوگل -->
+            <div class="map-container" style="margin-top: 20px;">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.123456789!2d51.421!3d35.689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8xxxxxxxxxx%3A0xabcdef!2z2KfZhNmF2KfZhNmH2YbYsdmK2Kkg2KfZhNi02Kkg2KzYqNin2YY!5e0!3m2!1sfa!2sir!4v0000000000000" 
+                    width="100%" 
+                    height="300" 
+                    style="border:0; border-radius:12px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
         </div>
+
     </div>
 </section>
+
+<!-- CSS داخلی برای صفحه تماس -->
+<style>
+/* فونت و پایه */
+.contact-section {
+    padding: 60px 20px;
+    background-color: #f4f6f8;
+    direction: rtl;
+    font-family: "Vazir", Tahoma, sans-serif;
+    color: #1a202c;
+}
+.contact-container {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.contact-left, .contact-right {
+    flex: 1 1 400px;
+    max-width: 500px;
+}
+.contact-left { order: 2; }
+.contact-right { order: 1; }
+
+/* تیترها */
+.contact-left h2, .contact-right h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #1a202c;
+}
+.contact-left p { margin-bottom: 15px; }
+
+/* آیکون باکس‌ها */
+.icon-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.icon-box i {
+    font-size: 1.3rem;
+    color: #3b82f6;
+    margin-top: 3px;
+}
+.icon-box p, .icon-box a {
+    font-size: 0.95rem;
+    color: #1a202c;
+}
+.icon-box a:hover { color: #2563eb; }
+
+/* فرم تماس */
+.contact-form .form-group { margin-bottom: 15px; }
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.95rem;
+    background-color: #fff;
+}
+.contact-form textarea { resize: vertical; }
+.contact-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1a202c;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.contact-form button:hover { background-color: #3b82f6; }
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .contact-container { flex-direction: column; gap: 20px; }
+    .contact-left, .contact-right { order: initial; }
+}
+</style>
 {% endblock %}
