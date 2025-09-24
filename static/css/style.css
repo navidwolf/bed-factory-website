@@ -191,6 +191,7 @@ header, .hero {
 .contact-container {
     display: flex !important;
     flex-wrap: wrap;
+    flex-direction: column; /* عکس تیم زیر نقشه قرار بگیرد */
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
@@ -198,26 +199,31 @@ header, .hero {
 
 .map-container,
 .team-container {
-    flex: 1 1 400px;
+    flex: 1 1 100%;
     max-width: 500px;
     height: auto !important;
 }
 
-.map-container iframe {
+.map-container iframe,
+.team-container img {
     width: 100% !important;
     height: auto !important;
-    aspect-ratio: 16/9;
     border-radius: 12px;
     display: block;
     margin: 0 auto;
 }
 
-.team-container img {
-    width: 100% !important;
-    max-width: 100%;
-    border-radius: 12px;
-    display: block;
-    margin: 0 auto;
+/* برای دسکتاپ: کنار هم بودن نقشه و تیم */
+@media (min-width: 800px) {
+    .contact-container {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .map-container,
+    .team-container {
+        flex: 1 1 400px;
+    }
 }
 
 /* =====================
