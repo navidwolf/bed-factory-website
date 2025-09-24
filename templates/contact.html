@@ -1,306 +1,166 @@
-{% extends "base.html" %}
-{% block title %}تماس با ما{% endblock %}
-
-{% block content %}
-<section class="contact-section">
-    <div class="contact-container">
-
-        <!-- ستون اطلاعات تماس -->
-        <div class="contact-right">
-            <h2>اطلاعات تماس</h2>
-            <div class="icon-box">
-                <i class="fas fa-map-marked-alt"></i>
-                <p>تهران، خیابان نمونه، پلاک 123</p>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-phone-alt"></i>
-                <a href="tel:02112345678">021-12345678</a>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:info@takhtiran.com">info@takhtiran.com</a>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-globe-americas"></i>
-                <a href="https://takhtiran.com">takhtiran.com</a>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-clock"></i>
-                <p>ساعت کاری نمایشگاه: همه روزه ۹:۳۰ صبح تا ۱۰ شب</p>
-            </div>
-        </div>
-
-        <!-- ستون فرم تماس و نقشه -->
-        <div class="contact-left">
-            <h2>سوالی دارید؟</h2>
-            <p>با استفاده از فرم زیر می‌توانید با ما ارتباط برقرار کنید</p>
-
-            <!-- فرم تماس -->
-            <form class="contact-form" method="post">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="نام" required>
-                </div>
-                <div class="form-group">
-                    <input type="tel" name="phone" placeholder="شماره تماس" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="ایمیل">
-                </div>
-                <div class="form-group">
-                    <textarea name="message" rows="4" placeholder="متن پیام"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">ارسال</button>
-                </div>
-            </form>
-
-            <!-- نقشه گوگل -->
-            <div class="map-container" style="margin-top: 20px;">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.123456789!2d51.421!3d35.689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8xxxxxxxxxx%3A0xabcdef!2z2KfZhNmF2KfZhNmH2YbYsdmK2Kkg2KfZhNi02Kkg2KzYqNin2YY!5e0!3m2!1sfa!2sir!4v0000000000000" 
-                    width="100%" 
-                    height="300" 
-                    style="border:0; border-radius:12px;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<!-- CSS داخلی برای صفحه تماس -->
-<style>
-/* فونت و پایه */
-.contact-section {
-    padding: 60px 20px;
-    background-color: #f4f6f8;
-    direction: rtl;
-    font-family: "Vazir", Tahoma, sans-serif;
-    color: #1a202c;
+/* =============================
+   Reset & Base
+============================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
+body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    direction: rtl;
+    background-color: #f4f6f8;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* =============================
+   Contact Section
+============================= */
+.contact-section {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
 .contact-container {
     display: flex;
     gap: 40px;
     flex-wrap: wrap;
-    justify-content: center;
 }
-.contact-left, .contact-right {
-    flex: 1 1 400px;
-    max-width: 500px;
-}
-.contact-left { order: 2; }
-.contact-right { order: 1; }
 
-/* تیترها */
-.contact-left h2, .contact-right h2 {
-    font-size: 1.8rem;
+.contact-left,
+.contact-right {
+    flex: 1 1 500px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* =============================
+   Headings
+============================= */
+.contact-left h2,
+.contact-right h2 {
+    color: #0b1e3a;
+    font-size: 28px;
     margin-bottom: 15px;
-    color: #1a202c;
 }
-.contact-left p { margin-bottom: 15px; }
 
-/* آیکون باکس‌ها */
-.icon-box {
+.contact-left p,
+.contact-right p {
+    color: #33415c;
+    margin-bottom: 15px;
+}
+
+/* =============================
+   Form Styling
+============================= */
+.contact-form {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 12px;
+    flex-direction: column;
+    gap: 15px;
 }
-.icon-box i {
-    font-size: 1.3rem;
-    color: #3b82f6;
-    margin-top: 3px;
-}
-.icon-box p, .icon-box a {
-    font-size: 0.95rem;
-    color: #1a202c;
-}
-.icon-box a:hover { color: #2563eb; }
 
-/* فرم تماس */
-.contact-form .form-group { margin-bottom: 15px; }
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    font-size: 0.95rem;
-    background-color: #fff;
+.contact-form input,
+.contact-form textarea {
+    padding: 12px 15px;
+    border: 1px solid #c1c1c1;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
 }
-.contact-form textarea { resize: vertical; }
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #0b1e3a;
+    box-shadow: 0 0 5px rgba(11,30,58,0.3);
+}
+
 .contact-form button {
-    width: 100%;
     padding: 12px;
-    background-color: #1a202c;
-    color: #fff;
-    font-weight: 600;
+    background-color: #0b1e3a;
+    color: #ffffff;
+    font-size: 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.3s;
 }
-.contact-form button:hover { b{% extends "base.html" %}
-{% block title %}تماس با ما{% endblock %}
 
-{% block content %}
-<section class="contact-section">
-    <div class="contact-container">
-
-        <!-- ستون اطلاعات تماس -->
-        <div class="contact-right">
-            <h2>اطلاعات تماس</h2>
-            <div class="icon-box">
-                <i class="fas fa-map-marked-alt"></i>
-                <p>تهران، خیابان نمونه، پلاک 123</p>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-phone-alt"></i>
-                <a href="tel:02112345678">021-12345678</a>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:info@takhtiran.com">info@takhtiran.com</a>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-globe-americas"></i>
-                <a href="https://takhtiran.com">takhtiran.com</a>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-clock"></i>
-                <p>ساعت کاری نمایشگاه: همه روزه ۹:۳۰ صبح تا ۱۰ شب</p>
-            </div>
-        </div>
-
-        <!-- ستون فرم تماس و نقشه -->
-        <div class="contact-left">
-            <h2>سوالی دارید؟</h2>
-            <p>با استفاده از فرم زیر می‌توانید با ما ارتباط برقرار کنید</p>
-
-            <!-- فرم تماس -->
-            <form class="contact-form" method="post">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="نام" required>
-                </div>
-                <div class="form-group">
-                    <input type="tel" name="phone" placeholder="شماره تماس" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="ایمیل">
-                </div>
-                <div class="form-group">
-                    <textarea name="message" rows="4" placeholder="متن پیام"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">ارسال</button>
-                </div>
-            </form>
-
-            <!-- نقشه گوگل -->
-            <div class="map-container" style="margin-top: 20px;">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.123456789!2d51.421!3d35.689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8xxxxxxxxxx%3A0xabcdef!2z2KfZhNmF2KfZhNmH2YbYsdmK2Kkg2KfZhNi02Kkg2KzYqNin2YY!5e0!3m2!1sfa!2sir!4v0000000000000" 
-                    width="100%" 
-                    height="300" 
-                    style="border:0; border-radius:12px;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<!-- CSS داخلی برای صفحه تماس -->
-<style>
-/* فونت و پایه */
-.contact-section {
-    padding: 60px 20px;
-    background-color: #f4f6f8;
-    direction: rtl;
-    font-family: "Vazir", Tahoma, sans-serif;
-    color: #1a202c;
+.contact-form button:hover {
+    background-color: #162d57;
 }
-.contact-container {
+
+/* =============================
+   Map & Team
+============================= */
+.map-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.team-container img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* =============================
+   Info Boxes
+============================= */
+.info-boxes {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     flex-wrap: wrap;
-    justify-content: center;
+    margin-top: 40px;
 }
-.contact-left, .contact-right {
-    flex: 1 1 400px;
-    max-width: 500px;
-}
-.contact-left { order: 2; }
-.contact-right { order: 1; }
 
-/* تیترها */
-.contact-left h2, .contact-right h2 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #1a202c;
+.info-box {
+    flex: 1 1 300px;
+    background-color: #0b1e3a;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
 }
-.contact-left p { margin-bottom: 15px; }
 
-/* آیکون باکس‌ها */
-.icon-box {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 12px;
+.info-box h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #f0f0f0;
 }
-.icon-box i {
-    font-size: 1.3rem;
-    color: #3b82f6;
-    margin-top: 3px;
-}
-.icon-box p, .icon-box a {
-    font-size: 0.95rem;
-    color: #1a202c;
-}
-.icon-box a:hover { color: #2563eb; }
 
-/* فرم تماس */
-.contact-form .form-group { margin-bottom: 15px; }
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    font-size: 0.95rem;
-    background-color: #fff;
+.info-box p, .info-box a {
+    color: #d3d3d3;
+    text-decoration: none;
+    margin-bottom: 8px;
+    display: block;
 }
-.contact-form textarea { resize: vertical; }
-.contact-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1a202c;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-.contact-form button:hover { background-color: #3b82f6; }
 
-/* ریسپانسیو */
-@media (max-width: 768px) {
-    .contact-container { flex-direction: column; gap: 20px; }
-    .contact-left, .contact-right { order: initial; }
+.info-box a:hover {
+    color: #ffffff;
 }
-</style>
-{% endblock %}
-ackground-color: #3b82f6; }
 
-/* ریسپانسیو */
-@media (max-width: 768px) {
-    .contact-container { flex-direction: column; gap: 20px; }
-    .contact-left, .contact-right { order: initial; }
+/* =============================
+   Responsive
+============================= */
+@media (max-width: 900px) {
+    .contact-container {
+        flex-direction: column;
+    }
+    .info-boxes {
+        flex-direction: column;
+    }
 }
-</style>
-{% endblock %}
