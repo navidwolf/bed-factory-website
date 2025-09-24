@@ -6,24 +6,28 @@
     <h1>سبد خرید شما</h1>
     {% if cart_items %}
     <div class="cart-box">
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>محصول</th>
-                    <th>قیمت</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ "{:,}".format(item.price) }} تومان</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p class="cart-total">جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-        <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+        <div class="cart-table-wrapper">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>محصول</th>
+                        <th>قیمت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ "{:,}".format(item.price) }} تومان</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="cart-total-container">
+            <span class="cart-total">جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</span>
+            <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+        </div>
     </div>
     {% else %}
     <p>سبد خرید شما خالی است.</p>
