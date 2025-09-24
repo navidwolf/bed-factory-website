@@ -133,110 +133,101 @@ header, .hero {
     color: #1f2937;
 }
 
-/* ======================
-   استایل اختصاصی صفحه تماس با ما
-   فقط روی سکشن elementor-section[data-id="1b0f1fa"]
-====================== */
-
-.elementor-section[data-id="1b0f1fa"] {
-    background: #f9fafb;
-    padding: 50px 20px;
-    border-radius: 12px;
+/* =====================
+   صفحه تماس
+===================== */
+.contact-section {
+    padding: 60px 20px;
+    background-color: #f3f4f6;
 }
 
-.elementor-section[data-id="1b0f1fa"] h2,
-.elementor-section[data-id="1b0f1fa"] h3,
-.elementor-section[data-id="1b0f1fa"] p {
-    font-family: "Tahoma", sans-serif;
-    color: #1f2937;
-}
-
-.elementor-section[data-id="1b0f1fa"] .elementor-widget-heading h2 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.elementor-section[data-id="1b0f1fa"] .elementor-widget-heading p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    color: #374151;
-}
-
-/* باکس آیکون‌ها */
-.elementor-section[data-id="1b0f1fa"] .elementor-icon-box-wrapper {
+.contact-container {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 12px 15px;
-    margin-bottom: 12px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.elementor-section[data-id="1b0f1fa"] .elementor-icon-box-wrapper:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+/* ستون‌ها */
+.contact-left, .contact-right {
+    flex: 1 1 400px;
+    max-width: 500px;
 }
 
-/* آیکون‌ها */
-.elementor-section[data-id="1b0f1fa"] .elementor-icon-box-icon i {
-    font-size: 20px;
-    color: #2563eb;
-}
-
-/* لینک‌ها */
-.elementor-section[data-id="1b0f1fa"] .elementor-icon-box-title a {
+/* تیترها */
+.contact-left h2,
+.contact-right h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
     color: #1f2937;
-    font-weight: 600;
-    transition: color 0.3s;
 }
 
-.elementor-section[data-id="1b0f1fa"] .elementor-icon-box-title a:hover {
-    color: #2563eb;
+.contact-left h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+/* آیتم‌های آیکون باکس */
+.icon-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.icon-box i {
+    font-size: 1.3rem;
+    color: #facc15;
+    margin-top: 3px;
+}
+
+.icon-box p, .icon-box a {
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.icon-box a:hover {
+    color: #f59e0b;
 }
 
 /* فرم تماس */
-.elementor-section[data-id="1b0f1fa"] .elementor-form {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.contact-form .form-group {
+    margin-bottom: 15px;
 }
 
-.elementor-section[data-id="1b0f1fa"] .elementor-form input,
-.elementor-section[data-id="1b0f1fa"] .elementor-form textarea {
-    border: 1px solid #d1d5db;
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px 12px;
     border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 0.95rem;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form button {
+    width: 100%;
     padding: 12px;
-    transition: border 0.3s, box-shadow 0.3s;
-}
-
-.elementor-section[data-id="1b0f1fa"] .elementor-form input:focus,
-.elementor-section[data-id="1b0f1fa"] .elementor-form textarea:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-    outline: none;
-}
-
-/* دکمه ارسال */
-.elementor-section[data-id="1b0f1fa"] .elementor-button {
     background-color: #1f2937;
     color: #fff;
+    font-weight: 600;
+    border: none;
     border-radius: 8px;
-    padding: 12px 20px;
-    font-weight: bold;
-    transition: background 0.3s, transform 0.2s;
-    width: 100%;
-    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.elementor-section[data-id="1b0f1fa"] .elementor-button:hover {
-    background-color: #2563eb;
-    transform: translateY(-2px);
+.contact-form button:hover {
+    background-color: #facc15;
+    color: #1f2937;
 }
+
 /* =====================
    سبد خرید و صفحات دیگر
 ===================== */
@@ -254,4 +245,14 @@ footer {
     text-align: center;
     padding: 15px 0;
     margin-top: 50px;
+}
+
+/* =====================
+   ریسپانسیو
+===================== */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        gap: 20px;
+    }
 }

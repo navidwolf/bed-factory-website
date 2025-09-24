@@ -1,31 +1,80 @@
 {% extends "base.html" %}
-{% block title %}تماس با ما{% endblock %}
+{% block title %}تماس با ما - تخت ایران{% endblock %}
 
 {% block content %}
-<h1>تماس با ما</h1>
-<div class="contact-info">
-    <p>ایمیل: info@example.com</p>
-    <p>تلفن: 123456789</p>
-    <p>آدرس: تهران، خیابان نمونه</p>
-</div>
+<section class="contact-section">
+    <div class="contact-container">
+        <!-- ستون سمت چپ: اطلاعات تماس -->
+        <div class="contact-left">
+            <h2>اطلاعات تماس</h2>
+            <p>اطلاعات تماس با شعب تخت ایران</p>
 
-<div class="contact-container" style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
-    <!-- نقشه Google Maps -->
-    <div class="map-container" style="flex: 1 1 50%; height: 300px;">
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.123456789!2d51.421!3d35.689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8xxxxxxxxxx%3A0xabcdef!2z2KfZhNmF2KfZhNmH2YbYsdmK2Kkg2KfZhNi02Kkg2KzYqNin2YY!5e0!3m2!1sfa!2sir!4v0000000000000" 
-            width="100%" 
-            height="100%" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-    </div>
+            <!-- شعبه مرکزی -->
+            <h3>شعبه مرکزی</h3>
+            <div class="icon-box">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>تهران، خیابان نمونه، ساختمان تخت ایران</p>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-phone-alt"></i>
+                <p><a href="tel:02112345678">021-12345678</a></p>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-headphones"></i>
+                <p><a href="tel:1459">1459 بدون کد (ارتباط با کلیه شعب)</a></p>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-envelope"></i>
+                <p><a href="mailto:info@takhtiran.com">info@takhtiran.com</a></p>
+            </div>
 
-    <!-- تصویر تیم -->
-    <div class="team-container" style="flex: 1 1 50%; text-align: center;">
-        <img src="{{ url_for('static', filename='images/team.webp') }}" alt="Team" style="max-width: 100%; border-radius: 10px;">
+            <!-- ساعت کار نمایشگاه -->
+            <h3>ساعت کار نمایشگاه</h3>
+            <div class="icon-box">
+                <i class="far fa-clock"></i>
+                <p>همه روزه: 9:30 صبح تا 10 شب</p>
+            </div>
+
+            <!-- ساعت کار اداری -->
+            <h3>ساعت کار اداری</h3>
+            <div class="icon-box">
+                <i class="far fa-clock"></i>
+                <p>شنبه تا پنجشنبه: 9 صبح تا 6 عصر</p>
+            </div>
+
+            <!-- لینک سایت‌ها -->
+            <h3>وب‌سایت‌ها</h3>
+            <div class="icon-box">
+                <i class="fas fa-globe-americas"></i>
+                <p><a href="https://takhtiran.com">TakhtIran.com</a> - سایت رسمی شرکت تخت ایران</p>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-globe-americas"></i>
+                <p><a href="https://takhtiranmag.ir">TakhtIranMag.ir</a> - مجله اینترنتی تخت ایران</p>
+            </div>
+        </div>
+
+        <!-- ستون سمت راست: فرم تماس -->
+        <div class="contact-right">
+            <h2>سوالی دارید؟</h2>
+            <p>با استفاده از فرم زیر می‌توانید با ما ارتباط برقرار کنید</p>
+            
+            <form method="post" class="contact-form">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="نام شما" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="شماره تماس" required pattern="[0-9()+-]+">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="ایمیل شما">
+                </div>
+                <div class="form-group">
+                    <textarea name="message" rows="5" placeholder="پیام شما"></textarea>
+                </div>
+                <button type="submit">ارسال</button>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 {% endblock %}
