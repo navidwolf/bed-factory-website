@@ -122,6 +122,12 @@ footer {
     transition: all 0.3s;
 }
 
+/* راست‌چین کردن شماره تماس */
+.contact-form input[name="phone"] {
+    direction: rtl;
+    text-align: right;
+}
+
 .contact-form input:focus,
 .contact-form textarea:focus {
     border-color: #0b1e3a;
