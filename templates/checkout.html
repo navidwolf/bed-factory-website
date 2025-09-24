@@ -1,18 +1,13 @@
 {% extends "base.html" %}
-{% block title %}تکمیل خرید{% endblock %}
+{% block title %}پرداخت{% endblock %}
 
 {% block content %}
 <section class="checkout-section">
     <h1>تکمیل خرید</h1>
 
     {% if cart_items %}
-    <p class="checkout-total">
-        جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان
-    </p>
-
     <form method="POST" action="#" class="checkout-form">
         <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
-        <input type="tel" name="phone" placeholder="شماره تماس" required style="direction: rtl;">
         <input type="email" name="email" placeholder="ایمیل" required>
         <input type="text" name="address" placeholder="آدرس" required>
         <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
@@ -21,4 +16,12 @@
     <p>سبد خرید شما خالی است.</p>
     {% endif %}
 </section>
+
+{% if cart_items %}
+<!-- پیش‌فاکتور ثابت پایین صفحه -->
+<div class="invoice-box">
+    <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+    <a href="#" class="btn">پرداخت</a>
+</div>
+{% endif %}
 {% endblock %}

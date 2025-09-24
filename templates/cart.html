@@ -5,16 +5,8 @@
 <section class="cart-section">
     <h1>سبد خرید شما</h1>
 
-    <!-- استایل آماده (دمو UI) -->
-    <div class="cart-preview">
-        <iframe 
-            src="https://preview.webrubik.com/responsive-shopping-cart/" 
-            class="cart-iframe">
-        </iframe>
-    </div>
-
-    <!-- جدول واقعی سبد خرید -->
     {% if cart_items %}
+    <!-- جدول اصلی سبد خرید -->
     <table class="cart-table">
         <thead>
             <tr>
@@ -31,7 +23,12 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+
+    <!-- پیش فاکتور گوشه پایین چپ -->
+    <div class="invoice-box">
+        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+        <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+    </div>
     {% else %}
     <p>سبد خرید شما خالی است.</p>
     {% endif %}
