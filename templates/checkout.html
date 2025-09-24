@@ -2,26 +2,24 @@
 {% block title %}پرداخت{% endblock %}
 
 {% block content %}
-<section class="checkout-section">
-    <h1>تکمیل خرید</h1>
-
-    {% if cart_items %}
-    <form method="POST" action="#" class="checkout-form">
-        <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
-        <input type="email" name="email" placeholder="ایمیل" required>
-        <input type="text" name="address" placeholder="آدرس" required>
-        <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
-    </form>
-    {% else %}
-    <p>سبد خرید شما خالی است.</p>
-    {% endif %}
-</section>
+<h1>تکمیل خرید</h1>
 
 {% if cart_items %}
-<!-- پیش‌فاکتور ثابت پایین صفحه -->
-<div class="invoice-box">
-    <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-    <a href="#" class="btn">پرداخت</a>
+<div class="checkout-section">
+    <form class="checkout-form" method="POST" action="{{ url_for('process_checkout') }}">
+        <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+        <input type="email" name="email" placeholder="ایمیل" required>
+        <input type="text" name="phone" placeholder="شماره تماس" required>
+        <input type="text" name="address" placeholder="آدرس" required>
+        <button type="submit">پرداخت و ثبت سفارش</button>
+    </form>
+
+    <div class="invoice-box">
+        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+        <button disabled>سبد شما</button>
+    </div>
 </div>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
 {% endif %}
 {% endblock %}

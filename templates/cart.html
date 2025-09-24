@@ -2,35 +2,37 @@
 {% block title %}سبد خرید{% endblock %}
 
 {% block content %}
-<section class="cart-section">
-    <h1>سبد خرید شما</h1>
+<h1>سبد خرید شما</h1>
 
-    {% if cart_items %}
-    <!-- جدول اصلی سبد خرید -->
-    <table class="cart-table">
-        <thead>
-            <tr>
-                <th>محصول</th>
-                <th>قیمت</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in cart_items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ "{:,}".format(item.price) }} تومان</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- پیش فاکتور گوشه پایین چپ -->
-    <div class="invoice-box">
-        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-        <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+{% if cart_items %}
+<div class="cart-table">
+    {% for item in cart_items %}
+    <div class="cart-item">
+        <div class="cart-img">
+            <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+        </div>
+        <div class="cart-details">
+            <h3>{{ item.name }}</h3>
+            <p class="desc">{{ item.short_desc }}</p>
+            <p class="price">{{ "{:,}".format(item.price) }} تومان</p>
+        </div>
+        <div class="cart-quantity">
+            <form method="POST" action="{{ url_for('update_cart', item_id=item.id) }}">
+                <button type="submit" name="action" value="decrease">-</button>
+                <span>{{ item.quantity }}</span>
+                <button type="submit" name="action" value="increase">+</button>
+            </form>
+        </div>
     </div>
-    {% else %}
-    <p>سبد خرید شما خالی است.</p>
-    {% endif %}
-</section>
+    {% endfor %}
+</div>
+
+<div class="invoice-box">
+    <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+    <a href="{{ url_for('checkout') }}"><button>پرداخت</button></a>
+</div>
+
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
 {% endblock %}
