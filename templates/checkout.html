@@ -2,40 +2,16 @@
 {% block title %}پرداخت{% endblock %}
 
 {% block content %}
-<div class="cart-container">
-    <h1>تکمیل خرید</h1>
-    {% if cart_items %}
-    <div class="cart-box">
-        <div class="cart-table-wrapper">
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>محصول</th>
-                        <th>قیمت</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in cart_items %}
-                    <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ "{:,}".format(item.price) }} تومان</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="cart-total-container">
-            <span class="cart-total">جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</span>
-        </div>
-        <form method="POST" action="#" class="checkout-form" style="padding: 20px;">
-            <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
-            <input type="email" name="email" placeholder="ایمیل" required>
-            <input type="text" name="address" placeholder="آدرس" required>
-            <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
-        </form>
-    </div>
-    {% else %}
-    <p>سبد خرید شما خالی است.</p>
-    {% endif %}
-</div>
+<h1>تکمیل خرید</h1>
+{% if cart_items %}
+<p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+<form method="POST" action="#">
+    <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+    <input type="email" name="email" placeholder="ایمیل" required>
+    <input type="text" name="address" placeholder="آدرس" required>
+    <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
+</form>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
 {% endblock %}
