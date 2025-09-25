@@ -114,7 +114,7 @@ footer {
     font-size: 16px;
     outline: none;
     transition: all 0.3s;
-    direction: rtl; /* ورودی‌ها راست‌به‌چپ */
+    direction: rtl;
 }
 
 .contact-form input:focus,
@@ -204,9 +204,11 @@ footer {
     font-size: 26px;
     color: #0b1e3a;
     margin-bottom: 20px;
+    text-align: center;
 }
 
-.cart-table {
+/* جدول سبد خرید مشابه WooCommerce */
+.shop_table {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
@@ -215,26 +217,97 @@ footer {
     overflow: hidden;
 }
 
-.cart-table th, 
-.cart-table td {
+.shop_table th,
+.shop_table td {
     padding: 15px;
     text-align: right;
     border-bottom: 1px solid #eee;
+    font-size: 15px;
+    color: #333;
 }
 
-.cart-table th {
+.shop_table th {
     background-color: #0b1e3a;
     color: #fff;
     font-weight: 600;
 }
 
-.cart-table tr:last-child td {
+.cart_item:last-child td {
     border-bottom: none;
 }
 
-.cart-table td {
-    color: #333;
-    font-size: 15px;
+.product-remove .remove {
+    color: #ff3b3b;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.product-remove .remove:hover {
+    color: #ff0000;
+}
+
+.product-thumbnail img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product-name a {
+    text-decoration: none;
+    color: #0b1e3a;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.product-name a:hover {
+    color: #1abc9c;
+}
+
+.product-quantity input.qty {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.product-quantity input.qty:focus {
+    border-color: #0b1e3a;
+    box-shadow: 0 0 5px rgba(11,30,58,0.2);
+}
+
+.product-subtotal bdi {
+    font-weight: bold;
+}
+
+/* جمع کل سبد خرید */
+#cart-total {
+    display: inline-block;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #0b1e3a;
+}
+
+/* دکمه‌ها */
+.shop_table .button {
+    padding: 10px 20px;
+    background-color: #0b1e3a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.shop_table .button:hover {
+    background-color: #162d57;
 }
 
 /* پیش فاکتور گوشه پایین سمت چپ */
@@ -339,4 +412,12 @@ footer {
         width: auto;
         text-align: center;
     }
-}
+    .product-thumbnail img {
+        width: 60px;
+        height: 60px;
+    }
+    #cart-total {
+        font-size: 16px;
+    }
+    .shop_table th, .shop_table td {
+        font-size
