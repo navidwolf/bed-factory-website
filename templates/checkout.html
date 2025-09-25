@@ -18,12 +18,14 @@
 </section>
 
 {% if cart_items %}
+<!-- پیش‌فاکتور پایین صفحه -->
 <div class="invoice-box">
     {% set total = 0 %}
     {% for item in cart_items %}
         {% set total = total + (item['price'] * item['quantity']) %}
     {% endfor %}
     <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
+    <a href="#" class="btn">پرداخت</a>
 </div>
 {% endif %}
 {% endblock %}

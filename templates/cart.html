@@ -10,8 +10,8 @@
         <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
             <thead>
                 <tr>
-                    <th class="product-remove">حذف آیتم</th>
-                    <th class="product-thumbnail">تصویر</th>
+                    <th class="product-remove"><span class="screen-reader-text">حذف آیتم</span></th>
+                    <th class="product-thumbnail"><span class="screen-reader-text">Thumbnail image</span></th>
                     <th class="product-name">محصول</th>
                     <th class="product-price">قیمت</th>
                     <th class="product-quantity">تعداد</th>
@@ -19,35 +19,43 @@
                 </tr>
             </thead>
             <tbody>
-                {% set total = 0 %}
                 {% for item in cart_items %}
-                {% set subtotal = item['price'] * item['quantity'] %}
-                {% set total = total + subtotal %}
-                <tr class="cart_item">
+                <tr class="woocommerce-cart-form__cart-item cart_item">
                     <td class="product-remove">
-                        <a href="{{ url_for('remove_from_cart', product_id=item['id']) }}" class="remove">×</a>
+                        <a href="{{ url_for('remove_from_cart', product_id=item['id']) }}" class="remove" aria-label="حذف {{ item['name'] }}">×</a>
                     </td>
                     <td class="product-thumbnail">
-                        <img src="{{ url_for('static', filename='images/' ~ item['image']) }}" alt="{{ item['name'] }}" width="100">
+                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item['image']) }}" alt="{{ item['name'] }}" width="100"></a>
                     </td>
-                    <td class="product-name">{{ item['name'] }}</td>
-                    <td class="product-price">{{ "{:,}".format(item['price']) }} تومان</td>
-                    <td class="product-quantity">
+                    <td class="product-name" data-title="محصول">
+                        {{ item['name'] }}
+                    </td>
+                    <td class="product-price" data-title="قیمت">
+                        {{ "{:,}".format(item['price']) }} تومان
+                    </td>
+                    <td class="product-quantity" data-title="تعداد">
                         <input type="number" name="quantity_{{ item['id'] }}" value="{{ item['quantity'] }}" min="1" style="width:60px;">
                     </td>
-                    <td class="product-subtotal">{{ "{:,}".format(subtotal) }} تومان</td>
+                    <td class="product-subtotal" data-title="قیمت کل">
+                        {{ "{:,}".format(item['price'] * item['quantity']) }} تومان
+                    </td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <td colspan="6" class="actions">
-                        <button type="submit" class="button">به‌روزرسانی سبد</button>
+                        <button type="submit" class="button" name="update_cart">به‌روزرسانی سبد</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </form>
 
+    <!-- محاسبه جمع کل با تعداد محصولات -->
     <div class="invoice-box">
+        {% set total = 0 %}
+        {% for item in cart_items %}
+            {% set total = total + (item['price'] * item['quantity']) %}
+        {% endfor %}
         <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
         <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
     </div>
