@@ -22,22 +22,22 @@
                 {% for item in cart_items %}
                 <tr class="woocommerce-cart-form__cart-item cart_item">
                     <td class="product-remove">
-                        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="remove" aria-label="حذف {{ item.name }}">×</a>
+                        <a href="{{ url_for('remove_from_cart', product_id=item['id']) }}" class="remove" aria-label="حذف {{ item['name'] }}">×</a>
                     </td>
                     <td class="product-thumbnail">
-                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}" width="100"></a>
+                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item['image']) }}" alt="{{ item['name'] }}" width="100"></a>
                     </td>
                     <td class="product-name" data-title="محصول">
-                        {{ item.name }}
+                        {{ item['name'] }}
                     </td>
                     <td class="product-price" data-title="قیمت">
-                        {{ "{:,}".format(item.price) }} تومان
+                        {{ "{:,}".format(item['price']) }} تومان
                     </td>
                     <td class="product-quantity" data-title="تعداد">
-                        <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1" style="width:60px;">
+                        <input type="number" name="quantity_{{ item['id'] }}" value="{{ item['quantity'] }}" min="1" style="width:60px;">
                     </td>
                     <td class="product-subtotal" data-title="قیمت کل">
-                        {{ "{:,}".format(item.price * item.quantity) }} تومان
+                        {{ "{:,}".format(item['price'] * item['quantity']) }} تومان
                     </td>
                 </tr>
                 {% endfor %}
@@ -54,7 +54,7 @@
     <div class="invoice-box">
         {% set total = 0 %}
         {% for item in cart_items %}
-            {% set total = total + (item.price * item.quantity) %}
+            {% set total = total + (item['price'] * item['quantity']) %}
         {% endfor %}
         <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
         <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
