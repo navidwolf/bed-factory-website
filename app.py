@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = "123456"  # ضروری برای session
+app.secret_key = "your_secret_key"  # ضروری برای session
 
 # داده‌های نمونه محصولات
 products = [
@@ -28,55 +28,80 @@ def product_detail(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
     return render_template("product_detail.html", product=product)
 
-@app.route("/cart", methods=["GET", "POST"])
-def cart():
-    if "cart_items" not in session:
-        session["cart_items"] = []
-
-    cart_items = session["cart_items"]
-
-    if request.method == "POST":
-        # بروزرسانی تعداد محصولات
-        for item in cart_items:
-            qty_str = request.form.get(f"quantity_{item['id']}")
-            if qty_str and qty_str.isdigit():
-                qty = int(qty_str)
-                if qty > 0:
-                    item["quantity"] = qty
-        session["cart_items"] = cart_items
-        return redirect(url_for("cart"))
-
-    return render_template("cart.html", cart_items=cart_items)
-
-@app.route("/checkout")
-def checkout():
-    cart_items = session.get("cart_items", [])
-    return render_template("checkout.html", cart_items=cart_items)
-
+# افزودن به سبد خرید
 @app.route("/add_to_cart/<int:product_id>")
 def add_to_cart(product_id):
-    if "cart_items" not in session:
-        session["cart_items"] = []
-
-    cart_items = session["cart_items"]
     product = next((p for p in products if p["id"] == product_id), None)
     if product:
+        if "cart_items" not in session:
+            session["cart_items"] = []
+        cart_items = session["cart_items"]
         existing = next((item for item in cart_items if item["id"] == product_id), None)
         if existing:
             existing["quantity"] += 1
         else:
             cart_items.append({**product, "quantity": 1})
-    session["cart_items"] = cart_items
+        session["cart_items"] = cart_items
     return redirect(url_for("cart"))
 
+# نمایش سبد خرید و بروزرسانی تعداد
+@app.route("/cart", methods=["GET", "POST"])
+def cart():
+    cart_items = session.get("cart_items", [])
+    if request.method == "POST":
+        for item in cart_items[:]:
+            qty_str = request.form.get(f"quantity_{item['id']}")
+            if qty_str and qty_str.isdigit():
+                qty = int(qty_str)
+                if qty > 0:
+                    item["quantity"] = qty
+                else:
+                    cart_items.remove(item)
+        session["cart_items"] = cart_items
+        return redirect(url_for("cart"))
+    return render_template("cart.html", cart_items=cart_items)
+
+# حذف محصول از سبد
 @app.route("/remove_from_cart/<int:product_id>")
 def remove_from_cart(product_id):
-    if "cart_items" not in session:
-        session["cart_items"] = []
-    cart_items = session["cart_items"]
+    cart_items = session.get("cart_items", [])
     cart_items = [item for item in cart_items if item["id"] != product_id]
     session["cart_items"] = cart_items
     return redirect(url_for("cart"))
+
+@app.route("/checkout", methods=["GET", "POST"])
+def checkout():
+    cart_items = session.get("cart_items", [])
+    if request.method == "POST":
+        # اینجا می‌توانید عملیات پرداخت و ذخیره سفارش را انجام دهید
+        session["cart_items"] = []  # پاک کردن سبد پس از خرید
+        return redirect(url_for("index"))
+    return render_template("checkout.html", cart_items=cart_items)
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message")
+        print(f"New message from {name} ({email}): {message}")
+        return redirect(url_for("contact"))
+    return render_template("contact.html")
+
+# ---- Admin routes ----
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if username == "admin" and password == "1234":
+            return redirect(url_for("admin_dashboard"))
+    return render_template("admin/login.html")
+
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    cart_items = session.get("cart_items", [])
+    return render_template("admin/dashboard.html", products=products, cart_items=cart_items)
 
 if __name__ == "__main__":
     app.run(debug=True)
