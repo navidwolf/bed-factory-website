@@ -14,6 +14,7 @@ products = [
     {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
 ]
 
+# هر آیتم سبد، شامل محصول و تعداد آن
 cart_items = []
 
 @app.route("/")
@@ -29,8 +30,20 @@ def product_detail(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
     return render_template("product_detail.html", product=product)
 
-@app.route("/cart")
+@app.route("/cart", methods=["GET", "POST"])
 def cart():
+    if request.method == "POST":
+        # بروزرسانی تعداد محصولات
+        for item in cart_items:
+            qty_str = request.form.get(f"quantity_{item['id']}")
+            if qty_str and qty_str.isdigit():
+                qty = int(qty_str)
+                if qty > 0:
+                    item["quantity"] = qty
+                else:
+                    # اگر تعداد صفر شد، حذف شود
+                    cart_items.remove(item)
+        return redirect(url_for("cart"))
     return render_template("cart.html", cart_items=cart_items)
 
 @app.route("/checkout")
@@ -43,7 +56,6 @@ def contact():
         name = request.form.get("name")
         email = request.form.get("email")
         message = request.form.get("message")
-        # ذخیره پیام یا پردازش
         print(f"New message from {name} ({email}): {message}")
         return redirect(url_for("contact"))
     return render_template("contact.html")
@@ -52,14 +64,25 @@ def contact():
 def add_to_cart(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
     if product:
-        cart_items.append(product)
+        # بررسی اینکه محصول قبلاً اضافه شده باشد
+        existing = next((item for item in cart_items if item["id"] == product_id), None)
+        if existing:
+            existing["quantity"] += 1
+        else:
+            # اضافه کردن محصول با تعداد 1
+            cart_items.append({**product, "quantity": 1})
+    return redirect(url_for("cart"))
+
+@app.route("/remove_from_cart/<int:product_id>")
+def remove_from_cart(product_id):
+    global cart_items
+    cart_items = [item for item in cart_items if item["id"] != product_id]
     return redirect(url_for("cart"))
 
 # ---- Admin routes ----
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        # اعتبارسنجی ساده
         username = request.form.get("username")
         password = request.form.get("password")
         if username == "admin" and password == "1234":

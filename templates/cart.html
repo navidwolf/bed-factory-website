@@ -6,7 +6,7 @@
     <h1>سبد خرید شما</h1>
 
     {% if cart_items %}
-    <form class="woocommerce-cart-form" action="{{ url_for('cart') }}" method="post">
+    <form method="POST" action="{{ url_for('cart') }}" class="woocommerce-cart-form">
         <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
             <thead>
                 <tr>
@@ -22,23 +22,23 @@
                 {% for item in cart_items %}
                 <tr class="woocommerce-cart-form__cart-item cart_item">
                     <td class="product-remove">
-                        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="remove" aria-label="حذف {{ item.name }} از سبد">×</a>
+                        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="remove" aria-label="Remove {{ item.name }}">×</a>
                     </td>
                     <td class="product-thumbnail">
-                        <!-- تصویر محصول، می‌توانید مسیر تصویر خودتان را جایگزین کنید -->
-                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}"></a>
+                        <!-- تصویر خالی تا خودت جایگزین کنی -->
+                        <a href="#"><img src="" alt="{{ item.name }}" width="100"></a>
                     </td>
                     <td class="product-name" data-title="محصول">
-                        <a href="#">{{ item.name }}</a>
+                        {{ item.name }}
                     </td>
                     <td class="product-price" data-title="قیمت">
-                        <span class="woocommerce-Price-amount amount">{{ "{:,}".format(item.price) }} تومان</span>
+                        {{ "{:,}".format(item.price) }} تومان
                     </td>
                     <td class="product-quantity" data-title="تعداد">
-                        <input type="number" name="quantity_{{ item.id }}" value="1" min="1" class="qty">
+                        <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1" style="width:60px;">
                     </td>
                     <td class="product-subtotal" data-title="قیمت کل">
-                        <span class="woocommerce-Price-amount amount">{{ "{:,}".format(item.price) }} تومان</span>
+                        {{ "{:,}".format(item.price * item.quantity) }} تومان
                     </td>
                 </tr>
                 {% endfor %}
@@ -51,14 +51,12 @@
         </table>
     </form>
 
-    <!-- پیش فاکتور گوشه پایین چپ -->
     <div class="invoice-box">
-        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price', start=0) + 0) }} تومان</p>
         <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
     </div>
-
     {% else %}
-    <p style="text-align:center; margin-top:20px;">سبد خرید شما خالی است.</p>
+    <p>سبد خرید شما خالی است.</p>
     {% endif %}
 </section>
 {% endblock %}
