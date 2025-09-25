@@ -1,52 +1,36 @@
 {% extends "base.html" %}
+{% block title %}سبد خرید{% endblock %}
 
 {% block content %}
-<main>
-    <section class="cart-table">
-        <h2>سبد خرید شما</h2>
+<section class="cart-section">
+    <h1>سبد خرید شما</h1>
 
-        {% if cart_items %}
+    {% if cart_items %}
+    <!-- جدول اصلی سبد خرید -->
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>محصول</th>
+                <th>قیمت</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for item in cart_items %}
-            <div class="cart-item">
-                <div class="cart-img">
-                    <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
-                </div>
-                <div class="cart-details">
-                    <h3>{{ item.name }}</h3>
-                    <p class="desc">قیمت واحد: {{ "{:,}".format(item.price) }} تومان</p>
-                    <p class="price">قیمت کل: {{ "{:,}".format(item.price * item.quantity) }} تومان</p>
-                </div>
-                <div class="cart-quantity">
-                    <!-- فرم کاهش تعداد -->
-                    <form method="POST" action="{{ url_for('remove_from_cart', product_id=item.id) }}">
-                        <button type="submit">-</button>
-                    </form>
-
-                    <span>{{ item.quantity }}</span>
-
-                    <!-- فرم افزایش تعداد -->
-                    <form method="POST" action="{{ url_for('add_to_cart', product_id=item.id) }}">
-                        <button type="submit">+</button>
-                    </form>
-
-                    <!-- فرم حذف محصول -->
-                    <form method="POST" action="{{ url_for('delete_from_cart', product_id=item.id) }}">
-                        <button type="submit">حذف</button>
-                    </form>
-                </div>
-            </div>
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ "{:,}".format(item.price) }} تومان</td>
+            </tr>
             {% endfor %}
+        </tbody>
+    </table>
 
-            <div class="checkout-section">
-                <h3>پیش‌فاکتور</h3>
-                <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price', start=0)) }} تومان</p>
-                <a href="{{ url_for('checkout') }}">
-                    <button>تکمیل خرید</button>
-                </a>
-            </div>
-        {% else %}
-            <p>سبد خرید شما خالی است.</p>
-        {% endif %}
-    </section>
-</main>
+    <!-- پیش فاکتور گوشه پایین چپ -->
+    <div class="invoice-box">
+        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
+        <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
+    </div>
+    {% else %}
+    <p>سبد خرید شما خالی است.</p>
+    {% endif %}
+</section>
 {% endblock %}

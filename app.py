@@ -16,7 +16,6 @@ products = [
 
 cart_items = []
 
-# صفحات اصلی
 @app.route("/")
 def index():
     return render_template("index.html", products=products)
@@ -49,37 +48,18 @@ def contact():
         return redirect(url_for("contact"))
     return render_template("contact.html")
 
-# مسیرهای cart
-@app.route("/add_to_cart/<int:product_id>", methods=["POST"])
+@app.route("/add_to_cart/<int:product_id>")
 def add_to_cart(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
     if product:
-        existing = next((item for item in cart_items if item["id"] == product_id), None)
-        if existing:
-            existing["quantity"] += 1
-        else:
-            cart_items.append({**product, "quantity": 1})
-    return redirect(url_for("cart"))
-
-@app.route("/remove_from_cart/<int:product_id>", methods=["POST"])
-def remove_from_cart(product_id):
-    existing = next((item for item in cart_items if item["id"] == product_id), None)
-    if existing:
-        existing["quantity"] -= 1
-        if existing["quantity"] <= 0:
-            cart_items.remove(existing)
-    return redirect(url_for("cart"))
-
-@app.route("/delete_from_cart/<int:product_id>", methods=["POST"])
-def delete_from_cart(product_id):
-    global cart_items
-    cart_items = [item for item in cart_items if item["id"] != product_id]
+        cart_items.append(product)
     return redirect(url_for("cart"))
 
 # ---- Admin routes ----
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
+        # اعتبارسنجی ساده
         username = request.form.get("username")
         password = request.form.get("password")
         if username == "admin" and password == "1234":
