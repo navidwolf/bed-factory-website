@@ -12,13 +12,18 @@
         <input type="text" name="address" placeholder="آدرس" required>
         <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
     </form>
-
-    <div class="invoice-box">
-        <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
-        <a href="#" class="btn">پرداخت</a>
-    </div>
     {% else %}
     <p>سبد خرید شما خالی است.</p>
     {% endif %}
 </section>
+
+{% if cart_items %}
+<div class="invoice-box">
+    {% set total = 0 %}
+    {% for item in cart_items %}
+        {% set total = total + (item['price'] * item['quantity']) %}
+    {% endfor %}
+    <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
+</div>
+{% endif %}
 {% endblock %}
