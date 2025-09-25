@@ -2,37 +2,51 @@
 {% block title %}سبد خرید{% endblock %}
 
 {% block content %}
-<h1>سبد خرید شما</h1>
+<section class="cart-table">
+    <h1>سبد خرید شما</h1>
 
-{% if cart_items %}
-<div class="cart-table">
-    {% for item in cart_items %}
-    <div class="cart-item">
-        <div class="cart-img">
-            <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
-        </div>
-        <div class="cart-details">
-            <h3>{{ item.name }}</h3>
-            <p class="desc">{{ item.short_desc }}</p>
-            <p class="price">{{ "{:,}".format(item.price) }} تومان</p>
-        </div>
-        <div class="cart-quantity">
-            <form method="POST" action="{{ url_for('update_cart', item_id=item.id) }}">
-                <button type="submit" name="action" value="decrease">-</button>
-                <span>{{ item.quantity }}</span>
-                <button type="submit" name="action" value="increase">+</button>
-            </form>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+    {% if cart_items %}
+        {% for item in cart_items %}
+        <div class="cart-item">
+            <!-- عکس محصول -->
+            <div class="cart-img">
+                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+            </div>
 
-<div class="invoice-box">
-    <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-    <a href="{{ url_for('checkout') }}"><button>پرداخت</button></a>
-</div>
+            <!-- جزئیات محصول -->
+            <div class="cart-details">
+                <h3>{{ item.name }}</h3>
+                <p class="desc">یک توضیح کوتاه درباره محصول (در دیتابیس می‌تونی فیلد اضافه کنی)</p>
+                <p class="price">{{ "{:,}".format(item.price) }} تومان</p>
+            </div>
 
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
+            <!-- دکمه‌های افزایش/کاهش -->
+            <div class="cart-quantity">
+                <form method="post" action="{{ url_for('add_to_cart', product_id=item.id) }}">
+                    <button type="submit">+</button>
+                </form>
+                <span>{{ item.quantity if item.quantity else 1 }}</span>
+                <form method="post" action="{{ url_for('remove_from_cart', product_id=item.id) }}">
+                    <button type="submit">−</button>
+                </form>
+                <form method="post" action="{{ url_for('delete_from_cart', product_id=item.id) }}">
+                    <button type="submit">🗑️</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- پیش‌فاکتور نارنجی -->
+        <div class="invoice-box">
+            <p>جمع کل: 
+                {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان
+            </p>
+            <a href="{{ url_for('checkout') }}">
+                <button>ادامه خرید</button>
+            </a>
+        </div>
+    {% else %}
+        <p>سبد خرید شما خالی است.</p>
+    {% endif %}
+</section>
 {% endblock %}

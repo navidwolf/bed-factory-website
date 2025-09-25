@@ -14,6 +14,7 @@ products = [
     {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
 ]
 
+# سبد خرید (لیست دیکشنری‌ها با quantity)
 cart_items = []
 
 @app.route("/")
@@ -48,11 +49,34 @@ def contact():
         return redirect(url_for("contact"))
     return render_template("contact.html")
 
+# ------------------ سبد خرید ------------------
+
 @app.route("/add_to_cart/<int:product_id>")
 def add_to_cart(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
     if product:
-        cart_items.append(product)
+        item = next((i for i in cart_items if i["id"] == product_id), None)
+        if item:
+            item["quantity"] += 1
+        else:
+            new_item = product.copy()
+            new_item["quantity"] = 1
+            cart_items.append(new_item)
+    return redirect(url_for("cart"))
+
+@app.route("/remove_from_cart/<int:product_id>")
+def remove_from_cart(product_id):
+    item = next((i for i in cart_items if i["id"] == product_id), None)
+    if item:
+        item["quantity"] -= 1
+        if item["quantity"] <= 0:
+            cart_items.remove(item)
+    return redirect(url_for("cart"))
+
+@app.route("/delete_from_cart/<int:product_id>")
+def delete_from_cart(product_id):
+    global cart_items
+    cart_items = [i for i in cart_items if i["id"] != product_id]
     return redirect(url_for("cart"))
 
 # ---- Admin routes ----

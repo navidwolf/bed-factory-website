@@ -1,25 +1,46 @@
 {% extends "base.html" %}
-{% block title %}پرداخت{% endblock %}
+{% block title %}تکمیل خرید{% endblock %}
 
 {% block content %}
-<h1>تکمیل خرید</h1>
+<section class="checkout-section">
+    <h1>تکمیل خرید</h1>
 
-{% if cart_items %}
-<div class="checkout-section">
-    <form class="checkout-form" method="POST" action="{{ url_for('process_checkout') }}">
-        <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
-        <input type="email" name="email" placeholder="ایمیل" required>
-        <input type="text" name="phone" placeholder="شماره تماس" required>
-        <input type="text" name="address" placeholder="آدرس" required>
-        <button type="submit">پرداخت و ثبت سفارش</button>
-    </form>
+    {% if cart_items %}
+        <!-- نمایش لیست محصولات در فاکتور -->
+        <div class="cart-table">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="cart-img">
+                    <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
+                </div>
+                <div class="cart-details">
+                    <h3>{{ item.name }}</h3>
+                    <p class="desc">خلاصه‌ای از محصول</p>
+                    <p class="price">{{ "{:,}".format(item.price) }} تومان</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-    <div class="invoice-box">
-        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-        <button disabled>سبد شما</button>
-    </div>
-</div>
-{% else %}
-<p>سبد خرید شما خالی است.</p>
-{% endif %}
+        <!-- فرم پرداخت -->
+        <form method="POST" action="#" class="checkout-form">
+            <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+            <input type="tel" name="phone" placeholder="شماره تماس" dir="rtl" required>
+            <input type="email" name="email" placeholder="ایمیل" required>
+            <input type="text" name="address" placeholder="آدرس" required>
+            <button type="submit">پرداخت و ثبت سفارش</button>
+        </form>
+
+        <!-- پیش‌فاکتور -->
+        <div class="invoice-box">
+            <h3>پیش‌فاکتور</h3>
+            <p>جمع کل: 
+                {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان
+            </p>
+            <button type="submit" form="checkout-form">تأیید و پرداخت</button>
+        </div>
+    {% else %}
+        <p>سبد خرید شما خالی است.</p>
+    {% endif %}
+</section>
 {% endblock %}
