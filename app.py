@@ -1,98 +1,78 @@
-from flask import Flask, render_template, request, redirect, url_for
+/* =============================
+   Reset & Base
+============================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-app = Flask(__name__)
+body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    direction: rtl;
+    background-color: #f4f6f8;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
 
-# داده‌های نمونه محصولات
-products = [
-    {"id": 1, "name": "تخت خواب 1", "price": 1200000, "image": "product1.webp", "rating": 4.5, "tag": "جدید"},
-    {"id": 2, "name": "تخت خواب 2", "price": 1500000, "image": "product2.webp", "rating": 4.0, "tag": ""},
-    {"id": 3, "name": "تخت خواب 3", "price": 900000, "image": "product3.webp", "rating": 3.5, "tag": "پرفروش"},
-    {"id": 4, "name": "تخت خواب 4", "price": 1100000, "image": "product4.webp", "rating": 4.2, "tag": ""},
-    {"id": 5, "name": "تخت خواب 5", "price": 1300000, "image": "product5.webp", "rating": 4.7, "tag": "جدید"},
-    {"id": 6, "name": "تخت خواب 6", "price": 1250000, "image": "product6.webp", "rating": 4.1, "tag": ""},
-    {"id": 7, "name": "تخت خواب 7", "price": 1400000, "image": "product7.webp", "rating": 3.9, "tag": "پرفروش"},
-    {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
-]
+/* =============================
+   Header & Footer (بدون تغییر)
+============================= */
+header { background-color: #0b1e3a; padding: 15px 0; }
+.main-nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.main-nav .logo img { height: 50px; }
+.nav-links { list-style: none; display: flex; gap: 25px; }
+.nav-links a { text-decoration: none; color: #ffffff; font-weight: 500; transition: color 0.3s; }
+.nav-links a:hover { color: #1abc9c; }
+footer { text-align: center; padding: 20px; background-color: #0b1e3a; color: #ffffff; }
 
-# سبد خرید (لیست دیکشنری‌ها با quantity)
-cart_items = []
+/* =============================
+   Cart & Checkout Section (تنها اینجا تغییر)
+============================= */
+.cart-table,
+.checkout-section { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 
-@app.route("/")
-def index():
-    return render_template("index.html", products=products)
+.cart-table .cart-item {
+    display: flex; align-items: center; background: #fff;
+    margin-bottom: 15px; padding: 15px; border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); gap: 15px;
+}
 
-@app.route("/products")
-def products_page():
-    return render_template("products.html", products=products)
+.cart-img img { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; }
+.cart-details h3 { font-size: 18px; color: #0b1e3a; margin-bottom: 5px; }
+.cart-details .desc { font-size: 14px; color: #555; margin-bottom: 5px; }
+.cart-details .price { font-weight: bold; color: #0b1e3a; }
 
-@app.route("/product/<int:product_id>")
-def product_detail(product_id):
-    product = next((p for p in products if p["id"] == product_id), None)
-    return render_template("product_detail.html", product=product)
+.cart-quantity form { display: flex; align-items: center; gap: 8px; }
+.cart-quantity button { background: #0b1e3a; color: #fff; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background 0.3s; }
+.cart-quantity button:hover { background: #162d57; }
+.cart-quantity span { font-size: 16px; font-weight: bold; }
 
-@app.route("/cart")
-def cart():
-    return render_template("cart.html", cart_items=cart_items)
+.checkout-form {
+    display: flex; flex-direction: column; gap: 15px;
+    background: #fff; padding: 20px; border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-top: 20px;
+}
+.checkout-form input,
+.checkout-form textarea,
+.checkout-form button {
+    /* استایل فقط برای checkout و تاثیری روی contact ندارد */
+    padding: 12px 15px; border: 1px solid #c1c1c1; border-radius: 6px; font-size: 16px; outline: none; transition: all 0.3s;
+}
+.checkout-form input:focus,
+.checkout-form textarea:focus { border-color: #0b1e3a; box-shadow: 0 0 5px rgba(11,30,58,0.3); }
+.checkout-form button { background-color: #0b1e3a; color: #fff; font-size: 18px; border: none; cursor: pointer; transition: background-color 0.3s; }
+.checkout-form button:hover { background-color: #162d57; }
 
-@app.route("/checkout")
-def checkout():
-    return render_template("checkout.html", cart_items=cart_items)
+.invoice-box { position: fixed; bottom: 20px; left: 20px; background-color: #f39c12; color: #fff; padding: 15px 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 999; min-width: 220px; }
+.invoice-box button { background: #0b1e3a; color: #fff; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-top: 10px; width: 100%; }
+.invoice-box button:hover { background: #162d57; }
 
-@app.route("/contact", methods=["GET", "POST"])
-def contact():
-    if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
-        message = request.form.get("message")
-        # ذخیره پیام یا پردازش
-        print(f"New message from {name} ({email}): {message}")
-        return redirect(url_for("contact"))
-    return render_template("contact.html")
-
-# ------------------ سبد خرید ------------------
-
-@app.route("/add_to_cart/<int:product_id>")
-def add_to_cart(product_id):
-    product = next((p for p in products if p["id"] == product_id), None)
-    if product:
-        item = next((i for i in cart_items if i["id"] == product_id), None)
-        if item:
-            item["quantity"] += 1
-        else:
-            new_item = product.copy()
-            new_item["quantity"] = 1
-            cart_items.append(new_item)
-    return redirect(url_for("cart"))
-
-@app.route("/remove_from_cart/<int:product_id>")
-def remove_from_cart(product_id):
-    item = next((i for i in cart_items if i["id"] == product_id), None)
-    if item:
-        item["quantity"] -= 1
-        if item["quantity"] <= 0:
-            cart_items.remove(item)
-    return redirect(url_for("cart"))
-
-@app.route("/delete_from_cart/<int:product_id>")
-def delete_from_cart(product_id):
-    global cart_items
-    cart_items = [i for i in cart_items if i["id"] != product_id]
-    return redirect(url_for("cart"))
-
-# ---- Admin routes ----
-@app.route("/admin/login", methods=["GET", "POST"])
-def admin_login():
-    if request.method == "POST":
-        # اعتبارسنجی ساده
-        username = request.form.get("username")
-        password = request.form.get("password")
-        if username == "admin" and password == "1234":
-            return redirect(url_for("admin_dashboard"))
-    return render_template("admin/login.html")
-
-@app.route("/admin/dashboard")
-def admin_dashboard():
-    return render_template("admin/dashboard.html", products=products, cart_items=cart_items)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+/* =============================
+   Responsive
+============================= */
+@media (max-width: 900px) {
+    .cart-table .cart-item { flex-direction: column; align-items: flex-start; }
+    .cart-quantity { margin-top: 10px; }
+    .invoice-box { left: 50%; transform: translateX(-50%); bottom: 10px; min-width: 90%; }
+}
