@@ -420,4 +420,7 @@ footer {
         font-size: 16px;
     }
     .shop_table th, .shop_table td {
-        font-size
+        font-size: 14px;
+        padding: 10px;
+    }
+}
