@@ -22,11 +22,12 @@
                 {% for item in cart_items %}
                 <tr class="woocommerce-cart-form__cart-item cart_item">
                     <td class="product-remove">
-                        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="remove" aria-label="Remove {{ item.name }}">×</a>
+                        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="remove" aria-label="حذف {{ item.name }}">×</a>
                     </td>
                     <td class="product-thumbnail">
-                        <!-- تصویر خالی تا خودت جایگزین کنی -->
-                        <a href="#"><img src="" alt="{{ item.name }}" width="100"></a>
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}" width="100">
+                        </a>
                     </td>
                     <td class="product-name" data-title="محصول">
                         {{ item.name }}
@@ -44,7 +45,7 @@
                 {% endfor %}
                 <tr>
                     <td colspan="6" class="actions">
-                        <button type="submit" class="button" name="update_cart">به روزرسانی سبد</button>
+                        <button type="submit" class="button" name="update_cart">به‌روزرسانی سبد</button>
                     </td>
                 </tr>
             </tbody>
@@ -52,7 +53,7 @@
     </form>
 
     <div class="invoice-box">
-        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price', start=0) + 0) }} تومان</p>
+        <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price', start=0)) }} تومان</p>
         <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
     </div>
     {% else %}
