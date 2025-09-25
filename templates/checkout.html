@@ -18,10 +18,13 @@
 </section>
 
 {% if cart_items %}
-<!-- پیش‌فاکتور ثابت پایین صفحه -->
+<!-- پیش‌فاکتور پایین صفحه -->
 <div class="invoice-box">
-    <p>جمع کل: {{ "{:,}".format(cart_items | sum(attribute='price')) }} تومان</p>
-    <a href="#" class="btn">پرداخت</a>
+    {% set total = 0 %}
+    {% for item in cart_items %}
+        {% set total = total + (item.price * item.quantity) %}
+    {% endfor %}
+    <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
 </div>
 {% endif %}
 {% endblock %}
