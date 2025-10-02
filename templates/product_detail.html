@@ -1,56 +1,24 @@
 {% extends "base.html" %}
-{% block title %}{{ product.name }}{% endblock %}
-{% block description %}{{ product.short_description or "تختی راحت و با کیفیت عالی برای خوابی آرام." }}{% endblock %}
-{% block og_title %}{{ product.name }}{% endblock %}
-{% block og_description %}{{ product.short_description or "تختی راحت و با کیفیت عالی برای خوابی آرام." }}{% endblock %}
-{% block og_image %}{{ url_for('static', filename='images/' ~ product.image) }}{% endblock %}
+
+{% block title %}{{ product.name }} - کارخانه تخت{% endblock %}
+{% block description %}{{ product.short_description }}{% endblock %}
+{% block og_title %}{{ product.name }} - کارخانه تخت{% endblock %}
+{% block og_description %}{{ product.short_description }}{% endblock %}
+{% block twitter_title %}{{ product.name }} - کارخانه تخت{% endblock %}
+{% block twitter_description %}{{ product.short_description }}{% endblock %}
 
 {% block content %}
-<div style="display:flex; justify-content:center; margin-top:40px;">
-    <div style="max-width:600px; width:100%; text-align:center; border:1px solid #ccc; border-radius:10px; padding:20px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-
-        <div style="width:100%; height:300px; overflow:hidden; margin-bottom:20px;">
-            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;" loading="lazy">
-        </div>
-
-        <h2 style="margin-bottom:10px;">{{ product.name }}</h2>
-
-        {% if product.short_description %}
-        <p style="font-style:italic; color:#555; margin-bottom:15px;">{{ product.short_description }}</p>
-        {% else %}
-        <p style="font-style:italic; color:#555; margin-bottom:15px;">تختی راحت و با کیفیت عالی برای خوابی آرام.</p>
-        {% endif %}
-
-        <p style="font-size:18px; margin-bottom:10px;"><strong>قیمت:</strong> {{ "{:,}".format(product.price) }} تومان</p>
-        <div class="rating" style="margin-bottom:15px;">⭐ {{ product.rating }}</div>
-        <p style="margin-bottom:20px; line-height:1.5;">{{ product.description }}</p>
-
-        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn" style="padding:10px 20px;">افزودن به سبد</a>
+<section class="product-detail">
+    <div class="product-image">
+        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
     </div>
-</div>
-
-<!-- JSON-LD Schema.org Product -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Product",
-  "name": "{{ product.name }}",
-  "image": ["{{ url_for('static', filename='images/' ~ product.image, _external=True) }}"],
-  "description": "{{ product.short_description or product.description }}",
-  "sku": "{{ product.id }}",
-  "offers": {
-    "@type": "Offer",
-    "url": "{{ request.url }}",
-    "priceCurrency": "IRR",
-    "price": "{{ product.price }}",
-    "availability": "https://schema.org/InStock"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "{{ product.rating }}",
-    "reviewCount": "10"
-  }
-}
-</script>
-
+    <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <span class="price">{{ product.price | int }} تومان</span>
+        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="get">
+            <button type="submit">افزودن به سبد خرید</button>
+        </form>
+    </div>
+</section>
 {% endblock %}

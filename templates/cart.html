@@ -1,70 +1,32 @@
 {% extends "base.html" %}
-{% block title %}سبد خرید{% endblock %}
-{% block description %}سبد خرید شما در کارخانه تخت{% endblock %}
+
+{% block title %}سبد خرید - کارخانه تخت{% endblock %}
+{% block description %}سبد خرید خود را مشاهده و مدیریت کنید.{% endblock %}
 {% block og_title %}سبد خرید - کارخانه تخت{% endblock %}
-{% block og_description %}سبد خرید شما در کارخانه تخت{% endblock %}
-{% block og_image %}{{ url_for('static', filename='images/cover.jpg') }}{% endblock %}
+{% block og_description %}سبد خرید خود را مشاهده و مدیریت کنید.{% endblock %}
+{% block twitter_title %}سبد خرید - کارخانه تخت{% endblock %}
+{% block twitter_description %}سبد خرید خود را مشاهده و مدیریت کنید.{% endblock %}
 
 {% block content %}
-<section class="cart-section">
-    <h1>سبد خرید شما</h1>
-
-    {% if cart_items %}
-    <form method="POST" action="{{ url_for('cart') }}" class="woocommerce-cart-form">
-        <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
-            <thead>
-                <tr>
-                    <th class="product-remove"><span class="screen-reader-text">حذف آیتم</span></th>
-                    <th class="product-thumbnail"><span class="screen-reader-text">Thumbnail image</span></th>
-                    <th class="product-name">محصول</th>
-                    <th class="product-price">قیمت</th>
-                    <th class="product-quantity">تعداد</th>
-                    <th class="product-subtotal">قیمت کل</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                <tr class="woocommerce-cart-form__cart-item cart_item">
-                    <td class="product-remove">
-                        <a href="{{ url_for('remove_from_cart', product_id=item['id']) }}" class="remove" aria-label="حذف {{ item['name'] }}">×</a>
-                    </td>
-                    <td class="product-thumbnail">
-                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item['image']) }}" alt="{{ item['name'] }}" width="100" loading="lazy"></a>
-                    </td>
-                    <td class="product-name" data-title="محصول">
-                        {{ item['name'] }}
-                    </td>
-                    <td class="product-price" data-title="قیمت">
-                        {{ "{:,}".format(item['price']) }} تومان
-                    </td>
-                    <td class="product-quantity" data-title="تعداد">
-                        <input type="number" name="quantity_{{ item['id'] }}" value="{{ item['quantity'] }}" min="1" style="width:60px;">
-                    </td>
-                    <td class="product-subtotal" data-title="قیمت کل">
-                        {{ "{:,}".format(item['price'] * item['quantity']) }} تومان
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="6" class="actions">
-                        <button type="submit" class="button" name="update_cart">به‌روزرسانی سبد</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
-
-    <div class="invoice-box">
-        {% set total = 0 %}
+<h1>سبد خرید شما</h1>
+<form method="post">
+    <table>
+        <tr>
+            <th>محصول</th>
+            <th>تعداد</th>
+            <th>قیمت</th>
+            <th>حذف</th>
+        </tr>
         {% for item in cart_items %}
-            {% set total = total + (item['price'] * item['quantity']) %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td><input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1"></td>
+            <td>{{ item.price * item.quantity | int }} تومان</td>
+            <td><a href="{{ url_for('remove_from_cart', product_id=item.id) }}">حذف</a></td>
+        </tr>
         {% endfor %}
-        <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
-        <a href="{{ url_for('checkout') }}" class="btn">پرداخت</a>
-    </div>
-
-    {% else %}
-    <p>سبد خرید شما خالی است.</p>
-    {% endif %}
-</section>
+    </table>
+    <button type="submit">به‌روزرسانی سبد خرید</button>
+</form>
+<a href="{{ url_for('checkout') }}" class="btn">تسویه حساب</a>
 {% endblock %}

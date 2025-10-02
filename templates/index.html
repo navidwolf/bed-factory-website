@@ -1,17 +1,32 @@
 {% extends "base.html" %}
-{% block title %}خانه - کارخانه تخت خواب{% endblock %}
-{% block description %}کارخانه تخت خواب - تولید مستقیم تخت و سرویس خواب با بهترین کیفیت و قیمت مناسب{% endblock %}
-{% block h1 %}کارخانه تخت خواب - خرید مستقیم تخت و سرویس خواب{% endblock %}
+
+{% block title %}خانه - کارخانه تخت{% endblock %}
+{% block description %}بهترین تخت‌ها و محصولات خواب با کیفیت بالا.{% endblock %}
+{% block og_title %}خانه - کارخانه تخت{% endblock %}
+{% block og_description %}بهترین تخت‌ها و محصولات خواب با کیفیت بالا.{% endblock %}
+{% block twitter_title %}خانه - کارخانه تخت{% endblock %}
+{% block twitter_description %}بهترین تخت‌ها و محصولات خواب با کیفیت بالا.{% endblock %}
 
 {% block content %}
-<section class="hero" style="position: relative;">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" 
-         alt="کارخانه تخت خواب - تولید تخت و سرویس خواب" 
-         style="width: 100%; height: auto;" loading="lazy">
-    <div class="hero-text" 
-         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; text-align: center;">
-        <h2>به کارخانه تخت ما خوش آمدید</h2>
-        <p>بهترین تخت‌ها با کیفیت عالی و قیمت مستقیم از کارخانه</p>
+<section class="hero">
+    <h1>به کارخانه تخت خوش آمدید</h1>
+    <p>جدیدترین و باکیفیت‌ترین تخت‌ها را از ما بخواهید</p>
+    <a href="{{ url_for('products_page') }}" class="btn">مشاهده محصولات</a>
+</section>
+
+<section class="featured-products">
+    <h2>محصولات برتر</h2>
+    <div class="product-grid">
+        {% for product in products[:4] %}
+        <div class="product-card">
+            <a href="{{ url_for('product_detail', product_id=product.id) }}">
+                <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.short_description }}</p>
+                <span class="price">{{ product.price | int }} تومان</span>
+            </a>
+        </div>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}

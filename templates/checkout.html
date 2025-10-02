@@ -1,32 +1,33 @@
 {% extends "base.html" %}
-{% block title %}پرداخت{% endblock %}
-{% block description %}تکمیل خرید و پرداخت آنلاین{% endblock %}
-{% block og_title %}پرداخت - کارخانه تخت{% endblock %}
-{% block og_description %}تکمیل خرید و پرداخت آنلاین{% endblock %}
-{% block og_image %}{{ url_for('static', filename='images/cover.jpg') }}{% endblock %}
+
+{% block title %}تسویه حساب - کارخانه تخت{% endblock %}
+{% block description %}تسویه حساب و پرداخت آنلاین.{% endblock %}
+{% block og_title %}تسویه حساب - کارخانه تخت{% endblock %}
+{% block og_description %}تسویه حساب و پرداخت آنلاین.{% endblock %}
+{% block twitter_title %}تسویه حساب - کارخانه تخت{% endblock %}
+{% block twitter_description %}تسویه حساب و پرداخت آنلاین.{% endblock %}
 
 {% block content %}
-<section class="checkout-section">
-    <h1>تکمیل خرید</h1>
-
-    {% if cart_items %}
-    <form method="POST" action="#" class="checkout-form">
-        <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
-        <input type="email" name="email" placeholder="ایمیل" required>
-        <input type="text" name="address" placeholder="آدرس" required>
-        <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
-    </form>
-
-    <div class="invoice-box">
-        {% set total = 0 %}
+<h1>تسویه حساب</h1>
+{% if cart_items %}
+<form method="post">
+    <table>
+        <tr>
+            <th>محصول</th>
+            <th>تعداد</th>
+            <th>قیمت</th>
+        </tr>
         {% for item in cart_items %}
-            {% set total = total + (item['price'] * item['quantity']) %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price * item.quantity | int }} تومان</td>
+        </tr>
         {% endfor %}
-        <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
-        <a href="#" class="btn">پرداخت</a>
-    </div>
-    {% else %}
-    <p>سبد خرید شما خالی است.</p>
-    {% endif %}
-</section>
+    </table>
+    <button type="submit">پرداخت و تکمیل خرید</button>
+</form>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
 {% endblock %}
