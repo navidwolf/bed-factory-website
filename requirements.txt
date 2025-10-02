@@ -6,6 +6,3 @@ Werkzeug
 click
 itsdangerous
 MarkupSafe
-Flask-SQLAlchemy
-Flask-Login
-Flask-Bcrypt

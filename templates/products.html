@@ -1,17 +1,35 @@
 {% extends "base.html" %}
-
-{% block title %}محصولات – Bed Factory{% endblock %}
-{% block meta_description %}مشاهده و خرید انواع تخت و مبلمان مدرن و باکیفیت از Bed Factory.{% endblock %}
+{% block title %}محصولات{% endblock %}
 
 {% block content %}
-<h1>محصولات</h1>
+<h1 style="text-align:center; margin-bottom:20px;">محصولات</h1>
 
-{% for product in products %}
-<div class="product-item">
-    <h2>{{ product.name }}</h2>
-    <img src="{{ url_for('static', filename='images/' ~ product.image) }}" 
-         alt="{{ product.name }} – تخت و مبلمان مدرن">
-    <p>{{ product.short_description }}</p>
+<div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+    {% for product in products %}
+    <div class="product-card" style="display:flex; flex-direction:column; align-items:center; text-align:center; border:1px solid #ccc; border-radius:10px; padding:10px; height:100%;">
+        <!-- تگ بالای تصویر (فضای ثابت) -->
+        <div class="tag" style="height:30px; display:flex; justify-content:center; align-items:center; margin-bottom:10px;">
+            {% if product.tag %}
+                <span style="background:#f39c12; color:white; padding:5px 10px; border-radius:5px;">{{ product.tag }}</span>
+            {% endif %}
+        </div>
+
+        <!-- تصویر محصول ثابت -->
+        <div style="width:100%; height:200px; overflow:hidden; margin-bottom:10px;">
+            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" style="width:100%; height:100%; object-fit:cover; border-radius:5px;">
+        </div>
+
+        <!-- نام و جزئیات -->
+        <h3 style="margin:0 0 5px 0;">{{ product.name }}</h3>
+        <div class="rating" style="margin-bottom:5px;">⭐ {{ product.rating }}</div>
+        <p class="price" style="margin-bottom:10px;">{{ "{:,}".format(product.price) }} تومان</p>
+
+        <!-- دکمه‌ها -->
+        <div style="display:flex; gap:10px;">
+            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">افزودن به سبد</a>
+            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">جزئیات</a>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
 {% endblock %}

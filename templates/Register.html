@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-
-{% block title %}ثبت‌نام – Bed Factory{% endblock %}
-{% block meta_description %}ایجاد حساب کاربری جدید برای خرید در Bed Factory.{% endblock %}
+{% block title %}ثبت‌نام{% endblock %}
 
 {% block content %}
-<h1>ثبت‌نام</h1>
-<form method="POST">
-    <input type="text" name="username" placeholder="نام کاربری" required>
-    <input type="email" name="email" placeholder="ایمیل" required>
-    <input type="password" name="password" placeholder="رمز عبور" required>
-    <button type="submit">ثبت‌نام</button>
-</form>
+<div class="form-container">
+    <h2>ثبت‌نام</h2>
+    <form method="POST">
+        <input type="text" name="username" placeholder="نام کاربری" required>
+        <input type="password" name="password" placeholder="رمز عبور" required>
+        <button type="submit" class="btn">ثبت‌نام</button>
+    </form>
+    <p>حساب دارید؟ <a href="{{ url_for('login') }}">ورود</a></p>
+</div>
 {% endblock %}

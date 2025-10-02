@@ -1,9 +1,31 @@
 {% extends "base.html" %}
-
-{% block title %}پرداخت و خرید – Bed Factory{% endblock %}
-{% block meta_description %}تکمیل سفارش و پرداخت امن در Bed Factory.{% endblock %}
+{% block title %}پرداخت{% endblock %}
 
 {% block content %}
-<h1>پرداخت</h1>
-<!-- فرم پرداخت -->
+<section class="checkout-section">
+    <h1>تکمیل خرید</h1>
+
+    {% if cart_items %}
+    <form method="POST" action="#" class="checkout-form">
+        <input type="text" name="name" placeholder="نام و نام خانوادگی" required>
+        <input type="email" name="email" placeholder="ایمیل" required>
+        <input type="text" name="address" placeholder="آدرس" required>
+        <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
+    </form>
+    {% else %}
+    <p>سبد خرید شما خالی است.</p>
+    {% endif %}
+</section>
+
+{% if cart_items %}
+<!-- پیش‌فاکتور پایین صفحه -->
+<div class="invoice-box">
+    {% set total = 0 %}
+    {% for item in cart_items %}
+        {% set total = total + (item['price'] * item['quantity']) %}
+    {% endfor %}
+    <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
+    <a href="#" class="btn">پرداخت</a>
+</div>
+{% endif %}
 {% endblock %}
