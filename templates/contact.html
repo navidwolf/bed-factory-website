@@ -1,15 +1,14 @@
 {% extends "base.html" %}
-
-{% block title %}تماس با ما{% endblock %}
+{% block title %}تماس با ما - کارخانه تخت{% endblock %}
+{% block description %}با کارخانه تخت تماس بگیرید، سوالات خود را مطرح کنید یا درخواست مشاوره کنید.{% endblock %}
 
 {% block content %}
 <section class="contact-section">
+    <h1>تماس با کارخانه تخت</h1>
     <div class="contact-container">
-        <!-- ستون سمت راست: فرم تماس -->
         <div class="contact-right">
             <h2>سوالی دارید؟</h2>
             <p>با استفاده از فرم زیر می‌توانید با ما ارتباط برقرار کنید</p>
-            
             <form method="post" name="contact-form" class="contact-form">
                 <input type="text" name="name" placeholder="نام" required>
                 <input type="tel" name="phone" placeholder="شماره تماس" required>
@@ -19,26 +18,16 @@
             </form>
         </div>
 
-        <!-- ستون سمت چپ: نقشه و تیم -->
         <div class="contact-left">
             <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.123456789!2d51.421!3d35.689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8xxxxxxxxxx%3A0xabcdef!2z2KfZhNmF2KfZhNmH2YbYsdmK2Kkg2KfZhNi02Kkg2KzYqNin2YY!5e0!3m2!1sfa!2sir!4v0000000000000" 
-                    width="100%" 
-                    height="300" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.123456789!2d51.421!3d35.689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8xxxxxxxxxx%3A0xabcdef!2z2KfZhNmF2KfZhNmH2YbYsdmK2Kkg2KfZhNi02Kkg2KzYqNin2YY!5e0!3m2!1sfa!2sir!4v0000000000000" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="team-container">
-                <img src="{{ url_for('static', filename='images/team.webp') }}" alt="Team">
+                <img src="{{ url_for('static', filename='images/team.webp') }}" alt="تیم کارخانه تخت">
             </div>
         </div>
     </div>
 
-    <!-- اطلاعات تماس اضافی -->
     <div class="info-boxes">
         <div class="info-box">
             <h3>شعبه مرکزی</h3>
@@ -57,8 +46,8 @@
 
         <div class="info-box">
             <h3>وبسایت‌ها</h3>
-            <p><a href="https://takhtiran.com">takhtiran.com</a> - سایت شرکت تخت ایران</p>
-            <p><a href="https://takhtiranmag.ir">takhtiranmag.ir</a> - مجله اینترنتی تخت ایران</p>
+            <p><a href="https://takhtiran.com">takhtiran.com</a></p>
+            <p><a href="https://takhtiranmag.ir">takhtiranmag.ir</a></p>
         </div>
     </div>
 </section>

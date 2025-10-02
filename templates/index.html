@@ -1,12 +1,17 @@
 {% extends "base.html" %}
-{% block title %}خانه{% endblock %}
+{% block title %}خانه - کارخانه تخت خواب{% endblock %}
+{% block description %}کارخانه تخت خواب - تولید مستقیم تخت و سرویس خواب با بهترین کیفیت و قیمت مناسب{% endblock %}
+{% block h1 %}کارخانه تخت خواب - خرید مستقیم تخت و سرویس خواب{% endblock %}
 
 {% block content %}
 <section class="hero" style="position: relative;">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image" style="width: 100%; height: auto;">
-    <div class="hero-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; text-align: center;">
-        <h1>به کارخانه تخت ما خوش آمدید</h1>
-        <p>بهترین تخت‌ها با کیفیت عالی</p>
+    <img src="{{ url_for('static', filename='images/hero.webp') }}" 
+         alt="کارخانه تخت خواب - تولید تخت و سرویس خواب" 
+         style="width: 100%; height: auto;" loading="lazy">
+    <div class="hero-text" 
+         style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; text-align: center;">
+        <h2>به کارخانه تخت ما خوش آمدید</h2>
+        <p>بهترین تخت‌ها با کیفیت عالی و قیمت مستقیم از کارخانه</p>
     </div>
 </section>
 {% endblock %}

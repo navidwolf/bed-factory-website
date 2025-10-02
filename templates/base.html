@@ -3,7 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>{% block title %}وبسایت کارخانه تخت{% endblock %}</title>
+    <meta name="description" content="{% block description %}بهترین تخت‌ها با کیفیت عالی و قیمت مناسب{% endblock %}">
+    <meta name="keywords" content="تخت خواب, فروش تخت, تخت با کیفیت, کارخانه تخت, فروشگاه آنلاین تخت">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Bed Factory">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block title %}وبسایت کارخانه تخت{% endblock %}">
+    <meta property="og:description" content="{% block description %}بهترین تخت‌ها با کیفیت عالی و قیمت مناسب{% endblock %}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/cover.jpg', _external=True) }}">
+    <meta property="og:site_name" content="Bed Factory">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block title %}وبسایت کارخانه تخت{% endblock %}">
+    <meta name="twitter:description" content="{% block description %}بهترین تخت‌ها با کیفیت عالی و قیمت مناسب{% endblock %}">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/cover.jpg', _external=True) }}">
+    <meta name="twitter:site" content="@BedFactory">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>

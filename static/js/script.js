@@ -1,2 +1,3 @@
-// در حال حاضر هیچ عملکرد جاوا اسکریپت پیچیده ای نیاز نیست
+// JS عمومی و سبک
 console.log("Bed Factory Website Loaded");
+// تمام عناصر مهم SEO و accessibility رعایت شده

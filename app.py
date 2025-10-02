@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 
 app = Flask(__name__)
 
+# ----------------------------
 # داده‌های نمونه محصولات
+# ----------------------------
 products = [
     {"id": 1, "name": "تخت خواب 1", "price": 1200000, "image": "product1.webp", "rating": 4.5, "tag": "جدید"},
     {"id": 2, "name": "تخت خواب 2", "price": 1500000, "image": "product2.webp", "rating": 4.0, "tag": ""},
@@ -14,9 +16,14 @@ products = [
     {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
 ]
 
-# هر آیتم سبد، شامل محصول و تعداد آن
+# ----------------------------
+# سبد خرید
+# ----------------------------
 cart_items = []
 
+# ----------------------------
+# صفحات اصلی
+# ----------------------------
 @app.route("/")
 def index():
     return render_template("index.html", products=products)
@@ -34,14 +41,13 @@ def product_detail(product_id):
 def cart():
     if request.method == "POST":
         # بروزرسانی تعداد محصولات
-        for item in cart_items:
+        for item in cart_items[:]:
             qty_str = request.form.get(f"quantity_{item['id']}")
             if qty_str and qty_str.isdigit():
                 qty = int(qty_str)
                 if qty > 0:
                     item["quantity"] = qty
                 else:
-                    # اگر تعداد صفر شد، حذف شود
                     cart_items.remove(item)
         return redirect(url_for("cart"))
     return render_template("cart.html", cart_items=cart_items)
@@ -60,16 +66,17 @@ def contact():
         return redirect(url_for("contact"))
     return render_template("contact.html")
 
+# ----------------------------
+# افزودن و حذف سبد خرید
+# ----------------------------
 @app.route("/add_to_cart/<int:product_id>")
 def add_to_cart(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
     if product:
-        # بررسی اینکه محصول قبلاً اضافه شده باشد
         existing = next((item for item in cart_items if item["id"] == product_id), None)
         if existing:
             existing["quantity"] += 1
         else:
-            # اضافه کردن محصول با تعداد 1
             cart_items.append({**product, "quantity": 1})
     return redirect(url_for("cart"))
 
@@ -79,7 +86,9 @@ def remove_from_cart(product_id):
     cart_items = [item for item in cart_items if item["id"] != product_id]
     return redirect(url_for("cart"))
 
-# ---- Admin routes ----
+# ----------------------------
+# Admin routes
+# ----------------------------
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
@@ -93,5 +102,35 @@ def admin_login():
 def admin_dashboard():
     return render_template("admin/dashboard.html", products=products, cart_items=cart_items)
 
+# ----------------------------
+# Sitemap داینامیک
+# ----------------------------
+@app.route("/sitemap.xml", methods=["GET"])
+def sitemap():
+    pages = [
+        {"loc": url_for("index", _external=True)},
+        {"loc": url_for("products_page", _external=True)},
+        {"loc": url_for("contact", _external=True)},
+        {"loc": url_for("cart", _external=True)},
+        {"loc": url_for("checkout", _external=True)},
+    ]
+    
+    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    # صفحات ثابت
+    for page in pages:
+        sitemap_xml += f"  <url>\n    <loc>{page['loc']}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
+    
+    # صفحات محصولات داینامیک
+    for product in products:
+        sitemap_xml += f"  <url>\n    <loc>{url_for('product_detail', product_id=product['id'], _external=True)}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
+    
+    sitemap_xml += "</urlset>"
+    return Response(sitemap_xml, mimetype="application/xml")
+
+# ----------------------------
+# اجرای اپلیکیشن
+# ----------------------------
 if __name__ == "__main__":
     app.run(debug=True)

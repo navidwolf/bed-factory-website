@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}پرداخت{% endblock %}
+{% block title %}تکمیل خرید - کارخانه تخت{% endblock %}
+{% block description %}فرم تکمیل خرید و ثبت سفارش محصولات انتخابی شما{% endblock %}
 
 {% block content %}
 <section class="checkout-section">
@@ -18,7 +19,6 @@
 </section>
 
 {% if cart_items %}
-<!-- پیش‌فاکتور پایین صفحه -->
 <div class="invoice-box">
     {% set total = 0 %}
     {% for item in cart_items %}
