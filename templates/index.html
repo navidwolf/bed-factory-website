@@ -1,12 +1,13 @@
 {% extends "base.html" %}
-{% block title %}خانه{% endblock %}
+
+{% block title %}صفحه اصلی – Bed Factory{% endblock %}
+{% block meta_description %}Bed Factory، فروشگاه آنلاین تخت و مبلمان. مشاهده محصولات برتر و سفارش آنلاین.{% endblock %}
 
 {% block content %}
-<section class="hero" style="position: relative;">
-    <img src="{{ url_for('static', filename='images/hero.webp') }}" alt="Hero Image" style="width: 100%; height: auto;">
-    <div class="hero-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; text-align: center;">
-        <h1>به کارخانه تخت ما خوش آمدید</h1>
-        <p>بهترین تخت‌ها با کیفیت عالی</p>
-    </div>
-</section>
+<h1>فروشگاه آنلاین تخت و مبلمان</h1>
+
+<img src="{{ url_for('static', filename='images/hero.webp') }}" 
+     alt="تصویر hero فروشگاه تخت و مبلمان">
+
+<p>به فروشگاه آنلاین Bed Factory خوش آمدید. انواع تخت و مبلمان با کیفیت بالا.</p>
 {% endblock %}
