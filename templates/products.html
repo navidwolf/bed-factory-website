@@ -1,18 +1,16 @@
 {% extends "base.html" %}
-{% block title %}محصولات - خرید تخت و سرویس خواب{% endblock %}
-{% block description %}لیست محصولات کارخانه تخت خواب - خرید مستقیم تخت خواب، سرویس خواب، تخت دو نفره و تک نفره با کیفیت عالی{% endblock %}
-{% block h1 %}محصولات کارخانه تخت خواب{% endblock %}
+{% block title %}محصولات{% endblock %}
+{% block description %}لیست محصولات کارخانه تخت با بهترین کیفیت{% endblock %}
+{% block og_title %}محصولات کارخانه تخت{% endblock %}
+{% block og_description %}لیست محصولات کارخانه تخت با بهترین کیفیت{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/cover.jpg') }}{% endblock %}
 
 {% block content %}
-<p style="text-align:center; margin-bottom:20px; font-size:16px; color:#555;">
-    در این بخش می‌توانید انواع تخت خواب و سرویس خواب تولیدی کارخانه ما را مشاهده کنید.
-</p>
+<h1 style="text-align:center; margin-bottom:20px;">محصولات</h1>
 
 <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
     {% for product in products %}
-    <div class="product-card" 
-         style="display:flex; flex-direction:column; align-items:center; text-align:center; border:1px solid #ccc; border-radius:10px; padding:10px; height:100%;">
-        
+    <div class="product-card" style="display:flex; flex-direction:column; align-items:center; text-align:center; border:1px solid #ccc; border-radius:10px; padding:10px; height:100%;">
         <div class="tag" style="height:30px; display:flex; justify-content:center; align-items:center; margin-bottom:10px;">
             {% if product.tag %}
                 <span style="background:#f39c12; color:white; padding:5px 10px; border-radius:5px;">{{ product.tag }}</span>
@@ -20,10 +18,7 @@
         </div>
 
         <div style="width:100%; height:200px; overflow:hidden; margin-bottom:10px;">
-            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" 
-                 alt="خرید {{ product.name }}" 
-                 style="width:100%; height:100%; object-fit:cover; border-radius:5px;" 
-                 loading="lazy">
+            <img src="{{ url_for('static', filename='images/' ~ product.image) }}" alt="{{ product.name }}" style="width:100%; height:100%; object-fit:cover; border-radius:5px;" loading="lazy">
         </div>
 
         <h3 style="margin:0 0 5px 0;">{{ product.name }}</h3>

@@ -1,4 +1,3 @@
-// Lightbox تصاویر محصولات
 const lightbox = document.createElement('div');
 lightbox.id = 'lightbox';
 document.body.appendChild(lightbox);
@@ -9,10 +8,11 @@ images.forEach(img => {
         lightbox.classList.add('active');
         const imgElement = document.createElement('img');
         imgElement.src = img.src;
-        imgElement.alt = img.alt; // alt برای SEO
-        while (lightbox.firstChild) lightbox.removeChild(lightbox.firstChild);
+        while (lightbox.firstChild) {
+            lightbox.removeChild(lightbox.firstChild);
+        }
         lightbox.appendChild(imgElement);
-    });
+    })
 });
 
 lightbox.addEventListener('click', e => {

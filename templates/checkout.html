@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block title %}تکمیل خرید - کارخانه تخت{% endblock %}
-{% block description %}فرم تکمیل خرید و ثبت سفارش محصولات انتخابی شما{% endblock %}
+{% block title %}پرداخت{% endblock %}
+{% block description %}تکمیل خرید و پرداخت آنلاین{% endblock %}
+{% block og_title %}پرداخت - کارخانه تخت{% endblock %}
+{% block og_description %}تکمیل خرید و پرداخت آنلاین{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/cover.jpg') }}{% endblock %}
 
 {% block content %}
 <section class="checkout-section">
@@ -13,19 +16,17 @@
         <input type="text" name="address" placeholder="آدرس" required>
         <button type="submit" class="btn">پرداخت و ثبت سفارش</button>
     </form>
+
+    <div class="invoice-box">
+        {% set total = 0 %}
+        {% for item in cart_items %}
+            {% set total = total + (item['price'] * item['quantity']) %}
+        {% endfor %}
+        <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
+        <a href="#" class="btn">پرداخت</a>
+    </div>
     {% else %}
     <p>سبد خرید شما خالی است.</p>
     {% endif %}
 </section>
-
-{% if cart_items %}
-<div class="invoice-box">
-    {% set total = 0 %}
-    {% for item in cart_items %}
-        {% set total = total + (item['price'] * item['quantity']) %}
-    {% endfor %}
-    <p>جمع کل: {{ "{:,}".format(total) }} تومان</p>
-    <a href="#" class="btn">پرداخت</a>
-</div>
-{% endif %}
 {% endblock %}

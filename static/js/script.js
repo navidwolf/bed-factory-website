@@ -1,3 +1,2 @@
-// JS عمومی و سبک
+// هیچ عملکرد پیچیده‌ای در حال حاضر نیاز نیست
 console.log("Bed Factory Website Loaded");
-// تمام عناصر مهم SEO و accessibility رعایت شده

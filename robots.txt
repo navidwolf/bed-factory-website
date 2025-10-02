@@ -1,7 +1,5 @@
 User-agent: *
 Disallow: /static/
 Disallow: /admin/
-Disallow: /cart
-Disallow: /checkout
 
 Sitemap: https://bed-factory-website-1.onrender.com/sitemap.xml

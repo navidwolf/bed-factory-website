@@ -2,28 +2,22 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 
 app = Flask(__name__)
 
-# ----------------------------
 # داده‌های نمونه محصولات
-# ----------------------------
 products = [
-    {"id": 1, "name": "تخت خواب 1", "price": 1200000, "image": "product1.webp", "rating": 4.5, "tag": "جدید"},
-    {"id": 2, "name": "تخت خواب 2", "price": 1500000, "image": "product2.webp", "rating": 4.0, "tag": ""},
-    {"id": 3, "name": "تخت خواب 3", "price": 900000, "image": "product3.webp", "rating": 3.5, "tag": "پرفروش"},
-    {"id": 4, "name": "تخت خواب 4", "price": 1100000, "image": "product4.webp", "rating": 4.2, "tag": ""},
-    {"id": 5, "name": "تخت خواب 5", "price": 1300000, "image": "product5.webp", "rating": 4.7, "tag": "جدید"},
-    {"id": 6, "name": "تخت خواب 6", "price": 1250000, "image": "product6.webp", "rating": 4.1, "tag": ""},
-    {"id": 7, "name": "تخت خواب 7", "price": 1400000, "image": "product7.webp", "rating": 3.9, "tag": "پرفروش"},
-    {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": ""}
+    {"id": 1, "name": "تخت خواب 1", "price": 1200000, "image": "product1.webp", "rating": 4.5, "tag": "جدید", "short_description": "تختی راحت و با کیفیت عالی."},
+    {"id": 2, "name": "تخت خواب 2", "price": 1500000, "image": "product2.webp", "rating": 4.0, "tag": "", "short_description": "خواب راحت با طراحی مدرن."},
+    {"id": 3, "name": "تخت خواب 3", "price": 900000, "image": "product3.webp", "rating": 3.5, "tag": "پرفروش", "short_description": "تخت مناسب برای اتاق کوچک."},
+    {"id": 4, "name": "تخت خواب 4", "price": 1100000, "image": "product4.webp", "rating": 4.2, "tag": "", "short_description": "کیفیت و راحتی همزمان."},
+    {"id": 5, "name": "تخت خواب 5", "price": 1300000, "image": "product5.webp", "rating": 4.7, "tag": "جدید", "short_description": "تخت لوکس و مقاوم."},
+    {"id": 6, "name": "تخت خواب 6", "price": 1250000, "image": "product6.webp", "rating": 4.1, "tag": "", "short_description": "راحت و با طراحی کلاسیک."},
+    {"id": 7, "name": "تخت خواب 7", "price": 1400000, "image": "product7.webp", "rating": 3.9, "tag": "پرفروش", "short_description": "تخت با کیفیت بالا و قیمت مناسب."},
+    {"id": 8, "name": "تخت خواب 8", "price": 1000000, "image": "product8.webp", "rating": 4.3, "tag": "", "short_description": "تخت سبک و جمع و جور."}
 ]
 
-# ----------------------------
-# سبد خرید
-# ----------------------------
+# هر آیتم سبد، شامل محصول و تعداد آن
 cart_items = []
 
-# ----------------------------
-# صفحات اصلی
-# ----------------------------
+# ---------- صفحات عمومی ----------
 @app.route("/")
 def index():
     return render_template("index.html", products=products)
@@ -66,9 +60,7 @@ def contact():
         return redirect(url_for("contact"))
     return render_template("contact.html")
 
-# ----------------------------
-# افزودن و حذف سبد خرید
-# ----------------------------
+# ---------- مدیریت سبد خرید ----------
 @app.route("/add_to_cart/<int:product_id>")
 def add_to_cart(product_id):
     product = next((p for p in products if p["id"] == product_id), None)
@@ -86,9 +78,7 @@ def remove_from_cart(product_id):
     cart_items = [item for item in cart_items if item["id"] != product_id]
     return redirect(url_for("cart"))
 
-# ----------------------------
-# Admin routes
-# ----------------------------
+# ---------- مسیرهای مدیریت ----------
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
@@ -102,35 +92,21 @@ def admin_login():
 def admin_dashboard():
     return render_template("admin/dashboard.html", products=products, cart_items=cart_items)
 
-# ----------------------------
-# Sitemap داینامیک
-# ----------------------------
+# ---------- Sitemap داینامیک ----------
 @app.route("/sitemap.xml", methods=["GET"])
 def sitemap():
     pages = [
         {"loc": url_for("index", _external=True)},
         {"loc": url_for("products_page", _external=True)},
-        {"loc": url_for("contact", _external=True)},
         {"loc": url_for("cart", _external=True)},
         {"loc": url_for("checkout", _external=True)},
+        {"loc": url_for("contact", _external=True)}
     ]
-    
-    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    
-    # صفحات ثابت
-    for page in pages:
-        sitemap_xml += f"  <url>\n    <loc>{page['loc']}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
-    
-    # صفحات محصولات داینامیک
-    for product in products:
-        sitemap_xml += f"  <url>\n    <loc>{url_for('product_detail', product_id=product['id'], _external=True)}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
-    
-    sitemap_xml += "</urlset>"
-    return Response(sitemap_xml, mimetype="application/xml")
+    return Response(
+        render_template("sitemap.xml", pages=pages, products=products),
+        mimetype="application/xml"
+    )
 
-# ----------------------------
-# اجرای اپلیکیشن
-# ----------------------------
+# ---------- اجرای برنامه ----------
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block title %}سبد خرید - کارخانه تخت{% endblock %}
-{% block description %}سبد خرید خود را مشاهده و محصولات انتخابی خود را مدیریت کنید.{% endblock %}
+{% block title %}سبد خرید{% endblock %}
+{% block description %}سبد خرید شما در کارخانه تخت{% endblock %}
+{% block og_title %}سبد خرید - کارخانه تخت{% endblock %}
+{% block og_description %}سبد خرید شما در کارخانه تخت{% endblock %}
+{% block og_image %}{{ url_for('static', filename='images/cover.jpg') }}{% endblock %}
 
 {% block content %}
 <section class="cart-section">
@@ -26,7 +29,7 @@
                         <a href="{{ url_for('remove_from_cart', product_id=item['id']) }}" class="remove" aria-label="حذف {{ item['name'] }}">×</a>
                     </td>
                     <td class="product-thumbnail">
-                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item['image']) }}" alt="خرید {{ item['name'] }}" width="100" loading="lazy"></a>
+                        <a href="#"><img src="{{ url_for('static', filename='images/' ~ item['image']) }}" alt="{{ item['name'] }}" width="100" loading="lazy"></a>
                     </td>
                     <td class="product-name" data-title="محصول">
                         {{ item['name'] }}
